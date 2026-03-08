@@ -291,6 +291,17 @@ class VaultriaApp {
   async _enterLang(lang) {
     this.currentLang     = lang;
     this.currentProgress = await loadProgress(lang);
+    const langData       = await this._fetchLangData(lang);
+
+    if (langData && this.currentProgress) {
+      const derivedStage = this._computeStageUnlock(langData, this.currentProgress);
+      if ((this.currentProgress.stageUnlocked || 0) !== derivedStage) {
+        this.currentProgress.stageUnlocked = derivedStage;
+        await saveProgress(lang, this.currentProgress);
+      }
+      this.allProgress[lang] = this.currentProgress;
+    }
+
     this._setEnv(lang);
     this._showPanels();
     if (this.leftPanel)  this.leftPanel.setLang(lang);
@@ -435,6 +446,7 @@ class VaultriaApp {
     // Load real lesson data
     const langData = await this._fetchLangData(lang);
     const nextSession = this._getNextSession(langData, prog);
+    const summary = this._summarizeCurriculum(langData, prog);
 
     canvas.innerHTML = `
 <div class="workspace-root page-enter">
@@ -443,7 +455,7 @@ class VaultriaApp {
   <div class="ws-header">
     <div class="ws-header-left">
       <h1 class="ws-lang-title">${LABEL[lang]} <span class="ws-lang-native">${NATIVE[lang]}</span></h1>
-      <div class="ws-breadcrumb">${stage} · Level ${level} · ${completed} lessons</div>
+      <div class="ws-breadcrumb">${stage} · Level ${level} · ${summary.completedUnits}/${summary.totalUnits} units</div>
     </div>
     <div class="ws-header-stats">
       <div class="ws-stat-chip">
@@ -492,7 +504,7 @@ class VaultriaApp {
       <div class="ws-quick-list">
         <button class="ws-quick-item ws-quick-primary" data-action="lesson" style="border-color:${accent}30;background:${accent}0a;">
           <div class="ws-quick-item-title" style="color:${accent};">→ Continue Lesson</div>
-          <div class="ws-quick-item-sub">${nextSession ? nextSession.title : `${stage} · Unit ${Math.min(completed+1,14)}`}</div>
+          <div class="ws-quick-item-sub">${nextSession ? nextSession.title : `${stage} · ${summary.currentStageUnitsDone}/${summary.currentStageUnitsTotal} units`}</div>
         </button>
         <button class="ws-quick-item" data-action="review">
           <div class="ws-quick-item-title">⟳ Review Queue</div>
@@ -538,10 +550,10 @@ class VaultriaApp {
       <div class="ws-card-eyebrow">Your Progress</div>
       <div class="ws-stats-list">
         ${[
-          { label:"Lessons",    val: completed,                                                                     max: 14,  color: accent },
+          { label:"Sessions",   val: summary.completedSessions,                                                     max: Math.max(summary.totalSessions, 1), color: accent },
           { label:"Accuracy",   val: prog?.accuracy != null ? Math.round(prog.accuracy*100) : null,                 max: 100, color:"#4ade80", suf:"%" },
           { label:"Vocabulary", val: (prog?.vocabSeen||[]).length || ((prog?.weakWords||[]).length ? (prog?.weakWords||[]).length : null), max: 200, color: accent },
-          { label:"Momentum",     val: Math.min(streak, 30),                                                          max: 30,  color:"#fbbf24" },
+          { label:"Momentum",   val: Math.min(streak, 30),                                                          max: 30,  color:"#fbbf24" },
         ].map(s => `
           <div class="ws-stat-row">
             <div class="ws-stat-row-labels">
@@ -827,12 +839,85 @@ class VaultriaApp {
 
   _getNextSession(langData, prog) {
     if (!langData) return null;
-    const completed = (prog?.completed || []);
-    for (const stage of (langData.stages || [])) {
+    const completed = new Set(prog?.completed || []);
+    const unlockedStage = Math.min(prog?.stageUnlocked || 0, Math.max((langData.stages || []).length - 1, 0));
+
+    for (let si = 0; si <= unlockedStage; si++) {
+      const stage = langData.stages?.[si];
+      if (!stage) continue;
       for (const unit of (stage.units || [])) {
         for (const sess of (unit.sessions || [])) {
-          if (!completed.includes(sess.id)) return sess;
+          if (!completed.has(sess.id)) return sess;
         }
+      }
+    }
+    return null;
+  }
+
+  _computeStageUnlock(langData, prog) {
+    const stages = langData?.stages || [];
+    const completed = new Set(prog?.completed || []);
+    if (!stages.length) return 0;
+
+    let unlocked = 0;
+    for (let i = 0; i < stages.length - 1; i++) {
+      const sessions = (stages[i].units || []).flatMap(u => u.sessions || []);
+      if (sessions.length && sessions.every(s => completed.has(s.id))) unlocked = i + 1;
+      else break;
+    }
+    return Math.min(unlocked, stages.length - 1);
+  }
+
+  _summarizeCurriculum(langData, prog) {
+    const stages = langData?.stages || [];
+    const completed = new Set(prog?.completed || []);
+    const unlockedStage = Math.min(prog?.stageUnlocked || 0, Math.max(stages.length - 1, 0));
+
+    let totalSessions = 0;
+    let completedSessions = 0;
+    let totalUnits = 0;
+    let completedUnits = 0;
+
+    stages.forEach(stage => {
+      const units = stage.units || [];
+      totalUnits += units.length;
+      units.forEach(unit => {
+        const sessions = unit.sessions || [];
+        totalSessions += sessions.length;
+        const done = sessions.filter(s => completed.has(s.id)).length;
+        completedSessions += done;
+        if (sessions.length && done === sessions.length) completedUnits += 1;
+      });
+    });
+
+    const currentStage = stages[unlockedStage] || null;
+    const currentUnits = currentStage?.units || [];
+    const currentStageSessions = currentUnits.flatMap(u => u.sessions || []);
+    const currentStageUnitsDone = currentUnits.filter(u => {
+      const sessions = u.sessions || [];
+      return sessions.length && sessions.every(s => completed.has(s.id));
+    }).length;
+
+    return {
+      totalSessions,
+      completedSessions,
+      totalUnits,
+      completedUnits,
+      unlockedStage,
+      currentStage,
+      currentStageLabel: currentStage?.label || "Starter",
+      currentStageUnitsTotal: currentUnits.length,
+      currentStageUnitsDone,
+      currentStageSessionsTotal: currentStageSessions.length,
+      currentStageSessionsDone: currentStageSessions.filter(s => completed.has(s.id)).length,
+    };
+  }
+
+  _getNextSessionForStage(stage, prog) {
+    const completed = new Set(prog?.completed || []);
+    for (const unit of (stage?.units || [])) {
+      for (const sess of (unit.sessions || [])) {
+        if (!completed.has(sess.id)) return sess;
       }
     }
     return null;
@@ -874,6 +959,8 @@ class VaultriaApp {
     prog.completed = [...new Set([...(prog.completed||[]), session.id])];
     prog.weakWords = weakWords;
     prog.reviewQueue = buildReviewQueue(prog);
+    const langData = await this._fetchLangData(this.currentLang);
+    if (langData) prog.stageUnlocked = this._computeStageUnlock(langData, prog);
     await saveProgress(this.currentLang, prog);
     this.allProgress[this.currentLang] = prog;
     this.currentProgress = prog;
@@ -902,12 +989,10 @@ class VaultriaApp {
   // ── Lessons ────────────────────────────────────────────────────────
   _pageLessons(canvas) {
     const accent = ACCENT[this.currentLang] || "#8b7cff";
-    const prog   = this.currentProgress;
-    const completed = new Set(prog?.completed || []);
-
-    // Pull curriculum from cached lang data if available
+    const prog = this.currentProgress || {};
+    const completed = new Set(prog.completed || []);
     const langData = this._langDataCache?.[this.currentLang];
-    const stages   = langData?.stages || [];
+    const stages = langData?.stages || [];
 
     if (!stages.length) {
       canvas.innerHTML = `
@@ -924,50 +1009,127 @@ class VaultriaApp {
       return;
     }
 
+    const summary = this._summarizeCurriculum(langData, prog);
+    const unlockedStage = summary.unlockedStage;
+    const sessionIndex = new Map();
+
     const stageHTML = stages.map((stage, si) => {
       const units = stage.units || [];
-      const stageXp = units.flatMap(u => u.sessions||[]).filter(s => completed.has(s.id)).length;
-      const stageTot = units.flatMap(u => u.sessions||[]).length;
-      const stageComplete = stageTot > 0 && stageXp === stageTot;
+      const stageSessions = units.flatMap(u => u.sessions || []);
+      const stageDone = stageSessions.filter(s => completed.has(s.id)).length;
+      const stageTotal = stageSessions.length;
+      const mastered = stageTotal > 0 && stageDone === stageTotal;
+      const locked = si > unlockedStage;
+      const current = si === unlockedStage;
+      const nextInStage = locked ? null : this._getNextSessionForStage(stage, prog);
+      const unitDone = units.filter(u => {
+        const sessions = u.sessions || [];
+        return sessions.length && sessions.every(s => completed.has(s.id));
+      }).length;
+      const registerPills = (stage.registerAvailable || []).map(r => `<span style="padding:3px 8px;border-radius:999px;border:1px solid ${accent}22;background:${accent}10;color:${accent};font-size:0.62rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.08em;">${r}</span>`).join("");
+
       return `
-        <div class="card-elevated" style="margin-bottom:18px;overflow:hidden;">
-          <div style="padding:16px 20px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;gap:12px;">
-            <div style="width:32px;height:32px;border-radius:50%;background:${accent}20;border:1px solid ${accent}35;display:flex;align-items:center;justify-content:center;font-weight:600;color:${accent};font-size:0.85rem;">${si+1}</div>
-            <div style="flex:1;">
-              <div style="font-size:1rem;font-weight:500;color:var(--text-primary);">${stage.name||("Stage "+(si+1))}</div>
-              <div style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);">${stageXp}/${stageTot} complete</div>
+        <div class="card-elevated" style="margin-bottom:18px;overflow:hidden;opacity:${locked?0.58:1};border-color:${current?accent+'40':'var(--border-subtle)'};box-shadow:${current?`0 0 0 1px ${accent}18 inset`:''};">
+          <div style="padding:18px 20px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:flex-start;gap:14px;">
+            <div style="width:38px;height:38px;border-radius:50%;background:${accent}20;border:1px solid ${accent}35;display:flex;align-items:center;justify-content:center;font-weight:600;color:${accent};font-size:0.85rem;flex-shrink:0;">${si+1}</div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+                <div style="font-size:1rem;font-weight:500;color:var(--text-primary);">${stage.label || stage.name || `Stage ${si+1}`}</div>
+                ${stage.labelNative ? `<div style="font-size:0.82rem;color:var(--text-muted);font-family:var(--font-mono);">${stage.labelNative}</div>` : ''}
+                <span style="padding:3px 10px;border-radius:999px;border:1px solid ${current?accent+'35':'var(--border-subtle)'};background:${current?accent+'12':'var(--bg-panel)'};color:${current?accent:'var(--text-secondary)'};font-size:0.66rem;font-family:var(--font-mono);letter-spacing:0.08em;text-transform:uppercase;">${locked?'Locked':mastered?'Mastered':current?'Current':'Open'}</span>
+              </div>
+              <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.65;max-width:760px;">${stage.description || ''}</div>
+              ${registerPills ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;">${registerPills}</div>` : ''}
             </div>
-            ${stageComplete ? `<span style="font-size:0.72rem;color:#4ade80;font-family:var(--font-mono);">✓ Mastered</span>` : ""}
+            <div style="text-align:right;min-width:132px;align-self:center;">
+              <div style="font-size:0.88rem;font-family:var(--font-mono);color:${accent};">${stageDone}/${stageTotal}</div>
+              <div style="font-size:0.68rem;color:var(--text-muted);font-family:var(--font-mono);">sessions</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);margin-top:8px;">${unitDone}/${units.length} units</div>
+            </div>
           </div>
+
+          ${!locked && nextInStage ? `
+            <div style="padding:12px 20px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:space-between;gap:12px;background:${accent}08;">
+              <div>
+                <div style="font-size:0.68rem;color:${accent};font-family:var(--font-mono);letter-spacing:0.12em;text-transform:uppercase;">Next climb</div>
+                <div style="font-size:0.86rem;color:var(--text-primary);margin-top:4px;">${nextInStage.title || nextInStage.id}</div>
+              </div>
+              <button class="btn btn-primary lesson-launch" data-session-id="${nextInStage.id}" style="white-space:nowrap;">Resume Stage →</button>
+            </div>` : ''}
+
           ${units.map((unit, ui) => {
             const sessions = unit.sessions || [];
-            const done = sessions.filter(s => completed.has(s.id)).length;
+            const unitDoneCount = sessions.filter(s => completed.has(s.id)).length;
+            const unitDone = sessions.length && unitDoneCount === sessions.length;
+            const isCheckpoint = !!unit.isCheckpoint;
             return `
-              <div style="padding:12px 20px;${ui<units.length-1?"border-bottom:1px solid var(--border-subtle)":""}">
-                <div style="font-size:0.78rem;font-weight:500;color:var(--text-secondary);margin-bottom:8px;">${unit.name||("Unit "+(ui+1))}</div>
-                <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                  ${sessions.map(s => {
-                    const isDone = completed.has(s.id);
-                    return `<div title="${s.title||s.id}" style="padding:5px 10px;border-radius:6px;font-size:0.72rem;font-family:var(--font-mono);border:1px solid ${isDone?accent+"40":"var(--border-subtle)"};background:${isDone?accent+"10":"transparent"};color:${isDone?accent:"var(--text-muted)"};">
-                      ${isDone?"✓ ":""}${s.title||s.id}
-                    </div>`;
-                  }).join("")}
+              <div style="padding:14px 20px;${ui<units.length-1?"border-bottom:1px solid var(--border-subtle)":""}">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px;">
+                  <div>
+                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                      <div style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);">${unit.title || unit.name || `Unit ${ui+1}`}</div>
+                      ${isCheckpoint ? `<span style="padding:2px 8px;border-radius:999px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.22);color:#fbbf24;font-size:0.62rem;font-family:var(--font-mono);letter-spacing:0.08em;text-transform:uppercase;">${ui===6 || ui===13 ? 'Assessment' : 'Checkpoint'}</span>` : ''}
+                    </div>
+                    <div style="font-size:0.68rem;color:var(--text-muted);font-family:var(--font-mono);margin-top:4px;">${unitDoneCount}/${sessions.length} sessions complete</div>
+                  </div>
+                  ${unitDone ? `<span style="font-size:0.68rem;color:#4ade80;font-family:var(--font-mono);">✓ Cleared</span>` : ''}
                 </div>
-                <div style="font-size:0.65rem;color:var(--text-muted);margin-top:8px;font-family:var(--font-mono);">${done}/${sessions.length} sessions</div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                  ${sessions.map(sess => {
+                    sessionIndex.set(sess.id, sess);
+                    const isDone = completed.has(sess.id);
+                    const isNext = nextInStage && nextInStage.id === sess.id;
+                    return `<button class="lesson-chip lesson-launch" data-session-id="${sess.id}" ${locked?'disabled':''} style="padding:7px 11px;border-radius:9px;font-size:0.72rem;font-family:var(--font-mono);border:1px solid ${isNext?accent+'50':isDone?accent+'35':'var(--border-subtle)'};background:${isNext?accent+'18':isDone?accent+'0f':'transparent'};color:${isDone||isNext?accent:'var(--text-secondary)'};cursor:${locked?'not-allowed':'pointer'};opacity:${locked?0.5:1};">
+                      ${isDone?'✓ ':isNext?'→ ':''}${sess.title || sess.id}
+                    </button>`;
+                  }).join('')}
+                </div>
               </div>`;
-          }).join("")}
+          }).join('')}
         </div>`;
-    }).join("");
+    }).join('');
 
     canvas.innerHTML = `
-<div class="canvas-content page-enter" style="max-width:720px;">
+<div class="canvas-content page-enter" style="max-width:920px;">
   <div class="section-header">
-    <h2 class="section-title">Lessons</h2>
-    <p class="section-subtitle">Full curriculum for ${LABEL[this.currentLang]||this.currentLang}</p>
+    <div>
+      <h2 class="section-title">Curriculum Atlas</h2>
+      <p class="section-subtitle">${LABEL[this.currentLang]||this.currentLang} · ${summary.completedSessions}/${summary.totalSessions} sessions · ${summary.completedUnits}/${summary.totalUnits} units cleared</p>
+    </div>
+    <button class="btn btn-primary" id="atlas-resume">Continue Ascent →</button>
   </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px;">
+    <div class="card" style="padding:14px 16px;">
+      <div style="font-size:0.68rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.1em;">Stages Open</div>
+      <div style="margin-top:6px;font-size:1.2rem;color:${accent};font-weight:600;">${summary.unlockedStage + 1}/${stages.length}</div>
+    </div>
+    <div class="card" style="padding:14px 16px;">
+      <div style="font-size:0.68rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.1em;">Current Stage</div>
+      <div style="margin-top:6px;font-size:1.05rem;color:var(--text-primary);font-weight:500;">${summary.currentStage?.label || 'Starter'}</div>
+    </div>
+    <div class="card" style="padding:14px 16px;">
+      <div style="font-size:0.68rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.1em;">Current Units</div>
+      <div style="margin-top:6px;font-size:1.2rem;color:${accent};font-weight:600;">${summary.currentStageUnitsDone}/${summary.currentStageUnitsTotal}</div>
+    </div>
+    <div class="card" style="padding:14px 16px;">
+      <div style="font-size:0.68rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.1em;">Current Sessions</div>
+      <div style="margin-top:6px;font-size:1.2rem;color:${accent};font-weight:600;">${summary.currentStageSessionsDone}/${summary.currentStageSessionsTotal}</div>
+    </div>
+  </div>
+
   ${stageHTML}
 </div>`;
+
+    canvas.querySelector('#atlas-resume')?.addEventListener('click', () => this._startNextLesson());
+    canvas.querySelectorAll('.lesson-launch').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sess = sessionIndex.get(btn.dataset.sessionId);
+        if (sess) this._runSession(sess);
+      });
+    });
   }
+
 
   // ── Review ────────────────────────────────────────────────────────
   _pageReview(canvas) {
@@ -1158,6 +1320,9 @@ class VaultriaApp {
     const streak  = prog.streak || 0;
     const xp      = prog.xp || 0;
     const stars5  = Object.values(prog.stars || {}).filter(s => s >= 5).length;
+    const langData = this._langDataCache?.[this.currentLang];
+    const summary = this._summarizeCurriculum(langData, prog);
+    const stageGoal = Math.max(summary.currentStageUnitsTotal || 14, 1);
     const challenges = [
       { icon:"🔥", title:"Daily Momentum",        desc:"Complete 1 session today",          xp:50,  type:"Daily",    progress:Math.min(done>0?1:0,1), goal:1 },
       { icon:"📖", title:"Vocabulary Builder",  desc:"Complete 10 sessions",              xp:100, type:"Weekly",   progress:Math.min(done,10),      goal:10 },
@@ -1165,7 +1330,7 @@ class VaultriaApp {
       { icon:"⚔️", title:"Week Warrior",       desc:"Build momentum 7 days straight",           xp:300, type:"Monthly",  progress:Math.min(streak,7),     goal:7 },
       { icon:"🔄", title:"Error Recovery",     desc:"Complete 5+ sessions",              xp:80,  type:"Weekly",   progress:Math.min(done,5),       goal:5 },
       { icon:"🏆", title:"Century Club",       desc:"Reach 100 completed sessions",      xp:500, type:"Lifetime", progress:Math.min(done,100),     goal:100 },
-      { icon:"🌟", title:"Stage Clear",        desc:"Complete all 14 units in a stage",  xp:250, type:"Stage",    progress:Math.min(done%14||done,14), goal:14 },
+      { icon:"🌟", title:"Stage Clear",        desc:`Complete all ${stageGoal} units in your current stage`, xp:250, type:"Stage", progress:Math.min(summary.currentStageUnitsDone, stageGoal), goal:stageGoal },
       { icon:"💎", title:"XP Collector",       desc:"Earn 1,000 total XP",               xp:200, type:"Lifetime", progress:Math.min(xp,1000),      goal:1000 },
     ];
     const typeColors = { Daily:accent, Weekly:"#a78bfa", Monthly:"#f472b6", Challenge:"#fbbf24", Lifetime:"#34d399", Stage:accent };
@@ -2519,6 +2684,20 @@ class VaultriaApp {
     eventBus.on("nav:home",            () => { if (this.currentLang) this._showWorkspace(); });
     eventBus.on("nav:showAuth",        () => this._showAuth());
     eventBus.on("nav:support",         () => { const c=document.getElementById("center-canvas"); if(c) this._pageSupport(c); });
+    eventBus.on("tts:missing-audio",   payload => {
+      const now = Date.now();
+      if (now - this._lastTtsAlertAt < 2500) return;
+      this._lastTtsAlertAt = now;
+      console.warn("[Vaultria] static audio missing:", payload);
+      showToast("Missing static audio for this lesson item. Regenerate the audio pack.", "error", 2800);
+    });
+    eventBus.on("tts:missing-pack", payload => {
+      const now = Date.now();
+      if (now - this._lastTtsAlertAt < 2500) return;
+      this._lastTtsAlertAt = now;
+      console.warn("[Vaultria] audio pack issue:", payload);
+      showToast("Audio manifest missing or broken. Check the deployed audio pack.", "error", 3200);
+    });
   }
 }
 
