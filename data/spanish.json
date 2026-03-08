@@ -1,0 +1,4847 @@
+{
+  "meta": {
+    "language": "spanish",
+    "languageNative": "Español",
+    "scripts": [
+      "latin"
+    ],
+    "scriptRules": {},
+    "defaultVariant": "mexican",
+    "variantsPlanned": [
+      "spain",
+      "rioplatense",
+      "caribbean"
+    ],
+    "registerModel": [
+      "textbook",
+      "natural",
+      "formal",
+      "informal"
+    ]
+  },
+  "stages": [
+    {
+      "id": 0,
+      "key": "starter",
+      "label": "Starter",
+      "labelNative": "Principiante",
+      "description": "Absolute zero — letters, sounds, first words. You will leave able to say hello, count, and name basic things. Mexican Spanish remains the default spoken target.",
+      "registerAvailable": [
+        "formal",
+        "natural"
+      ],
+      "units": [
+        {
+          "id": "es-s0-u1",
+          "title": "Greetings",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s0-u1-sess1",
+              "title": "Basic greetings",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Hola",
+                  "meaning": "Hello",
+                  "context": "#Casual",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Buenos días",
+                  "meaning": "Good morning",
+                  "context": "#Polite",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Buenas tardes",
+                  "meaning": "Good afternoon",
+                  "context": "#Polite",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Buenas noches",
+                  "meaning": "Good evening / night",
+                  "context": "#Night #Polite",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "¿Cómo estás?",
+                  "meaning": "How are you? (informal)",
+                  "context": "#Casual",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Use '¿Cómo está usted?' formally."
+                },
+                {
+                  "target": "¿Cómo está usted?",
+                  "meaning": "How are you? (formal)",
+                  "context": "#Formal",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Mucho gusto",
+                  "meaning": "Nice to meet you",
+                  "context": "#Polite",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Gracias",
+                  "meaning": "Thank you",
+                  "context": "#Polite",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "De nada",
+                  "meaning": "You're welcome",
+                  "context": "#Polite",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Por favor",
+                  "meaning": "Please",
+                  "context": "#Polite",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Con permiso",
+                  "meaning": "Excuse me (passing by)",
+                  "context": "#Polite",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Disculpe",
+                  "meaning": "Excuse me (get attention)",
+                  "context": "#Polite",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            },
+            {
+              "id": "es-s0-u1-sess2",
+              "title": "Saying goodbye",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Adiós",
+                  "meaning": "Goodbye",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Hasta luego",
+                  "meaning": "See you later",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Hasta mañana",
+                  "meaning": "See you tomorrow",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Nos vemos",
+                  "meaning": "See you (casual)",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Cuídate",
+                  "meaning": "Take care",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u2",
+          "title": "Numbers 1–20",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s0-u2-sess1",
+              "title": "Numbers 1–10",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "uno",
+                  "meaning": "one",
+                  "audio": true
+                },
+                {
+                  "target": "dos",
+                  "meaning": "two",
+                  "audio": true
+                },
+                {
+                  "target": "tres",
+                  "meaning": "three",
+                  "audio": true
+                },
+                {
+                  "target": "cuatro",
+                  "meaning": "four",
+                  "audio": true
+                },
+                {
+                  "target": "cinco",
+                  "meaning": "five",
+                  "audio": true
+                },
+                {
+                  "target": "seis",
+                  "meaning": "six",
+                  "audio": true
+                },
+                {
+                  "target": "siete",
+                  "meaning": "seven",
+                  "audio": true
+                },
+                {
+                  "target": "ocho",
+                  "meaning": "eight",
+                  "audio": true
+                },
+                {
+                  "target": "nueve",
+                  "meaning": "nine",
+                  "audio": true
+                },
+                {
+                  "target": "diez",
+                  "meaning": "ten",
+                  "audio": true
+                }
+              ]
+            },
+            {
+              "id": "es-s0-u2-sess2",
+              "title": "Numbers 11–20",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "once",
+                  "meaning": "eleven",
+                  "audio": true
+                },
+                {
+                  "target": "doce",
+                  "meaning": "twelve",
+                  "audio": true
+                },
+                {
+                  "target": "trece",
+                  "meaning": "thirteen",
+                  "audio": true
+                },
+                {
+                  "target": "catorce",
+                  "meaning": "fourteen",
+                  "audio": true
+                },
+                {
+                  "target": "quince",
+                  "meaning": "fifteen",
+                  "audio": true
+                },
+                {
+                  "target": "dieciséis",
+                  "meaning": "sixteen",
+                  "audio": true
+                },
+                {
+                  "target": "diecisiete",
+                  "meaning": "seventeen",
+                  "audio": true
+                },
+                {
+                  "target": "dieciocho",
+                  "meaning": "eighteen",
+                  "audio": true
+                },
+                {
+                  "target": "diecinueve",
+                  "meaning": "nineteen",
+                  "audio": true
+                },
+                {
+                  "target": "veinte",
+                  "meaning": "twenty",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u3",
+          "title": "Introducing Yourself",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s0-u3-sess1",
+              "title": "Who are you?",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Me llamo…",
+                  "meaning": "My name is…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿Cómo te llamas?",
+                  "meaning": "What's your name?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Soy de…",
+                  "meaning": "I'm from…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿De dónde eres?",
+                  "meaning": "Where are you from?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Tengo… años",
+                  "meaning": "I am … years old",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿Cuántos años tienes?",
+                  "meaning": "How old are you?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Encantado / Encantada",
+                  "meaning": "Pleased to meet you",
+                  "audio": true,
+                  "register": "formal",
+                  "notes": "Encantado if you're male, Encantada if female."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u4",
+          "title": "Colors & Basic Adjectives",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s0-u4-sess1",
+              "title": "Colors",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "rojo",
+                  "meaning": "red",
+                  "audio": true
+                },
+                {
+                  "target": "azul",
+                  "meaning": "blue",
+                  "audio": true
+                },
+                {
+                  "target": "verde",
+                  "meaning": "green",
+                  "audio": true
+                },
+                {
+                  "target": "amarillo",
+                  "meaning": "yellow",
+                  "audio": true
+                },
+                {
+                  "target": "blanco",
+                  "meaning": "white",
+                  "audio": true
+                },
+                {
+                  "target": "negro",
+                  "meaning": "black",
+                  "audio": true
+                },
+                {
+                  "target": "naranja",
+                  "meaning": "orange",
+                  "audio": true
+                },
+                {
+                  "target": "rosa",
+                  "meaning": "pink",
+                  "audio": true
+                },
+                {
+                  "target": "morado",
+                  "meaning": "purple",
+                  "audio": true
+                },
+                {
+                  "target": "gris",
+                  "meaning": "gray",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u5",
+          "title": "Family & People",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s0-u5-sess1",
+              "title": "Family words",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "madre / mamá",
+                  "meaning": "mother / mom",
+                  "audio": true
+                },
+                {
+                  "target": "padre / papá",
+                  "meaning": "father / dad",
+                  "audio": true
+                },
+                {
+                  "target": "hermano",
+                  "meaning": "brother",
+                  "audio": true
+                },
+                {
+                  "target": "hermana",
+                  "meaning": "sister",
+                  "audio": true
+                },
+                {
+                  "target": "abuelo",
+                  "meaning": "grandfather",
+                  "audio": true
+                },
+                {
+                  "target": "abuela",
+                  "meaning": "grandmother",
+                  "audio": true
+                },
+                {
+                  "target": "hijo / hija",
+                  "meaning": "son / daughter",
+                  "audio": true
+                },
+                {
+                  "target": "amigo / amiga",
+                  "meaning": "friend (m/f)",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u6",
+          "title": "Basic Questions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s0-u6-sess1",
+              "title": "Question words",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "¿Qué?",
+                  "meaning": "What?",
+                  "audio": true
+                },
+                {
+                  "target": "¿Quién?",
+                  "meaning": "Who?",
+                  "audio": true
+                },
+                {
+                  "target": "¿Dónde?",
+                  "meaning": "Where?",
+                  "audio": true
+                },
+                {
+                  "target": "¿Cuándo?",
+                  "meaning": "When?",
+                  "audio": true
+                },
+                {
+                  "target": "¿Por qué?",
+                  "meaning": "Why?",
+                  "audio": true
+                },
+                {
+                  "target": "¿Cómo?",
+                  "meaning": "How?",
+                  "audio": true
+                },
+                {
+                  "target": "¿Cuánto?",
+                  "meaning": "How much?",
+                  "audio": true
+                },
+                {
+                  "target": "¿Cuál?",
+                  "meaning": "Which?",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u7",
+          "title": "Checkpoint: Starter Mid",
+          "isCheckpoint": true,
+          "checkpointType": "mixed_review",
+          "sessions": [
+            {
+              "id": "es-s0-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u8",
+          "title": "Days & Time",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s0-u8-sess1",
+              "title": "Days of the week",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "lunes",
+                  "meaning": "Monday",
+                  "audio": true
+                },
+                {
+                  "target": "martes",
+                  "meaning": "Tuesday",
+                  "audio": true
+                },
+                {
+                  "target": "miércoles",
+                  "meaning": "Wednesday",
+                  "audio": true
+                },
+                {
+                  "target": "jueves",
+                  "meaning": "Thursday",
+                  "audio": true
+                },
+                {
+                  "target": "viernes",
+                  "meaning": "Friday",
+                  "audio": true
+                },
+                {
+                  "target": "sábado",
+                  "meaning": "Saturday",
+                  "audio": true
+                },
+                {
+                  "target": "domingo",
+                  "meaning": "Sunday",
+                  "audio": true
+                }
+              ]
+            },
+            {
+              "id": "es-s0-u8-sess2",
+              "title": "Time expressions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "hoy",
+                  "meaning": "today",
+                  "audio": true
+                },
+                {
+                  "target": "mañana",
+                  "meaning": "tomorrow",
+                  "audio": true
+                },
+                {
+                  "target": "ayer",
+                  "meaning": "yesterday",
+                  "audio": true
+                },
+                {
+                  "target": "ahora",
+                  "meaning": "now",
+                  "audio": true
+                },
+                {
+                  "target": "más tarde",
+                  "meaning": "later",
+                  "audio": true
+                },
+                {
+                  "target": "esta noche",
+                  "meaning": "tonight",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u9",
+          "title": "Food & Drink Basics",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s0-u9-sess1",
+              "title": "Common foods",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "agua",
+                  "meaning": "water",
+                  "audio": true
+                },
+                {
+                  "target": "comida",
+                  "meaning": "food",
+                  "audio": true
+                },
+                {
+                  "target": "pan",
+                  "meaning": "bread",
+                  "audio": true
+                },
+                {
+                  "target": "carne",
+                  "meaning": "meat",
+                  "audio": true
+                },
+                {
+                  "target": "pollo",
+                  "meaning": "chicken",
+                  "audio": true
+                },
+                {
+                  "target": "arroz",
+                  "meaning": "rice",
+                  "audio": true
+                },
+                {
+                  "target": "frijoles",
+                  "meaning": "beans",
+                  "audio": true,
+                  "notes": "Staple of Mexican cuisine — say it right!"
+                },
+                {
+                  "target": "café",
+                  "meaning": "coffee",
+                  "audio": true
+                },
+                {
+                  "target": "jugo",
+                  "meaning": "juice",
+                  "audio": true
+                },
+                {
+                  "target": "cerveza",
+                  "meaning": "beer",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u10",
+          "title": "Places in a City",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s0-u10-sess1",
+              "title": "City vocabulary",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "el mercado",
+                  "meaning": "the market",
+                  "audio": true
+                },
+                {
+                  "target": "el hotel",
+                  "meaning": "the hotel",
+                  "audio": true
+                },
+                {
+                  "target": "la tienda",
+                  "meaning": "the store",
+                  "audio": true
+                },
+                {
+                  "target": "el baño",
+                  "meaning": "the bathroom",
+                  "audio": true
+                },
+                {
+                  "target": "la calle",
+                  "meaning": "the street",
+                  "audio": true
+                },
+                {
+                  "target": "el banco",
+                  "meaning": "the bank",
+                  "audio": true
+                },
+                {
+                  "target": "el hospital",
+                  "meaning": "the hospital",
+                  "audio": true
+                },
+                {
+                  "target": "la farmacia",
+                  "meaning": "the pharmacy",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u11",
+          "title": "Ser vs Estar (intro)",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s0-u11-sess1",
+              "title": "Two ways to say 'to be'",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Soy americano/a",
+                  "meaning": "I am American (permanent)",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "SER = permanent traits: nationality, identity"
+                },
+                {
+                  "target": "Estoy bien",
+                  "meaning": "I am well (current state)",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "ESTAR = states, feelings, location"
+                },
+                {
+                  "target": "Estoy cansado/a",
+                  "meaning": "I am tired",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Estoy aquí",
+                  "meaning": "I am here",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Es bueno/a",
+                  "meaning": "It is good",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Está lejos",
+                  "meaning": "It is far (location/state)",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u12",
+          "title": "Survival Phrases",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s0-u12-sess1",
+              "title": "Must-know phrases before you land",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "No hablo bien español",
+                  "meaning": "I don't speak Spanish well",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿Habla inglés?",
+                  "meaning": "Do you speak English?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Más despacio, por favor",
+                  "meaning": "Slower, please",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "No entiendo",
+                  "meaning": "I don't understand",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿Puede repetir?",
+                  "meaning": "Can you repeat that?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "¿Cuánto cuesta?",
+                  "meaning": "How much does it cost?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Necesito ayuda",
+                  "meaning": "I need help",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Llame a la policía",
+                  "meaning": "Call the police",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u13",
+          "title": "Pronunciation Essentials",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s0-u13-sess1",
+              "title": "Spanish sounds you must know",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "ñ → [ny]",
+                  "meaning": "as in 'mañana' (mah-NYA-na)",
+                  "audio": true,
+                  "notes": "The tilde makes n sound like 'ny'"
+                },
+                {
+                  "target": "ll → [y]",
+                  "meaning": "as in 'llamo' (YA-mo)",
+                  "audio": true,
+                  "notes": "In Mexico, ll = y sound"
+                },
+                {
+                  "target": "j → [h]",
+                  "meaning": "as in 'jugo' (HOO-go)",
+                  "audio": true,
+                  "notes": "Spanish j is a strong H"
+                },
+                {
+                  "target": "r (trill)",
+                  "meaning": "as in 'gracias' (GRAH-syahs)",
+                  "audio": true,
+                  "notes": "Practice rolling r slightly"
+                },
+                {
+                  "target": "h → silent",
+                  "meaning": "as in 'hola' (OH-la)",
+                  "audio": true,
+                  "notes": "H is always silent in Spanish"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s0-u14",
+          "title": "Checkpoint: Starter Final",
+          "isCheckpoint": true,
+          "checkpointType": "stage_completion",
+          "sessions": [
+            {
+              "id": "es-s0-u14-check",
+              "title": "Stage Completion Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "key": "beginner",
+      "label": "Beginner",
+      "labelNative": "Básico",
+      "description": "A1–A2 level. Build your first real sentences, ask for things, handle a market or restaurant. Mexican Spanish remains the default spoken target.",
+      "registerAvailable": [
+        "formal",
+        "natural"
+      ],
+      "units": [
+        {
+          "id": "es-s1-u1",
+          "title": "Present Tense: -AR Verbs",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s1-u1-sess1",
+              "title": "Hablar conjugation",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "yo hablo",
+                  "meaning": "I speak",
+                  "audio": true
+                },
+                {
+                  "target": "tú hablas",
+                  "meaning": "you speak",
+                  "audio": true
+                },
+                {
+                  "target": "él / ella habla",
+                  "meaning": "he / she speaks",
+                  "audio": true
+                },
+                {
+                  "target": "nosotros hablamos",
+                  "meaning": "we speak",
+                  "audio": true
+                },
+                {
+                  "target": "ellos hablan",
+                  "meaning": "they speak",
+                  "audio": true
+                }
+              ]
+            },
+            {
+              "id": "es-s1-u1-sess2",
+              "title": "Common -AR verbs",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "trabajar",
+                  "meaning": "to work",
+                  "audio": true
+                },
+                {
+                  "target": "comprar",
+                  "meaning": "to buy",
+                  "audio": true
+                },
+                {
+                  "target": "caminar",
+                  "meaning": "to walk",
+                  "audio": true
+                },
+                {
+                  "target": "buscar",
+                  "meaning": "to look for",
+                  "audio": true
+                },
+                {
+                  "target": "necesitar",
+                  "meaning": "to need",
+                  "audio": true
+                },
+                {
+                  "target": "pagar",
+                  "meaning": "to pay",
+                  "audio": true
+                },
+                {
+                  "target": "llegar",
+                  "meaning": "to arrive",
+                  "audio": true
+                },
+                {
+                  "target": "esperar",
+                  "meaning": "to wait",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u2",
+          "title": "Restaurant & Ordering Food",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s1-u2-sess1",
+              "title": "At the restaurant",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "La carta / el menú",
+                  "meaning": "The menu",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Quiero pedir…",
+                  "meaning": "I want to order…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿Qué recomienda?",
+                  "meaning": "What do you recommend?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "La cuenta, por favor",
+                  "meaning": "The check, please",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿Está incluida la propina?",
+                  "meaning": "Is the tip included?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Sin gluten",
+                  "meaning": "Gluten free",
+                  "audio": true
+                },
+                {
+                  "target": "Soy alérgico/a a…",
+                  "meaning": "I'm allergic to…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Bien cocido / término medio",
+                  "meaning": "Well done / medium (steak)",
+                  "audio": true
+                },
+                {
+                  "target": "Para llevar",
+                  "meaning": "To go",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u3",
+          "title": "Mexican Street Food",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s1-u3-sess1",
+              "title": "Taco stand vocabulary",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Un taco de al pastor",
+                  "meaning": "A pork spit-roast taco",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Al pastor = marinated pork on a vertical spit, very Mexican"
+                },
+                {
+                  "target": "¿Con todo?",
+                  "meaning": "With everything? (cilantro, onion, salsa)",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Sí, con todo",
+                  "meaning": "Yes, with everything",
+                  "audio": true
+                },
+                {
+                  "target": "Sin cebolla",
+                  "meaning": "Without onion",
+                  "audio": true
+                },
+                {
+                  "target": "¿Tiene salsa verde?",
+                  "meaning": "Do you have green salsa?",
+                  "audio": true
+                },
+                {
+                  "target": "Pica mucho",
+                  "meaning": "It's very spicy",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Dos tacos, por favor",
+                  "meaning": "Two tacos, please",
+                  "audio": true
+                },
+                {
+                  "target": "¿Cuánto es?",
+                  "meaning": "How much is it?",
+                  "audio": true
+                },
+                {
+                  "target": "Elote",
+                  "meaning": "Mexican street corn",
+                  "audio": true,
+                  "notes": "Common street snack — grilled corn with mayo, cheese and chili"
+                },
+                {
+                  "target": "Antojitos",
+                  "meaning": "Mexican street snacks",
+                  "audio": true,
+                  "notes": "Literal: 'little cravings' — encompasses tacos, tlayudas, sopes etc."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u4",
+          "title": "Shopping at the Market",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s1-u4-sess1",
+              "title": "Mercado phrases",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "¿A cómo está…?",
+                  "meaning": "How much is…? (market slang)",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Very common market expression in Mexico"
+                },
+                {
+                  "target": "¿Me da…?",
+                  "meaning": "Can you give me…?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Un kilo de…",
+                  "meaning": "A kilo of…",
+                  "audio": true
+                },
+                {
+                  "target": "Medio kilo",
+                  "meaning": "Half a kilo",
+                  "audio": true
+                },
+                {
+                  "target": "¿Está fresco?",
+                  "meaning": "Is it fresh?",
+                  "audio": true
+                },
+                {
+                  "target": "Me llevo dos",
+                  "meaning": "I'll take two",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿Me hace descuento?",
+                  "meaning": "Can you give me a discount?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿Tiene cambio?",
+                  "meaning": "Do you have change?",
+                  "audio": true
+                },
+                {
+                  "target": "¿Acepta tarjeta?",
+                  "meaning": "Do you accept card?",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u5",
+          "title": "Directions & Transport",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s1-u5-sess1",
+              "title": "Asking for directions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "¿Cómo llego a…?",
+                  "meaning": "How do I get to…?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "A la derecha",
+                  "meaning": "To the right",
+                  "audio": true
+                },
+                {
+                  "target": "A la izquierda",
+                  "meaning": "To the left",
+                  "audio": true
+                },
+                {
+                  "target": "Recto / Derecho",
+                  "meaning": "Straight ahead",
+                  "audio": true
+                },
+                {
+                  "target": "En la esquina",
+                  "meaning": "On the corner",
+                  "audio": true
+                },
+                {
+                  "target": "A dos cuadras",
+                  "meaning": "Two blocks away",
+                  "audio": true
+                },
+                {
+                  "target": "¿Está lejos?",
+                  "meaning": "Is it far?",
+                  "audio": true
+                },
+                {
+                  "target": "Tome el metro / camión",
+                  "meaning": "Take the subway / bus",
+                  "audio": true,
+                  "notes": "In Mexico 'camión' = bus"
+                },
+                {
+                  "target": "¿Cuál es la siguiente parada?",
+                  "meaning": "What's the next stop?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u6",
+          "title": "Hotel Check-In",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s1-u6-sess1",
+              "title": "At the hotel",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Tengo una reservación",
+                  "meaning": "I have a reservation",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿A qué hora es el check-out?",
+                  "meaning": "What time is check-out?",
+                  "audio": true
+                },
+                {
+                  "target": "Una habitación con cama doble",
+                  "meaning": "A room with a double bed",
+                  "audio": true
+                },
+                {
+                  "target": "¿Tiene wifi?",
+                  "meaning": "Do you have wifi?",
+                  "audio": true
+                },
+                {
+                  "target": "La llave de la habitación",
+                  "meaning": "The room key",
+                  "audio": true
+                },
+                {
+                  "target": "¿Puede subir el equipaje?",
+                  "meaning": "Can you bring up the luggage?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "El cuarto está sucio",
+                  "meaning": "The room is dirty",
+                  "audio": true
+                },
+                {
+                  "target": "No funciona el aire acondicionado",
+                  "meaning": "The AC doesn't work",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u7",
+          "title": "Checkpoint: Beginner Mid",
+          "isCheckpoint": true,
+          "checkpointType": "mixed_review",
+          "sessions": [
+            {
+              "id": "es-s1-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u8",
+          "title": "Numbers 20–1000 & Prices",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s1-u8-sess1",
+              "title": "Tens and hundreds",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "treinta",
+                  "meaning": "30",
+                  "audio": true
+                },
+                {
+                  "target": "cuarenta",
+                  "meaning": "40",
+                  "audio": true
+                },
+                {
+                  "target": "cincuenta",
+                  "meaning": "50",
+                  "audio": true
+                },
+                {
+                  "target": "cien",
+                  "meaning": "100",
+                  "audio": true
+                },
+                {
+                  "target": "doscientos",
+                  "meaning": "200",
+                  "audio": true
+                },
+                {
+                  "target": "quinientos",
+                  "meaning": "500",
+                  "audio": true
+                },
+                {
+                  "target": "mil",
+                  "meaning": "1,000",
+                  "audio": true
+                },
+                {
+                  "target": "Son cien pesos",
+                  "meaning": "That's 100 pesos",
+                  "audio": true
+                },
+                {
+                  "target": "¿Cuánto cuesta?",
+                  "meaning": "How much does it cost?",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u9",
+          "title": "Gustar & Expressing Likes",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s1-u9-sess1",
+              "title": "Me gusta / No me gusta",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Me gusta…",
+                  "meaning": "I like…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "No me gusta…",
+                  "meaning": "I don't like…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Me encanta…",
+                  "meaning": "I love…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿Te gusta…?",
+                  "meaning": "Do you like…?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Me gustan los tacos",
+                  "meaning": "I like tacos",
+                  "audio": true,
+                  "notes": "Use 'gustan' (plural) for plural nouns"
+                },
+                {
+                  "target": "Prefiero…",
+                  "meaning": "I prefer…",
+                  "audio": true
+                },
+                {
+                  "target": "Odio…",
+                  "meaning": "I hate…",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u10",
+          "title": "Small Talk",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s1-u10-sess1",
+              "title": "Casual conversation",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "¿Qué tal?",
+                  "meaning": "What's up? / How's it going?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Todo bien, gracias",
+                  "meaning": "All good, thanks",
+                  "audio": true
+                },
+                {
+                  "target": "¿Y tú?",
+                  "meaning": "And you?",
+                  "audio": true
+                },
+                {
+                  "target": "¿Qué haces?",
+                  "meaning": "What do you do? / What are you doing?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Soy turista",
+                  "meaning": "I'm a tourist",
+                  "audio": true
+                },
+                {
+                  "target": "Estoy de vacaciones",
+                  "meaning": "I'm on vacation",
+                  "audio": true
+                },
+                {
+                  "target": "Me gusta mucho México",
+                  "meaning": "I really like Mexico",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u11",
+          "title": "Emergencies & Health",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s1-u11-sess1",
+              "title": "Emergency phrases",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "¡Ayuda!",
+                  "meaning": "Help!",
+                  "audio": true
+                },
+                {
+                  "target": "¡Llame a una ambulancia!",
+                  "meaning": "Call an ambulance!",
+                  "audio": true
+                },
+                {
+                  "target": "Me duele…",
+                  "meaning": "My … hurts",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Necesito un médico",
+                  "meaning": "I need a doctor",
+                  "audio": true
+                },
+                {
+                  "target": "Fui asaltado/a",
+                  "meaning": "I was robbed",
+                  "audio": true
+                },
+                {
+                  "target": "Perdí mi pasaporte",
+                  "meaning": "I lost my passport",
+                  "audio": true
+                },
+                {
+                  "target": "¿Dónde está el hospital?",
+                  "meaning": "Where is the hospital?",
+                  "audio": true
+                },
+                {
+                  "target": "Tengo fiebre",
+                  "meaning": "I have a fever",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u12",
+          "title": "Pharmacy & Medications",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s1-u12-sess1",
+              "title": "At the farmacia",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Necesito algo para el dolor de cabeza",
+                  "meaning": "I need something for a headache",
+                  "audio": true
+                },
+                {
+                  "target": "Pastillas / tabletas",
+                  "meaning": "Pills / tablets",
+                  "audio": true
+                },
+                {
+                  "target": "Jarabe para la tos",
+                  "meaning": "Cough syrup",
+                  "audio": true
+                },
+                {
+                  "target": "Necesita receta",
+                  "meaning": "Needs a prescription",
+                  "audio": true
+                },
+                {
+                  "target": "Sin receta",
+                  "meaning": "Over the counter",
+                  "audio": true
+                },
+                {
+                  "target": "Dosis",
+                  "meaning": "Dose",
+                  "audio": true
+                },
+                {
+                  "target": "Dos veces al día",
+                  "meaning": "Twice a day",
+                  "audio": true
+                },
+                {
+                  "target": "¿Tiene algo genérico?",
+                  "meaning": "Do you have a generic?",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u13",
+          "title": "Formal Register Intro",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s1-u13-sess1",
+              "title": "Usted vs tú",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "¿Cómo está usted?",
+                  "meaning": "How are you? (formal)",
+                  "audio": true,
+                  "register": "formal",
+                  "notes": "Use usted with strangers, elders, authority"
+                },
+                {
+                  "target": "¿Podría ayudarme?",
+                  "meaning": "Could you help me?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Le agradezco",
+                  "meaning": "I thank you (formal)",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Con mucho gusto",
+                  "meaning": "With pleasure (formal)",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "¿Me permite pasar?",
+                  "meaning": "May I pass? (formal)",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Tenga la bondad de…",
+                  "meaning": "Please be so kind as to…",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s1-u14",
+          "title": "Checkpoint: Beginner Final",
+          "isCheckpoint": true,
+          "checkpointType": "stage_completion",
+          "sessions": [
+            {
+              "id": "es-s1-u14-check",
+              "title": "Stage Completion Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "key": "explorer",
+      "label": "Explorer",
+      "labelNative": "Explorador",
+      "description": "A2–B1. Build connected sentences, discuss the past, navigate real social situations. Mexican Spanish remains the default spoken target.",
+      "registerAvailable": [
+        "formal",
+        "natural"
+      ],
+      "units": [
+        {
+          "id": "es-s2-u1",
+          "title": "Preterite Tense (Past)",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s2-u1-sess1",
+              "title": "Regular preterite -AR",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Yo comí",
+                  "meaning": "I ate",
+                  "audio": true,
+                  "notes": "-ER verb: comer"
+                },
+                {
+                  "target": "Tú comiste",
+                  "meaning": "You ate",
+                  "audio": true
+                },
+                {
+                  "target": "Él comió",
+                  "meaning": "He ate",
+                  "audio": true
+                },
+                {
+                  "target": "Fui al mercado",
+                  "meaning": "I went to the market",
+                  "audio": true,
+                  "notes": "IR/SER preterite: fui"
+                },
+                {
+                  "target": "Hablé con él",
+                  "meaning": "I talked to him",
+                  "audio": true
+                },
+                {
+                  "target": "Llegué tarde",
+                  "meaning": "I arrived late",
+                  "audio": true
+                },
+                {
+                  "target": "¿Qué pasó?",
+                  "meaning": "What happened?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Nada, todo bien",
+                  "meaning": "Nothing, all good",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u2",
+          "title": "Imperfect Tense",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s2-u2-sess1",
+              "title": "De niño/a… (as a kid)",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Cuando era niño/a",
+                  "meaning": "When I was a child",
+                  "audio": true
+                },
+                {
+                  "target": "Vivía en…",
+                  "meaning": "I used to live in…",
+                  "audio": true
+                },
+                {
+                  "target": "Iba a la escuela",
+                  "meaning": "I used to go to school",
+                  "audio": true
+                },
+                {
+                  "target": "Me gustaba…",
+                  "meaning": "I used to like…",
+                  "audio": true
+                },
+                {
+                  "target": "Siempre comíamos",
+                  "meaning": "We always ate",
+                  "audio": true
+                },
+                {
+                  "target": "Era muy tranquilo",
+                  "meaning": "It was very peaceful",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u3",
+          "title": "Talking About Plans (Future)",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s2-u3-sess1",
+              "title": "Ir a + infinitive",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Voy a viajar a México",
+                  "meaning": "I'm going to travel to Mexico",
+                  "audio": true
+                },
+                {
+                  "target": "¿Qué vas a hacer?",
+                  "meaning": "What are you going to do?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Vamos a comer juntos",
+                  "meaning": "We're going to eat together",
+                  "audio": true
+                },
+                {
+                  "target": "Quiero aprender español",
+                  "meaning": "I want to learn Spanish",
+                  "audio": true
+                },
+                {
+                  "target": "Pienso quedarme una semana",
+                  "meaning": "I plan to stay one week",
+                  "audio": true
+                },
+                {
+                  "target": "¿Cuándo llegas?",
+                  "meaning": "When do you arrive?",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u4",
+          "title": "Cantinas, Bars & Nightlife",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s2-u4-sess1",
+              "title": "Bar & nightlife vocabulary",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Una copa de vino tinto",
+                  "meaning": "A glass of red wine",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Una michelada",
+                  "meaning": "Beer with lime, chili, salt",
+                  "audio": true,
+                  "notes": "Very popular Mexican beer drink"
+                },
+                {
+                  "target": "Un mezcal, por favor",
+                  "meaning": "A mezcal, please",
+                  "audio": true
+                },
+                {
+                  "target": "¿Qué tienes para botanear?",
+                  "meaning": "What do you have to snack on?",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "'Botanear' = to snack while drinking, very Mexican"
+                },
+                {
+                  "target": "La neta está muy buena la música",
+                  "meaning": "For real, the music is really good",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "'La neta' = the truth, really — Mexican slang"
+                },
+                {
+                  "target": "¿A qué hora cierran?",
+                  "meaning": "What time do you close?",
+                  "audio": true
+                },
+                {
+                  "target": "Nos vamos de antro",
+                  "meaning": "We're going clubbing",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "'Antro' = nightclub/bar in Mexico"
+                },
+                {
+                  "target": "Salud",
+                  "meaning": "Cheers / To your health",
+                  "audio": true
+                },
+                {
+                  "target": "Va la última y nos vamos",
+                  "meaning": "Last one and we're leaving",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u5",
+          "title": "Social Gatherings & Family Events",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s2-u5-sess1",
+              "title": "Quinceañeras, birthdays & fiestas",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "¡Feliz cumpleaños!",
+                  "meaning": "Happy birthday!",
+                  "audio": true
+                },
+                {
+                  "target": "La quinceañera",
+                  "meaning": "Girl's 15th birthday celebration",
+                  "audio": true,
+                  "notes": "Major cultural event in Mexico — like a debutante ball"
+                },
+                {
+                  "target": "Padrinos",
+                  "meaning": "Godparents / sponsors",
+                  "audio": true,
+                  "notes": "Families get padrinos to sponsor parts of the party"
+                },
+                {
+                  "target": "El vals",
+                  "meaning": "The waltz (quinceañera dance)",
+                  "audio": true
+                },
+                {
+                  "target": "¡Que viva!",
+                  "meaning": "Long live! (cheer/toast)",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿Tienes hambre? Sirve, sirve",
+                  "meaning": "Are you hungry? Help yourself",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Common phrase at family gatherings"
+                },
+                {
+                  "target": "Bienvenidos a mi casa",
+                  "meaning": "Welcome to my home",
+                  "audio": true
+                },
+                {
+                  "target": "Hay mucha comida, coman",
+                  "meaning": "There's lots of food, eat",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¡Ya están el mole y los tamales!",
+                  "meaning": "The mole and tamales are ready!",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u6",
+          "title": "Describing People & Things",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s2-u6-sess1",
+              "title": "Descriptive adjectives",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "alto/a — bajo/a",
+                  "meaning": "tall — short",
+                  "audio": true
+                },
+                {
+                  "target": "gordo/a — flaco/a",
+                  "meaning": "fat — thin",
+                  "audio": true
+                },
+                {
+                  "target": "guapo/a — feo/a",
+                  "meaning": "handsome — ugly",
+                  "audio": true
+                },
+                {
+                  "target": "simpático/a",
+                  "meaning": "friendly/nice",
+                  "audio": true
+                },
+                {
+                  "target": "antipático/a",
+                  "meaning": "unfriendly",
+                  "audio": true
+                },
+                {
+                  "target": "tranquilo/a",
+                  "meaning": "calm/peaceful",
+                  "audio": true
+                },
+                {
+                  "target": "ruidoso/a",
+                  "meaning": "noisy",
+                  "audio": true
+                },
+                {
+                  "target": "caro/a — barato/a",
+                  "meaning": "expensive — cheap",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u7",
+          "title": "Checkpoint: Explorer Mid",
+          "isCheckpoint": true,
+          "checkpointType": "mixed_review",
+          "sessions": [
+            {
+              "id": "es-s2-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u8",
+          "title": "Reflexive Verbs",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s2-u8-sess1",
+              "title": "Daily routine",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Me despierto",
+                  "meaning": "I wake up",
+                  "audio": true
+                },
+                {
+                  "target": "Me levanto",
+                  "meaning": "I get up",
+                  "audio": true
+                },
+                {
+                  "target": "Me baño",
+                  "meaning": "I shower",
+                  "audio": true
+                },
+                {
+                  "target": "Me visto",
+                  "meaning": "I get dressed",
+                  "audio": true
+                },
+                {
+                  "target": "Me duermo",
+                  "meaning": "I fall asleep",
+                  "audio": true
+                },
+                {
+                  "target": "Me siento bien",
+                  "meaning": "I feel good",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u9",
+          "title": "Subjunctive Intro",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s2-u9-sess1",
+              "title": "Hopes and requests",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Espero que…",
+                  "meaning": "I hope that…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Quiero que vengas",
+                  "meaning": "I want you to come",
+                  "audio": true
+                },
+                {
+                  "target": "Es importante que…",
+                  "meaning": "It's important that…",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Ojalá que llueva",
+                  "meaning": "Hopefully it rains",
+                  "audio": true,
+                  "notes": "'Ojalá' comes from Arabic — very common in Spanish!"
+                },
+                {
+                  "target": "Que te vaya bien",
+                  "meaning": "Hope it goes well for you",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Very common parting phrase"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u10",
+          "title": "Opinions & Debate",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s2-u10-sess1",
+              "title": "Expressing opinions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Creo que…",
+                  "meaning": "I think that…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "En mi opinión…",
+                  "meaning": "In my opinion…",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Estoy de acuerdo",
+                  "meaning": "I agree",
+                  "audio": true
+                },
+                {
+                  "target": "No estoy de acuerdo",
+                  "meaning": "I disagree",
+                  "audio": true
+                },
+                {
+                  "target": "Depende",
+                  "meaning": "It depends",
+                  "audio": true
+                },
+                {
+                  "target": "Puede ser",
+                  "meaning": "It could be / maybe",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿Qué piensas tú?",
+                  "meaning": "What do you think?",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u11",
+          "title": "Technology & Modern Life",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s2-u11-sess1",
+              "title": "Tech vocabulary",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "El teléfono celular",
+                  "meaning": "Cell phone",
+                  "audio": true,
+                  "notes": "Mexico uses 'celular', not 'móvil'"
+                },
+                {
+                  "target": "Mandar un mensaje",
+                  "meaning": "To send a message",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Tiene buena señal",
+                  "meaning": "Good signal",
+                  "audio": true
+                },
+                {
+                  "target": "Sin señal",
+                  "meaning": "No signal",
+                  "audio": true
+                },
+                {
+                  "target": "¿Cuál es el wifi?",
+                  "meaning": "What's the wifi?",
+                  "audio": true
+                },
+                {
+                  "target": "Cargar el celular",
+                  "meaning": "To charge the phone",
+                  "audio": true
+                },
+                {
+                  "target": "La app",
+                  "meaning": "The app",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u12",
+          "title": "Complaints & Problems",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s2-u12-sess1",
+              "title": "When things go wrong",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Hay un problema con…",
+                  "meaning": "There's a problem with…",
+                  "audio": true
+                },
+                {
+                  "target": "No funciona",
+                  "meaning": "It doesn't work",
+                  "audio": true
+                },
+                {
+                  "target": "Me cobraron de más",
+                  "meaning": "They overcharged me",
+                  "audio": true
+                },
+                {
+                  "target": "Quiero hablar con el gerente",
+                  "meaning": "I want to speak to the manager",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "¿Me puede dar un reembolso?",
+                  "meaning": "Can I get a refund?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Esto no es lo que pedí",
+                  "meaning": "This isn't what I ordered",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u13",
+          "title": "Work & Study",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s2-u13-sess1",
+              "title": "Professional vocabulary",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "¿A qué te dedicas?",
+                  "meaning": "What do you do for work?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Soy estudiante",
+                  "meaning": "I'm a student",
+                  "audio": true
+                },
+                {
+                  "target": "Trabajo en…",
+                  "meaning": "I work in/at…",
+                  "audio": true
+                },
+                {
+                  "target": "La reunión",
+                  "meaning": "The meeting",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "El jefe / la jefa",
+                  "meaning": "The boss",
+                  "audio": true
+                },
+                {
+                  "target": "Terminar el trabajo",
+                  "meaning": "To finish work",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s2-u14",
+          "title": "Checkpoint: Explorer Final",
+          "isCheckpoint": true,
+          "checkpointType": "stage_completion",
+          "sessions": [
+            {
+              "id": "es-s2-u14-check",
+              "title": "Stage Completion Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "key": "speaker",
+      "label": "Speaker",
+      "labelNative": "Hablante",
+      "description": "B1. Real conversations, mixed register unlocks here. Mexican slang, storytelling, complex situations.",
+      "registerAvailable": [
+        "formal",
+        "natural",
+        "mixed"
+      ],
+      "mixedUnlocksHere": true,
+      "units": [
+        {
+          "id": "es-s3-u1",
+          "title": "Mexican Slang Unlocked 🔓",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s3-u1-sess1",
+              "title": "Core Mexican slang",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Güey / wey",
+                  "meaning": "Dude / man (very common)",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "The most common Mexican informal address. Use only with friends."
+                },
+                {
+                  "target": "Chido / Chida",
+                  "meaning": "Cool / awesome",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Qué padre",
+                  "meaning": "How cool",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "No manches",
+                  "meaning": "No way / you're kidding",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Polite version of a stronger phrase"
+                },
+                {
+                  "target": "A huevo",
+                  "meaning": "Heck yeah / absolutely",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Qué onda",
+                  "meaning": "What's up / what's going on",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Está cañón",
+                  "meaning": "That's tough / intense",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Neta",
+                  "meaning": "For real / truth",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Ahorita",
+                  "meaning": "Right now / in a bit (ambiguous)",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "CRITICAL: 'ahorita' does NOT mean immediately. It's vague. Can be 5 min or 2 hours."
+                },
+                {
+                  "target": "Órale",
+                  "meaning": "OK / let's go / wow",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Extremely versatile Mexican exclamation"
+                },
+                {
+                  "target": "Ya fue",
+                  "meaning": "It's done / too late / gone",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Cotorrear",
+                  "meaning": "To hang out / to chat",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            },
+            {
+              "id": "es-s3-u1-sess2",
+              "title": "Street expressions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "¿Qué pedo?",
+                  "meaning": "What's up? (very informal)",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Very casual, use only with close friends"
+                },
+                {
+                  "target": "Sale",
+                  "meaning": "OK / deal / agreed",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Chale",
+                  "meaning": "Aw man / that sucks",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Mamón / mamona",
+                  "meaning": "Arrogant/cocky person",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Can be affectionate between friends"
+                },
+                {
+                  "target": "Estar crudo/a",
+                  "meaning": "To be hungover",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Paro",
+                  "meaning": "Favor / back-me-up",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "'Hazme un paro' = do me a favor"
+                },
+                {
+                  "target": "Mano / hermano",
+                  "meaning": "Bro / buddy",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Chamba",
+                  "meaning": "Work / job",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u2",
+          "title": "Storytelling in the Past",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s3-u2-sess1",
+              "title": "Narrative connectors",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Entonces…",
+                  "meaning": "Then / so…",
+                  "audio": true
+                },
+                {
+                  "target": "De repente…",
+                  "meaning": "Suddenly…",
+                  "audio": true
+                },
+                {
+                  "target": "Al final…",
+                  "meaning": "In the end…",
+                  "audio": true
+                },
+                {
+                  "target": "Por eso…",
+                  "meaning": "That's why / because of that",
+                  "audio": true
+                },
+                {
+                  "target": "Resulta que…",
+                  "meaning": "It turns out that…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Después de eso…",
+                  "meaning": "After that…",
+                  "audio": true
+                },
+                {
+                  "target": "Mientras tanto…",
+                  "meaning": "Meanwhile…",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u3",
+          "title": "Subjunctive — Emotions & Doubt",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s3-u3-sess1",
+              "title": "Advanced subjunctive use",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "No creo que sea verdad",
+                  "meaning": "I don't think it's true",
+                  "audio": true
+                },
+                {
+                  "target": "Me alegra que estés aquí",
+                  "meaning": "I'm glad you're here",
+                  "audio": true
+                },
+                {
+                  "target": "Es raro que no haya llegado",
+                  "meaning": "It's strange he hasn't arrived",
+                  "audio": true
+                },
+                {
+                  "target": "Cuando llegues, llámame",
+                  "meaning": "When you arrive, call me",
+                  "audio": true
+                },
+                {
+                  "target": "Busco alguien que hable inglés",
+                  "meaning": "I'm looking for someone who speaks English",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u4",
+          "title": "Mixed Register in Action",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s3-u4-sess1",
+              "title": "Switching registers naturally",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Formal: ¿Podría decirme dónde está…?",
+                  "meaning": "Could you tell me where … is?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Natural: ¿Sabes dónde está…?",
+                  "meaning": "Do you know where … is?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Slang: ¿A poco sabes dónde está…?",
+                  "meaning": "Hey, you know where … is?",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "'A poco' = expression of mild surprise"
+                },
+                {
+                  "target": "Formal: Muchas gracias, que tenga buen día",
+                  "meaning": "Thank you, have a nice day",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Natural: Gracias, hasta luego",
+                  "meaning": "Thanks, bye",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Slang: Sale, cuídate güey",
+                  "meaning": "OK, take care dude",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u5",
+          "title": "Conditional & If-clauses",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s3-u5-sess1",
+              "title": "What would you do?",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Si tuviera dinero, viajaría",
+                  "meaning": "If I had money, I would travel",
+                  "audio": true
+                },
+                {
+                  "target": "¿Qué harías tú?",
+                  "meaning": "What would you do?",
+                  "audio": true
+                },
+                {
+                  "target": "Quisiera…",
+                  "meaning": "I would like… (polite)",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Podría ser",
+                  "meaning": "It could be",
+                  "audio": true
+                },
+                {
+                  "target": "Debería ir",
+                  "meaning": "I should go",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u6",
+          "title": "Transport & Travel",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s3-u6-sess1",
+              "title": "Getting around Mexico",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "El camión",
+                  "meaning": "The bus (Mexican term)",
+                  "audio": true,
+                  "notes": "In Mexico, 'autobús' is formal; 'camión' is everyday"
+                },
+                {
+                  "target": "El pesero / combi",
+                  "meaning": "Minibus / shared van",
+                  "audio": true,
+                  "notes": "Very common cheap transport in Mexico City"
+                },
+                {
+                  "target": "El metro",
+                  "meaning": "The subway",
+                  "audio": true
+                },
+                {
+                  "target": "Un taxi de sitio",
+                  "meaning": "An authorized taxi stand taxi",
+                  "audio": true,
+                  "notes": "Safer than hailing street taxis in Mexico"
+                },
+                {
+                  "target": "Pedir un Uber",
+                  "meaning": "To order an Uber",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¿Cuánto me cobra?",
+                  "meaning": "How much will you charge me?",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Always negotiate taxi price upfront"
+                },
+                {
+                  "target": "La terminal de autobuses",
+                  "meaning": "The bus terminal",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u7",
+          "title": "Checkpoint: Speaker Mid",
+          "isCheckpoint": true,
+          "checkpointType": "mixed_review",
+          "sessions": [
+            {
+              "id": "es-s3-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u8",
+          "title": "Compound Tenses",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s3-u8-sess1",
+              "title": "Present perfect",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "He comido",
+                  "meaning": "I have eaten",
+                  "audio": true
+                },
+                {
+                  "target": "Has visto…?",
+                  "meaning": "Have you seen…?",
+                  "audio": true
+                },
+                {
+                  "target": "Hemos llegado",
+                  "meaning": "We have arrived",
+                  "audio": true
+                },
+                {
+                  "target": "Ya he ido",
+                  "meaning": "I've already gone",
+                  "audio": true
+                },
+                {
+                  "target": "Todavía no he…",
+                  "meaning": "I haven't … yet",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u9",
+          "title": "Expressing Emotions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s3-u9-sess1",
+              "title": "How you feel",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Estoy harto/a de…",
+                  "meaning": "I'm fed up with…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Me cae bien",
+                  "meaning": "I like them (as a person)",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Me cae gordo/a",
+                  "meaning": "I can't stand them",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Tengo ganas de…",
+                  "meaning": "I feel like / I want to…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Me da miedo",
+                  "meaning": "It scares me",
+                  "audio": true
+                },
+                {
+                  "target": "Me da vergüenza",
+                  "meaning": "It embarrasses me",
+                  "audio": true
+                },
+                {
+                  "target": "Estoy emocionado/a",
+                  "meaning": "I'm excited",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u10",
+          "title": "Passive Voice & Formal Writing",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s3-u10-sess1",
+              "title": "Passive and formal expressions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Se habla español aquí",
+                  "meaning": "Spanish is spoken here",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Se vende",
+                  "meaning": "For sale",
+                  "audio": true
+                },
+                {
+                  "target": "Se prohíbe fumar",
+                  "meaning": "Smoking prohibited",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Fue construido en…",
+                  "meaning": "It was built in…",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Es necesario que…",
+                  "meaning": "It is necessary that…",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u11",
+          "title": "Idiomatic Expressions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s3-u11-sess1",
+              "title": "Spanish idioms",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Costar un ojo de la cara",
+                  "meaning": "To cost an arm and a leg",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "No hay mal que por bien no venga",
+                  "meaning": "Every cloud has a silver lining",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Más vale tarde que nunca",
+                  "meaning": "Better late than never",
+                  "audio": true
+                },
+                {
+                  "target": "Estar en las nubes",
+                  "meaning": "To have your head in the clouds",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Meter la pata",
+                  "meaning": "To put your foot in your mouth",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "No tener pelos en la lengua",
+                  "meaning": "To not mince words / be blunt",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u12",
+          "title": "Health & Medical",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s3-u12-sess1",
+              "title": "At the clinic",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Tengo dolor de estómago",
+                  "meaning": "I have a stomach ache",
+                  "audio": true
+                },
+                {
+                  "target": "Me siento mareado/a",
+                  "meaning": "I feel dizzy",
+                  "audio": true
+                },
+                {
+                  "target": "Tengo la presión alta",
+                  "meaning": "I have high blood pressure",
+                  "audio": true
+                },
+                {
+                  "target": "¿Tiene seguro médico?",
+                  "meaning": "Do you have medical insurance?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "El seguro popular",
+                  "meaning": "Mexico's public health program",
+                  "audio": true,
+                  "notes": "Basic health coverage in Mexico"
+                },
+                {
+                  "target": "Alergia a los mariscos",
+                  "meaning": "Shellfish allergy",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u13",
+          "title": "Culture & Mexican Identity",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s3-u13-sess1",
+              "title": "Mexican culture vocabulary",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "El Día de Muertos",
+                  "meaning": "Day of the Dead",
+                  "audio": true,
+                  "notes": "Major Mexican cultural holiday — Nov 1-2"
+                },
+                {
+                  "target": "La comida está muy sabrosa",
+                  "meaning": "The food is very tasty",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Albañil / maestro",
+                  "meaning": "Construction worker / craftsman",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "'Maestro' is a respectful way to address skilled workers"
+                },
+                {
+                  "target": "¿De qué estado eres?",
+                  "meaning": "What state are you from?",
+                  "audio": true
+                },
+                {
+                  "target": "Chilango/a",
+                  "meaning": "Person from Mexico City",
+                  "audio": true,
+                  "notes": "Can be slightly derogatory depending on context"
+                },
+                {
+                  "target": "Banda",
+                  "meaning": "Group of friends / crew",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s3-u14",
+          "title": "Checkpoint: Speaker Final",
+          "isCheckpoint": true,
+          "checkpointType": "stage_completion",
+          "sessions": [
+            {
+              "id": "es-s3-u14-check",
+              "title": "Stage Completion Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "key": "scholar",
+      "label": "Scholar",
+      "labelNative": "Académico",
+      "description": "B2. Complex grammar, professional/academic Spanish, nuanced expression.",
+      "registerAvailable": [
+        "formal",
+        "natural",
+        "mixed"
+      ],
+      "units": [
+        {
+          "id": "es-s4-u1",
+          "title": "Advanced Subjunctive",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s4-u1-sess1",
+              "title": "Past subjunctive",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Si pudiera, lo haría",
+                  "meaning": "If I could, I would do it",
+                  "audio": true
+                },
+                {
+                  "target": "Ojalá hubiera llegado antes",
+                  "meaning": "I wish I had arrived earlier",
+                  "audio": true
+                },
+                {
+                  "target": "Esperaba que viniera",
+                  "meaning": "I hoped he would come",
+                  "audio": true
+                },
+                {
+                  "target": "Como si nada",
+                  "meaning": "As if nothing happened",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "A menos que…",
+                  "meaning": "Unless…",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u2",
+          "title": "Business & Professional",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s4-u2-sess1",
+              "title": "Professional Spanish",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Le envío este correo para informarle",
+                  "meaning": "I'm sending this email to inform you",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Adjunto el documento",
+                  "meaning": "I attach the document",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "En relación a su consulta",
+                  "meaning": "Regarding your inquiry",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Quedo a sus órdenes",
+                  "meaning": "I remain at your service",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "El plazo de entrega",
+                  "meaning": "The delivery deadline",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Llegar a un acuerdo",
+                  "meaning": "To reach an agreement",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u3",
+          "title": "Politics & Society",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s4-u3-sess1",
+              "title": "Social vocabulary",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "El gobierno",
+                  "meaning": "The government",
+                  "audio": true
+                },
+                {
+                  "target": "La desigualdad",
+                  "meaning": "Inequality",
+                  "audio": true
+                },
+                {
+                  "target": "Los derechos humanos",
+                  "meaning": "Human rights",
+                  "audio": true
+                },
+                {
+                  "target": "La corrupción",
+                  "meaning": "Corruption",
+                  "audio": true
+                },
+                {
+                  "target": "La clase social",
+                  "meaning": "Social class",
+                  "audio": true
+                },
+                {
+                  "target": "El cambio climático",
+                  "meaning": "Climate change",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u4",
+          "title": "Academic Writing Connectors",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s4-u4-sess1",
+              "title": "Formal connectors",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Sin embargo",
+                  "meaning": "However / nevertheless",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Por otro lado",
+                  "meaning": "On the other hand",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Asimismo",
+                  "meaning": "Likewise / also",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "En consecuencia",
+                  "meaning": "Consequently",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Cabe destacar que",
+                  "meaning": "It's worth noting that",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "A pesar de que",
+                  "meaning": "Despite the fact that",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u5",
+          "title": "Ser vs Estar Deep Dive",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s4-u5-sess1",
+              "title": "Nuanced ser/estar",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Es aburrido (él)",
+                  "meaning": "He is boring (personality)",
+                  "audio": true,
+                  "notes": "SER = inherent quality"
+                },
+                {
+                  "target": "Está aburrido (él)",
+                  "meaning": "He is bored right now",
+                  "audio": true,
+                  "notes": "ESTAR = current state"
+                },
+                {
+                  "target": "Es listo",
+                  "meaning": "He is clever",
+                  "audio": true,
+                  "notes": "SER = clever by nature"
+                },
+                {
+                  "target": "Está listo",
+                  "meaning": "He is ready",
+                  "audio": true,
+                  "notes": "ESTAR = ready at this moment"
+                },
+                {
+                  "target": "Es seguro",
+                  "meaning": "It is safe",
+                  "audio": true
+                },
+                {
+                  "target": "Está seguro",
+                  "meaning": "He is sure / certain",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u6",
+          "title": "Regional Mexican Dialects",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s4-u6-sess1",
+              "title": "Mexico City vs North vs South",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Cuate",
+                  "meaning": "Friend / twin (central Mexico)",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Vato / bato",
+                  "meaning": "Dude (northern Mexico/Chicano)",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Mande",
+                  "meaning": "Pardon? / What? (polite, Mexican)",
+                  "audio": true,
+                  "notes": "Very uniquely Mexican — used instead of '¿Qué?'"
+                },
+                {
+                  "target": "Pos / pues",
+                  "meaning": "Well / so (filler word)",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¡Qué chingón!",
+                  "meaning": "How badass! (strong Mexican slang)",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Strong language — use with caution"
+                },
+                {
+                  "target": "No hay bronca",
+                  "meaning": "No problem / no worries",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u7",
+          "title": "Checkpoint: Scholar Mid",
+          "isCheckpoint": true,
+          "checkpointType": "mixed_review",
+          "sessions": [
+            {
+              "id": "es-s4-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u8",
+          "title": "Nuanced Vocabulary",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s4-u8-sess1",
+              "title": "Advanced word pairs",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Pedir vs preguntar",
+                  "meaning": "to ask for vs to ask (question)",
+                  "audio": true
+                },
+                {
+                  "target": "Saber vs conocer",
+                  "meaning": "to know a fact vs to know a person",
+                  "audio": true
+                },
+                {
+                  "target": "Llevar vs traer",
+                  "meaning": "to take (away) vs to bring",
+                  "audio": true
+                },
+                {
+                  "target": "Dejar vs salir",
+                  "meaning": "to leave (something) vs to leave (go out)",
+                  "audio": true
+                },
+                {
+                  "target": "Gastar vs perder",
+                  "meaning": "to spend (money) vs to lose",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u9",
+          "title": "Relative Clauses",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s4-u9-sess1",
+              "title": "que, quien, el cual…",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "El chico que conocí",
+                  "meaning": "The guy I met",
+                  "audio": true
+                },
+                {
+                  "target": "La persona con quien hablé",
+                  "meaning": "The person I spoke with",
+                  "audio": true
+                },
+                {
+                  "target": "El lugar donde nací",
+                  "meaning": "The place where I was born",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u10",
+          "title": "Literary Spanish",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s4-u10-sess1",
+              "title": "Prose & poetry expressions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Había una vez…",
+                  "meaning": "Once upon a time…",
+                  "audio": true
+                },
+                {
+                  "target": "Al amanecer",
+                  "meaning": "At dawn",
+                  "audio": true
+                },
+                {
+                  "target": "El ocaso",
+                  "meaning": "The sunset / twilight",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u11",
+          "title": "Media & News Spanish",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s4-u11-sess1",
+              "title": "News vocabulary",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Según fuentes oficiales",
+                  "meaning": "According to official sources",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Se confirmó que…",
+                  "meaning": "It was confirmed that…",
+                  "audio": true
+                },
+                {
+                  "target": "El portavoz declaró",
+                  "meaning": "The spokesperson stated",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u12",
+          "title": "Humor & Sarcasm",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s4-u12-sess1",
+              "title": "Irony and humor",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "¡Claro que sí! (sarcastic)",
+                  "meaning": "Sure, right! (ironic)",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "¡Qué sorpresa! (sarcastic)",
+                  "meaning": "What a surprise! (ironic)",
+                  "audio": true
+                },
+                {
+                  "target": "A ver si es cierto",
+                  "meaning": "Let's see if that's true (skeptical)",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u13",
+          "title": "Complex Prepositions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s4-u13-sess1",
+              "title": "Advanced prepositions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "A pesar de",
+                  "meaning": "Despite",
+                  "audio": true
+                },
+                {
+                  "target": "Además de",
+                  "meaning": "In addition to",
+                  "audio": true
+                },
+                {
+                  "target": "En cuanto a",
+                  "meaning": "As for / regarding",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s4-u14",
+          "title": "Checkpoint: Scholar Final",
+          "isCheckpoint": true,
+          "checkpointType": "stage_completion",
+          "sessions": [
+            {
+              "id": "es-s4-u14-check",
+              "title": "Stage Completion Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "key": "specialist",
+      "label": "Specialist",
+      "labelNative": "Especialista",
+      "description": "C1. Near-fluency. Nuanced natural speech, professional domains, culture deep dives.",
+      "registerAvailable": [
+        "formal",
+        "natural",
+        "mixed"
+      ],
+      "units": [
+        {
+          "id": "es-s5-u1",
+          "title": "Legal & Official Spanish",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s5-u1-sess1",
+              "title": "Legal vocabulary",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "El contrato de arrendamiento",
+                  "meaning": "The lease agreement",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "La cédula de identidad",
+                  "meaning": "ID card",
+                  "audio": true
+                },
+                {
+                  "target": "Declarar ante notario",
+                  "meaning": "To declare before a notary",
+                  "audio": true
+                },
+                {
+                  "target": "Los derechos y obligaciones",
+                  "meaning": "Rights and obligations",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u2",
+          "title": "Medical Spanish Advanced",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s5-u2-sess1",
+              "title": "Advanced medical",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Antecedentes familiares",
+                  "meaning": "Family medical history",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Padecimiento crónico",
+                  "meaning": "Chronic condition",
+                  "audio": true
+                },
+                {
+                  "target": "Cirugía electiva",
+                  "meaning": "Elective surgery",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u3",
+          "title": "Philosophical Expression",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s5-u3-sess1",
+              "title": "Abstract ideas",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "La conciencia colectiva",
+                  "meaning": "Collective consciousness",
+                  "audio": true
+                },
+                {
+                  "target": "La identidad cultural",
+                  "meaning": "Cultural identity",
+                  "audio": true
+                },
+                {
+                  "target": "El libre albedrío",
+                  "meaning": "Free will",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u4",
+          "title": "Advanced Idioms",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s5-u4-sess1",
+              "title": "Native-level idioms",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Hacerse el occiso",
+                  "meaning": "To play dead / pretend not to hear",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Mexican expression"
+                },
+                {
+                  "target": "Ponerse las pilas",
+                  "meaning": "To get one's act together",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "Echar la mano",
+                  "meaning": "To lend a hand",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u5",
+          "title": "Discourse & Rhetoric",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s5-u5-sess1",
+              "title": "Rhetoric and persuasion",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Cabe señalar que",
+                  "meaning": "It should be pointed out that",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "En definitiva",
+                  "meaning": "In short / ultimately",
+                  "audio": true
+                },
+                {
+                  "target": "Contrariamente a lo esperado",
+                  "meaning": "Contrary to expectations",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u6",
+          "title": "Mexican Literature References",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s5-u6-sess1",
+              "title": "Cultural literacy",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "El realismo mágico",
+                  "meaning": "Magic realism (literary movement)",
+                  "audio": true
+                },
+                {
+                  "target": "La Malinche",
+                  "meaning": "Historical figure — symbol of betrayal/hybridity",
+                  "audio": true,
+                  "notes": "Complex cultural symbol — understand before using the term"
+                },
+                {
+                  "target": "El mestizaje",
+                  "meaning": "The mixing of cultures / racial mixing",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u7",
+          "title": "Checkpoint: Specialist Mid",
+          "isCheckpoint": true,
+          "checkpointType": "mixed_review",
+          "sessions": [
+            {
+              "id": "es-s5-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u8",
+          "title": "Nuanced Negation",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s5-u8-sess1",
+              "title": "Advanced negation",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Tampoco",
+                  "meaning": "Neither / not either",
+                  "audio": true
+                },
+                {
+                  "target": "Jamás",
+                  "meaning": "Never (emphatic)",
+                  "audio": true
+                },
+                {
+                  "target": "Ni siquiera",
+                  "meaning": "Not even",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u9",
+          "title": "Discourse Particles",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s5-u9-sess1",
+              "title": "Filler and emphasis particles",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Es que…",
+                  "meaning": "The thing is… / It's just that…",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "O sea",
+                  "meaning": "I mean / like (filler)",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Very common Mexican filler"
+                },
+                {
+                  "target": "Pues sí / pues no",
+                  "meaning": "Well yeah / well no",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u10",
+          "title": "Register Mastery",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s5-u10-sess1",
+              "title": "Seamless register switching",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Context read: boardroom → ¿Podría presentar los resultados?",
+                  "meaning": "Could you present the results?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Context read: friend → ¿Echamos un ojo a los números?",
+                  "meaning": "Wanna take a look at the numbers?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u11",
+          "title": "Speed & Listening",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s5-u11-sess1",
+              "title": "Fast natural speech patterns",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "¿Pa' qué?",
+                  "meaning": "What for? (pa' = para)",
+                  "audio": true,
+                  "register": "natural",
+                  "notes": "Dropped syllables are normal in fast speech"
+                },
+                {
+                  "target": "¿Ónde vas?",
+                  "meaning": "Where you going? (regional drop of 'd')",
+                  "audio": true
+                },
+                {
+                  "target": "¿Qué pasó, wey?",
+                  "meaning": "What's up, dude?",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u12",
+          "title": "Formal Correspondence",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s5-u12-sess1",
+              "title": "Formal letters and emails",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "A quien corresponda",
+                  "meaning": "To whom it may concern",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "En espera de su respuesta",
+                  "meaning": "Awaiting your reply",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "Atentamente",
+                  "meaning": "Yours sincerely / Best regards",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u13",
+          "title": "Philosophy of Language",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s5-u13-sess1",
+              "title": "Language and identity",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "El bilingüismo",
+                  "meaning": "Bilingualism",
+                  "audio": true
+                },
+                {
+                  "target": "El spanglish",
+                  "meaning": "Code-switching Spanish/English",
+                  "audio": true,
+                  "notes": "Common in US-Mexico border communities"
+                },
+                {
+                  "target": "La variante regional",
+                  "meaning": "Regional dialect variation",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s5-u14",
+          "title": "Checkpoint: Specialist Final",
+          "isCheckpoint": true,
+          "checkpointType": "stage_completion",
+          "sessions": [
+            {
+              "id": "es-s5-u14-check",
+              "title": "Stage Completion Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "key": "archivist",
+      "label": "Archivist",
+      "labelNative": "Archivista",
+      "description": "C2. Native-level — literature, poetry, dialect mastery, sociolinguistics. The vault.",
+      "registerAvailable": [
+        "formal",
+        "natural",
+        "mixed"
+      ],
+      "units": [
+        {
+          "id": "es-s6-u1",
+          "title": "Colonial & Historical Spanish",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s6-u1-sess1",
+              "title": "Pre-modern vocabulary",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Vuestra merced",
+                  "meaning": "Your grace (archaic 'usted')",
+                  "audio": true,
+                  "notes": "'Usted' evolved from 'vuestra merced'"
+                },
+                {
+                  "target": "Antaño",
+                  "meaning": "In days of old / in the past",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u2",
+          "title": "Náhuatl Loanwords",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s6-u2-sess1",
+              "title": "Aztec words in Mexican Spanish",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Chocolate",
+                  "meaning": "Chocolate (from Náhuatl 'xocolatl')",
+                  "audio": true
+                },
+                {
+                  "target": "Aguacate",
+                  "meaning": "Avocado (from Náhuatl 'ahuacatl')",
+                  "audio": true
+                },
+                {
+                  "target": "Tomate",
+                  "meaning": "Tomato (from Náhuatl 'tomatl')",
+                  "audio": true
+                },
+                {
+                  "target": "Chile",
+                  "meaning": "Chili (from Náhuatl 'chilli')",
+                  "audio": true
+                },
+                {
+                  "target": "Copal",
+                  "meaning": "Sacred incense (ceremonial)",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u3",
+          "title": "Poetry & Verse",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s6-u3-sess1",
+              "title": "Spanish poetic forms",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "La rima consonante",
+                  "meaning": "Full rhyme (same sound from last vowel)",
+                  "audio": true
+                },
+                {
+                  "target": "El verso libre",
+                  "meaning": "Free verse",
+                  "audio": true
+                },
+                {
+                  "target": "El soneto",
+                  "meaning": "The sonnet (14 lines)",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u4",
+          "title": "Proverbs & Refranes",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s6-u4-sess1",
+              "title": "Mexican proverbs",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "El que con lobos anda, a aullar se enseña",
+                  "meaning": "You become like the company you keep",
+                  "audio": true
+                },
+                {
+                  "target": "Camarón que se duerme, se lo lleva la corriente",
+                  "meaning": "The shrimp that falls asleep gets swept away — stay alert",
+                  "audio": true,
+                  "notes": "Classic Mexican proverb about being proactive"
+                },
+                {
+                  "target": "Al mal tiempo, buena cara",
+                  "meaning": "In bad times, put on a good face",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u5",
+          "title": "Sociolinguistic Variation",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s6-u5-sess1",
+              "title": "Dialect and code-switching",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Yeísmo",
+                  "meaning": "Merging of ll/y sounds (most of Latin America)",
+                  "audio": true
+                },
+                {
+                  "target": "Voseo",
+                  "meaning": "Use of 'vos' instead of 'tú' (Argentina, etc.)",
+                  "audio": true
+                },
+                {
+                  "target": "Tuteo",
+                  "meaning": "Use of 'tú' (standard Mexico)",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u6",
+          "title": "Native-Speed Comprehension",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s6-u6-sess1",
+              "title": "Ultra-fast speech patterns",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "'Tonces (entonces)",
+                  "meaning": "Then/so (ultra-casual)",
+                  "audio": true
+                },
+                {
+                  "target": "N'ombre (no hombre)",
+                  "meaning": "Nah man / no way",
+                  "audio": true
+                },
+                {
+                  "target": "Qué onda güey, ¿cómo andan?",
+                  "meaning": "Hey dude, how are you all doing?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u7",
+          "title": "Checkpoint: Archivist Mid",
+          "isCheckpoint": true,
+          "checkpointType": "mixed_review",
+          "sessions": [
+            {
+              "id": "es-s6-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint"
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u8",
+          "title": "Advanced Word Formation",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s6-u8-sess1",
+              "title": "Suffixes and prefixes",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "-ísimo (rapidísimo)",
+                  "meaning": "Very/extremely fast (superlative suffix)",
+                  "audio": true
+                },
+                {
+                  "target": "-azo (golazo)",
+                  "meaning": "Augmentative — great goal!",
+                  "audio": true
+                },
+                {
+                  "target": "-ito/-ita (momento → momentito)",
+                  "meaning": "Diminutive — a little moment",
+                  "audio": true,
+                  "notes": "Extremely common in Mexican Spanish — softens requests"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u9",
+          "title": "Code-Switching Mastery",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s6-u9-sess1",
+              "title": "Formal→natural→slang flow",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Full chain: Buenos días → ¿Cómo estás? → ¿Qué onda, güey?",
+                  "meaning": "Formal → natural → slang progression",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u10",
+          "title": "Taboo & Sensitive Language",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s6-u10-sess1",
+              "title": "What to avoid",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Groserías (palabrotas)",
+                  "meaning": "Swear words / profanity (know what they mean, context matters)",
+                  "audio": true,
+                  "notes": "Understanding ≠ using. Knowing these helps you understand what people say around you."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u11",
+          "title": "Intonation & Tone Mastery",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s6-u11-sess1",
+              "title": "Tone carries meaning",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "¿Sí? (rising)",
+                  "meaning": "Yes? (questioning / really?)",
+                  "audio": true
+                },
+                {
+                  "target": "Sí. (flat)",
+                  "meaning": "Yes (certain)",
+                  "audio": true
+                },
+                {
+                  "target": "Sí~ (falling)",
+                  "meaning": "Yeah… (doubtful/unenthusiastic)",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u12",
+          "title": "Syntax: Inversion & Emphasis",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s6-u12-sess1",
+              "title": "Emphatic structures",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Lo que quiero es…",
+                  "meaning": "What I want is… (emphatic cleft)",
+                  "audio": true
+                },
+                {
+                  "target": "Fue Juan quien lo hizo",
+                  "meaning": "It was Juan who did it",
+                  "audio": true
+                },
+                {
+                  "target": "Sí que es difícil",
+                  "meaning": "It really IS difficult (emphatic sí)",
+                  "audio": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u13",
+          "title": "Mexican Spanish: Final Review",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "es-s6-u13-sess1",
+              "title": "Full Mexico survival kit",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "Ahorita, órale, chido, güey, qué onda, sale, no manches, híjole, va, la neta, chamba, cotorrear",
+                  "meaning": "Core 12 Mexican expressions — you know them all by now!",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "es-s6-u14",
+          "title": "Checkpoint: Archivist Final — Native Level",
+          "isCheckpoint": true,
+          "checkpointType": "stage_completion",
+          "sessions": [
+            {
+              "id": "es-s6-u14-check",
+              "title": "Final Stage Challenge — El Archivo",
+              "type": "checkpoint"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "es-scene-restaurant",
+      "title": "Restaurant",
+      "titleNative": "Restaurante",
+      "context": "#Food #Casual",
+      "minStage": 1,
+      "exchanges": [
+        {
+          "role": "staff",
+          "text": "¡Bienvenido! ¿Mesa para cuántas personas?",
+          "translation": "Welcome! Table for how many?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Tell them you need a table for two.",
+          "acceptedAnswers": [
+            "para dos",
+            "mesa para dos",
+            "somos dos"
+          ],
+          "modelAnswer": "Una mesa para dos, por favor.",
+          "audio": true
+        },
+        {
+          "role": "staff",
+          "text": "¿Les puedo traer algo de tomar?",
+          "translation": "Can I bring you something to drink?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Order two waters and ask for the menu.",
+          "acceptedAnswers": [
+            "dos aguas",
+            "la carta",
+            "el menú"
+          ],
+          "modelAnswer": "Dos aguas, por favor, y la carta.",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "es-scene-taco-stand",
+      "title": "Taco Stand",
+      "titleNative": "Taquería",
+      "context": "#Food #Casual #Mexico",
+      "minStage": 1,
+      "exchanges": [
+        {
+          "role": "vendor",
+          "text": "¿Qué va a querer, joven?",
+          "translation": "What will you have?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Order three tacos al pastor.",
+          "acceptedAnswers": [
+            "tres tacos al pastor",
+            "tres de al pastor"
+          ],
+          "modelAnswer": "Tres tacos de al pastor, por favor.",
+          "audio": true
+        },
+        {
+          "role": "vendor",
+          "text": "¿Con todo?",
+          "translation": "With everything? (cilantro, onion, salsa)",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say yes with everything, but ask if the salsa is spicy.",
+          "acceptedAnswers": [
+            "con todo",
+            "sí con todo",
+            "¿pica mucho?",
+            "está picosa"
+          ],
+          "modelAnswer": "Sí, con todo. ¿Está muy picosa la salsa?",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "es-scene-market",
+      "title": "Market",
+      "titleNative": "Mercado",
+      "context": "#Shopping #Casual #Mexico",
+      "minStage": 1,
+      "exchanges": [
+        {
+          "role": "vendor",
+          "text": "¿Qué le damos, güera/güero?",
+          "translation": "What can I give you?",
+          "audio": true,
+          "notes": "Güero/güera = fair-skinned person, used as a friendly address for foreigners"
+        },
+        {
+          "role": "learner",
+          "prompt": "Ask for a kilo of tomatoes and half a kilo of avocados.",
+          "acceptedAnswers": [
+            "un kilo de tomate",
+            "medio kilo de aguacate",
+            "kilo tomates"
+          ],
+          "modelAnswer": "Un kilo de tomates y medio kilo de aguacates.",
+          "audio": true
+        },
+        {
+          "role": "vendor",
+          "text": "Son ochenta pesos.",
+          "translation": "That's 80 pesos.",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Ask if they can give you a discount.",
+          "acceptedAnswers": [
+            "descuento",
+            "más barato",
+            "le bajo",
+            "¿me hace"
+          ],
+          "modelAnswer": "¿Me hace un descuentito?",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "es-scene-directions",
+      "title": "Asking Directions",
+      "titleNative": "Pidiendo Direcciones",
+      "context": "#Travel #Casual",
+      "minStage": 1,
+      "exchanges": [
+        {
+          "role": "learner",
+          "prompt": "Stop someone politely and ask where the nearest metro station is.",
+          "acceptedAnswers": [
+            "disculpe",
+            "metro",
+            "¿dónde está"
+          ],
+          "modelAnswer": "Disculpe, ¿sabe dónde está el metro más cercano?",
+          "audio": true
+        },
+        {
+          "role": "local",
+          "text": "Sí, está a tres cuadras, doble a la izquierda en el semáforo.",
+          "translation": "Yes, it's three blocks away, turn left at the traffic light.",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Thank them and confirm: 'three blocks and left at the light?'",
+          "acceptedAnswers": [
+            "tres cuadras",
+            "a la izquierda",
+            "semáforo",
+            "gracias"
+          ],
+          "modelAnswer": "Muchas gracias. ¿Tres cuadras y a la izquierda en el semáforo?",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "es-scene-hotel",
+      "title": "Hotel Check-In",
+      "titleNative": "Check-In del Hotel",
+      "context": "#Travel #Formal",
+      "minStage": 2,
+      "exchanges": [
+        {
+          "role": "staff",
+          "text": "Buenas tardes, bienvenido. ¿Tiene reservación?",
+          "translation": "Good afternoon, welcome. Do you have a reservation?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Yes, a reservation under your name for two nights.",
+          "acceptedAnswers": [
+            "reservación",
+            "sí tengo",
+            "dos noches",
+            "a mi nombre"
+          ],
+          "modelAnswer": "Sí, tengo una reservación a mi nombre, dos noches.",
+          "audio": true
+        },
+        {
+          "role": "staff",
+          "text": "Perfecto. ¿Necesita que le suba el equipaje?",
+          "translation": "Perfect. Do you need someone to bring up your luggage?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say no thank you, and ask for the wifi password.",
+          "acceptedAnswers": [
+            "no gracias",
+            "wifi",
+            "contraseña",
+            "clave"
+          ],
+          "modelAnswer": "No, gracias. ¿Me puede dar la contraseña del wifi?",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "es-scene-pharmacy",
+      "title": "Pharmacy",
+      "titleNative": "Farmacia",
+      "context": "#Health #Formal",
+      "minStage": 1,
+      "exchanges": [
+        {
+          "role": "pharmacist",
+          "text": "Buenas, ¿en qué le puedo ayudar?",
+          "translation": "Hello, how can I help you?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say you have a headache and ask if they have ibuprofen.",
+          "acceptedAnswers": [
+            "dolor de cabeza",
+            "ibuprofeno",
+            "pastillas"
+          ],
+          "modelAnswer": "Tengo dolor de cabeza. ¿Tienen ibuprofeno?",
+          "audio": true
+        },
+        {
+          "role": "pharmacist",
+          "text": "Sí, tenemos genérico de 400mg. ¿Necesita receta?",
+          "translation": "Yes, we have generic 400mg. Do you need a prescription?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Ask if this one needs a prescription.",
+          "acceptedAnswers": [
+            "receta",
+            "sin receta",
+            "¿necesita?"
+          ],
+          "modelAnswer": "¿Este necesita receta o es sin receta?",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "es-scene-bar",
+      "title": "Bar / Cantina",
+      "titleNative": "Cantina",
+      "context": "#Casual #Nightlife #Mexico",
+      "minStage": 3,
+      "exchanges": [
+        {
+          "role": "bartender",
+          "text": "¿Qué van a querer?",
+          "translation": "What are you having?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Order a mezcal for yourself and ask what they have to snack on.",
+          "acceptedAnswers": [
+            "mezcal",
+            "botanear",
+            "botana",
+            "para botanear"
+          ],
+          "modelAnswer": "Un mezcal para mí, y ¿qué tienen para botanear?",
+          "audio": true
+        },
+        {
+          "role": "bartender",
+          "text": "Tenemos chicharrones, cacahuates y tacos de canasta.",
+          "translation": "We have pork rinds, peanuts, and basket tacos.",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say it all sounds good. Order the pork rinds and toast to the night.",
+          "acceptedAnswers": [
+            "chicharrones",
+            "salud",
+            "todo suena bien"
+          ],
+          "modelAnswer": "Todo suena bien, los chicharrones por favor. ¡Salud!",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "es-scene-emergency",
+      "title": "Emergency",
+      "titleNative": "Emergencia",
+      "context": "#Emergency #Critical",
+      "minStage": 1,
+      "exchanges": [
+        {
+          "role": "bystander",
+          "text": "¿Está bien? ¿Qué pasó?",
+          "translation": "Are you OK? What happened?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say you need help, you were robbed.",
+          "acceptedAnswers": [
+            "ayuda",
+            "fui asaltado",
+            "me robaron",
+            "necesito ayuda"
+          ],
+          "modelAnswer": "Necesito ayuda, me asaltaron.",
+          "audio": true
+        },
+        {
+          "role": "bystander",
+          "text": "¿Quiere que llame a la policía?",
+          "translation": "Do you want me to call the police?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Yes, please call the police and ask where the nearest hospital is.",
+          "acceptedAnswers": [
+            "sí",
+            "policía",
+            "hospital"
+          ],
+          "modelAnswer": "Sí, por favor llame a la policía. ¿Dónde está el hospital más cercano?",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "es-scene-rideshare",
+      "title": "Rideshare / Taxi",
+      "titleNative": "Transporte",
+      "context": "#Travel #Mexico",
+      "minStage": 1,
+      "exchanges": [
+        {
+          "role": "driver",
+          "text": "¿A dónde vamos?",
+          "translation": "Where are we going?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say the address and ask if traffic is heavy.",
+          "acceptedAnswers": [
+            "calle",
+            "tráfico"
+          ],
+          "modelAnswer": "Vamos a la calle Reforma 120. ¿Hay mucho tráfico?",
+          "audio": true
+        }
+      ]
+    }
+  ],
+  "phraseLibrary": [
+    {
+      "id": "es-ph-001",
+      "phrase": "¿Dónde está el baño?",
+      "translation": "Where is the bathroom?",
+      "contextTags": [
+        "#Travel",
+        "#Casual"
+      ],
+      "grammarNote": "¿Dónde está + [noun]? to ask location.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "es-ph-002",
+      "phrase": "No entiendo",
+      "translation": "I don't understand",
+      "contextTags": [
+        "#Casual",
+        "#Emergency"
+      ],
+      "grammarNote": "Entender = to understand (e→ie stem change).",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "es-ph-003",
+      "phrase": "¿Cuánto cuesta esto?",
+      "translation": "How much does this cost?",
+      "contextTags": [
+        "#Shopping",
+        "#Travel"
+      ],
+      "grammarNote": "Costar is an o→ue stem-changing verb.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "es-ph-004",
+      "phrase": "Ahorita vengo",
+      "translation": "I'll be right back (eventually)",
+      "contextTags": [
+        "#Casual",
+        "#Mexico"
+      ],
+      "grammarNote": "'Ahorita' is vague — doesn't mean immediately in Mexico.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "es-ph-005",
+      "phrase": "¿Me puede dar la cuenta?",
+      "translation": "Can you bring me the check?",
+      "contextTags": [
+        "#Restaurant",
+        "#Polite"
+      ],
+      "grammarNote": "Formal indirect object: 'me puede dar' = can you give me.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "es-ph-006",
+      "phrase": "Órale, vámonos",
+      "translation": "OK, let's go (casual Mexican)",
+      "contextTags": [
+        "#Casual",
+        "#Mexico",
+        "#Slang"
+      ],
+      "grammarNote": "Órale is a uniquely Mexican exclamation/agreement.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "es-ph-007",
+      "phrase": "¿Tiene algo más económico?",
+      "translation": "Do you have something cheaper?",
+      "contextTags": [
+        "#Shopping",
+        "#Travel"
+      ],
+      "grammarNote": "Económico = economical/cheap in this context.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "es-ph-008",
+      "phrase": "Por favor, hable más despacio",
+      "translation": "Please speak more slowly",
+      "contextTags": [
+        "#Learner",
+        "#Travel"
+      ],
+      "grammarNote": "Command form: 'hable' is the formal imperative of hablar.",
+      "register": "formal",
+      "audio": true
+    },
+    {
+      "id": "es-ph-mx-001",
+      "phrase": "¿Me da dos tacos al pastor, por favor?",
+      "translation": "Can I get two tacos al pastor, please?",
+      "contextTags": [
+        "#Mexico",
+        "#Food",
+        "#Natural"
+      ],
+      "grammarNote": "Common Mexican food-ordering request.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "es-ph-mx-002",
+      "phrase": "Ahorita regreso",
+      "translation": "I will be right back / I will come back in a bit",
+      "contextTags": [
+        "#Mexico",
+        "#Natural"
+      ],
+      "grammarNote": "Ahorita in Mexican Spanish depends on context; here it means soon.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "es-ph-mx-003",
+      "phrase": "¿Dónde pasa el camión?",
+      "translation": "Where does the bus stop / pass by?",
+      "contextTags": [
+        "#Mexico",
+        "#Travel",
+        "#Natural"
+      ],
+      "grammarNote": "Camión commonly means bus in Mexico.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "es-ph-mx-004",
+      "phrase": "¿Tiene cambio?",
+      "translation": "Do you have change?",
+      "contextTags": [
+        "#Shopping",
+        "#Mexico"
+      ],
+      "grammarNote": "Useful for taxis, kiosks, and small stores.",
+      "register": "natural",
+      "audio": true
+    }
+  ]
+}
