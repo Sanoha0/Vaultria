@@ -1,5 +1,5 @@
 /**
- * Vaultia — Auth Service
+ * Vaultria — Auth Service
  * Handles all authentication flows with Firebase or local fallback.
  * Legacy-compatible with lingua-ai-language-teacher user documents.
  *

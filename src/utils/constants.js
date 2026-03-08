@@ -47,7 +47,7 @@ export const REWARD_EVERY_N_LEVELS = 5;
 export const STAR_MAX = 5;
 
 // ─── Speech registers ──────────────────────────────────────────────
-export const REGISTERS = ["formal", "natural", "slang", "mixed"];
+export const REGISTERS = ["textbook", "natural", "formal", "informal"];
 
 // ─── Immersion modes ───────────────────────────────────────────────
 export const IMMERSION_MODES = ["full_translation", "partial", "full_immersion"];
@@ -64,4 +64,4 @@ export const KOFI_URL = "https://ko-fi.com/Sanoha";
 
 // ─── App version ───────────────────────────────────────────────────
 export const APP_VERSION = "1.0.0";
-export const APP_NAME    = "Vaultia";
+export const APP_NAME    = "Vaultria";

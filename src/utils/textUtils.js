@@ -1,5 +1,5 @@
 /**
- * Vaultia — Text & Math Utilities
+ * Vaultria — Text & Math Utilities
  */
 
 import { LEVENSHTEIN_MAX_DISTANCE, XP_PER_LEVEL, REWARD_EVERY_N_LEVELS } from "./constants.js";

@@ -1,5 +1,5 @@
 /**
- * Vaultia — Language Selection Hub v2
+ * Vaultria — Language Selection Hub v2
  * Cinematic full-screen entry. No panels. Three worlds.
  */
 
@@ -211,13 +211,13 @@ export class LanguageHub {
 </style>
 <div class="hub-root">
   <div class="hub-header">
-    <div class="hub-wordmark">Vaultia</div>
+    <div class="hub-wordmark">Vaultria</div>
     <div class="hub-subtitle">Select your language world</div>
   </div>
   <div class="hub-cards">
     ${LANGUAGES.map(l => this._card(l, stageNames)).join('')}
   </div>
-  <div class="hub-footer">Progress saved independently per language &nbsp;·&nbsp; Vaultia Language Workstation</div>
+  <div class="hub-footer">Progress saved independently per language &nbsp;·&nbsp; Vaultria Language Workstation</div>
 </div>`;
 
     this.container.querySelectorAll('.lang-world').forEach(card => {

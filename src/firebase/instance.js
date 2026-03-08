@@ -1,5 +1,5 @@
 /**
- * Vaultia — Firebase Instance Manager
+ * Vaultria — Firebase Instance Manager
  * Holds live references to fbApp, fbAuth, db, fbStorage
  */
 
@@ -32,11 +32,11 @@ export async function initFirebase() {
     await fbAuth.setPersistence(window.firebase.auth.Auth.Persistence.LOCAL);
 
     isFirebaseReady = true;
-    console.log("[Vaultia] Firebase connected ✓");
+    console.log("[Vaultria] Firebase connected ✓");
     return true;
 
   } catch (err) {
-    console.warn("[Vaultia] Firebase unavailable — running in local mode:", err.message);
+    console.warn("[Vaultria] Firebase unavailable — running in local mode:", err.message);
     isFirebaseReady = false;
     return false;
   }

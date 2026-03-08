@@ -1,6 +1,6 @@
 /**
- * Vaultia — Social Service
- * Real-time Firestore: friends, leaderboards, plaza, activity, presence.
+ * Vaultria — Social Service
+ * Real-time Firestore: friends, performance boards, plaza, activity, presence.
  *
  * Firestore schema:
  *   users/{uid}                         — profile, xp, weeklyXp, online, lastSeenAt
@@ -31,6 +31,29 @@ function _me() {
   const u = _auth()?.currentUser;
   if (!u) throw new Error("Not authenticated");
   return u;
+}
+
+const PLAZA_BLOCKED_REASONS = [
+  { re: /(https?:\/\/|www\.|discord\.gg|discordapp\.com\/invite|t\.me\/|bit\.ly|tinyurl\.com|linktr\.ee|mailto:|@everyone|@here|\b(?:[a-z0-9-]+\.)+(?:com|net|org|gg|io|co|tv|app|dev|ly|me)\b)/i, message: "Links, invites, and handles are not allowed in Plaza posts." },
+  { re: /\b(nude|nudes|nsfw|porn|sex|sext|sexy|onlyfans|boobs?|tits?|penis|vagina|blowjob|cum|dildo|fetish|hentai)\b/i, message: "Sexual or NSFW content is not allowed in the Plaza." },
+  { re: /\b(snapchat|telegram|whatsapp|kik|instagram|insta|signal)\b/i, message: "Contact-sharing is not allowed in the Plaza." },
+  { re: /\b(fuck|shit|bitch|cunt|dick|cock|pussy|nigger|nigga|fag|faggot|whore|slut|bastard|damn|hell|crap|piss|twat|wanker|bollocks|motherfucker|asshole|bullshit)\b/i, message: "Keep the Plaza clean — no cursing." },
+];
+
+function _cleanPlazaText(text) {
+  return String(text || "")
+    .replace(/[\u200B-\u200D\uFEFF]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function _validatePlazaText(text) {
+  const clean = _cleanPlazaText(text);
+  if (!clean) return { ok: false, message: "Please write something first." };
+  for (const rule of PLAZA_BLOCKED_REASONS) {
+    if (rule.re.test(clean)) return { ok: false, message: rule.message };
+  }
+  return { ok: true, clean };
 }
 
 // ─── Presence ──────────────────────────────────────────────────────
@@ -199,7 +222,7 @@ export async function getFriendStatus(otherUid) {
   }
 }
 
-// ─── Leaderboards ──────────────────────────────────────────────────
+// ─── Performance Board data ───────────────────────────────────────
 
 export async function loadLeaderboard(type = "alltime", lang = null, limit = 25) {
   try {
@@ -298,17 +321,21 @@ export async function loadPlazaPosts(lang = null, limit = 20) {
   }
 }
 
-export async function createPlazaPost({ question, lang, tags = [] }) {
+export async function createPlazaPost({ question, lang, tags = [], category = "question" }) {
   try {
     const db = _db();
     const me = _me();
     if (!db) return { ok: false, error: "Firebase not ready" };
+    const review = _validatePlazaText(question);
+    if (!review.ok) return { ok: false, error: review.message };
+    const safeTags = (tags || []).map(t => _cleanPlazaText(t).replace(/[^a-z0-9\- ]/gi, "").slice(0, 24)).filter(Boolean).slice(0, 5);
     const doc = {
       uid:        me.uid,
       username:   me.displayName || me.email?.split("@")[0] || "Learner",
       lang,
-      question,
-      tags,
+      category,
+      question:   review.clean,
+      tags:       safeTags,
       likeCount:  0,
       replyCount: 0,
       likedBy:    [],
@@ -339,10 +366,12 @@ export async function replyToPost(postId, body) {
     const db = _db();
     const me = _me();
     if (!db) return { ok: false, error: "Firebase not ready" };
+    const review = _validatePlazaText(body);
+    if (!review.ok) return { ok: false, error: review.message };
     const reply = {
       uid:       me.uid,
       username:  me.displayName || me.email?.split("@")[0] || "Learner",
-      body,
+      body:      review.clean,
       createdAt: _now(),
     };
     await db.collection("plaza_posts").doc(postId).collection("replies").add(reply);

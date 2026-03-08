@@ -1,5 +1,5 @@
 /**
- * Vaultia — EventBus
+ * Vaultria — EventBus
  * Lightweight pub/sub used across modules to avoid tight coupling.
  *
  * Usage:

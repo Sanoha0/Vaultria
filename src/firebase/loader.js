@@ -1,5 +1,5 @@
 /**
- * Vaultia — Firebase SDK Loader
+ * Vaultria — Firebase SDK Loader
  * Dynamically loads Firebase compat SDKs with localStorage fallback
  */
 
@@ -27,7 +27,7 @@ export function loadFirebaseSDKs() {
       script.src = url;
       script.onload = loadNext;
       script.onerror = () => {
-        console.warn(`[Vaultia] Failed to load Firebase SDK: ${url}`);
+        console.warn(`[Vaultria] Failed to load Firebase SDK: ${url}`);
         resolve(false);
       };
       document.head.appendChild(script);

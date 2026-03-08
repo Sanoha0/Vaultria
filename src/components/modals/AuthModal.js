@@ -1,5 +1,5 @@
 /**
- * Vaultia — Auth Modal
+ * Vaultria — Auth Modal
  * Sign in, sign up, Google sign-in, guest access
  */
 
@@ -25,7 +25,7 @@ export class AuthModal {
           <!-- Logo -->
           <div style="text-align:center;margin-bottom:var(--sp-xl);">
             <h1 class="display-font" style="font-size:2.2rem;font-weight:300;letter-spacing:0.08em;color:var(--text-primary);">
-              Vaultia
+              Vaultria
             </h1>
             <p style="color:var(--text-muted);font-size:0.85rem;margin-top:var(--sp-xs);">
               Professional Language Workstation

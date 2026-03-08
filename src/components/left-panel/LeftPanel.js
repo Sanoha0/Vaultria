@@ -1,5 +1,5 @@
 /**
- * Vaultia — Left Panel Component
+ * Vaultria — Left Panel Component
  * Tools navigation: Review/Errors, Vault, Phrase Library, Challenges, Support Me
  */
 
@@ -60,7 +60,7 @@ export class LeftPanel {
   render() {
     this.container.innerHTML = `
       <div class="panel-header">
-        <button class="panel-logo-btn" id="nav-home-btn" style="background:none;border:none;cursor:pointer;font-family:var(--font-display);font-size:1.05rem;font-weight:300;letter-spacing:0.14em;color:var(--text-primary);padding:0;">Vaultia</button>
+        <button class="panel-logo-btn" id="nav-home-btn" style="background:none;border:none;cursor:pointer;font-family:var(--font-display);font-size:1.05rem;font-weight:300;letter-spacing:0.14em;color:var(--text-primary);padding:0;">Vaultria</button>
         <button class="panel-collapse-btn btn-icon" id="left-collapse-btn" aria-label="Collapse panel">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
         </button>

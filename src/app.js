@@ -1,5 +1,5 @@
 /**
- * Vaultia — App Orchestrator v3 (Production Demo)
+ * Vaultria — App Orchestrator v3 (Production Demo)
  * Full workstation: workspace, all pages, skill tree, social feed, dev panel.
  */
 
@@ -54,27 +54,35 @@ const PLAZA_CATEGORIES = [
   { id:"resource",    label:"Resource",    icon:"📚", color:"#e8a44a" },
 ];
 
-// ── Profanity filter (basic — expandable) ─────────────────────────
-const BAD_WORDS = ["fuck","shit","ass","bitch","cunt","dick","cock","pussy","nigger","nigga","fag","faggot","whore","slut","bastard","damn","hell","crap","piss","twat","wanker","bollocks","motherfucker","asshole","bullshit"];
-function _filterContent(text) {
-  if (!text) return { clean: text, blocked: false };
-  const lower = text.toLowerCase();
-  const found = BAD_WORDS.filter(w => {
-    const re = new RegExp(`\\b${w}\\b`, "i");
-    return re.test(lower);
-  });
-  if (!found.length) return { clean: text, blocked: false };
-  let clean = text;
-  found.forEach(w => {
-    clean = clean.replace(new RegExp(`\\b${w}\\b`, "gi"), m => m[0] + "*".repeat(m.length - 1));
-  });
-  return { clean, blocked: false }; // censor but don't block entirely
+// ── Plaza moderation (strict text-only safety rails) ───────────────
+const BLOCKED_PROFANITY_RE = /\b(fuck|shit|bitch|cunt|dick|cock|pussy|nigger|nigga|fag|faggot|whore|slut|bastard|damn|hell|crap|piss|twat|wanker|bollocks|motherfucker|asshole|bullshit)\b/i;
+const BLOCKED_LINK_RE = /(https?:\/\/|www\.|discord\.gg|discordapp\.com\/invite|t\.me\/|bit\.ly|tinyurl\.com|linktr\.ee|mailto:|@everyone|@here|\b(?:[a-z0-9-]+\.)+(?:com|net|org|gg|io|co|tv|app|dev|ly|me)\b)/i;
+const BLOCKED_NSFW_RE = /\b(nude|nudes|nsfw|porn|sex|sext|sexy|onlyfans|boobs?|tits?|penis|vagina|blowjob|cum|dildo|fetish|hentai)\b/i;
+const BLOCKED_CONTACT_RE = /\b(snapchat|telegram|whatsapp|kik|instagram|insta|signal)\b/i;
+
+function _normalizeCommunityText(text) {
+  return String(text || "")
+    .replace(/[\u200B-\u200D\uFEFF]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
+
+function _moderationResult(text) {
+  const clean = _normalizeCommunityText(text);
+  if (!clean) return { blocked: true, clean: "", reason: "Please write something first." };
+  if (BLOCKED_LINK_RE.test(clean)) return { blocked: true, clean, reason: "Links, invites, and handles are not allowed in Plaza posts." };
+  if (BLOCKED_NSFW_RE.test(clean)) return { blocked: true, clean, reason: "Sexual or NSFW content is not allowed in the Plaza." };
+  if (BLOCKED_CONTACT_RE.test(clean)) return { blocked: true, clean, reason: "Contact-sharing is not allowed in the Plaza." };
+  if (BLOCKED_PROFANITY_RE.test(clean)) return { blocked: true, clean, reason: "Keep the Plaza clean — no cursing." };
+  return { blocked: false, clean, reason: "" };
+}
+
+function _filterContent(text) {
+  return _moderationResult(text);
+}
+
 function _isBlocked(text) {
-  // Block only the most severe — everything else is censored
-  const severe = ["nigger","cunt","faggot","motherfucker"];
-  const lower = (text||"").toLowerCase();
-  return severe.some(w => new RegExp(`\\b${w}\\b`,"i").test(lower));
+  return _moderationResult(text).blocked;
 }
 const NATIVE = { japanese:"日本語", korean:"한국어", spanish:"Español" };
 
@@ -174,7 +182,7 @@ const SKILL_TREES = {
 };
 
 // ────────────────────────────────────────────────────────────────────
-class VaultiaApp {
+class VaultriaApp {
   constructor() {
     this.currentLang     = null;
     this.currentProgress = null;
@@ -444,7 +452,7 @@ class VaultiaApp {
       </div>
       <div class="ws-stat-chip">
         <span class="ws-stat-val" style="color:${streak>0?'#fbbf24':'var(--text-muted)'};">${streak}</span>
-        <span class="ws-stat-label">Commit Score</span>
+        <span class="ws-stat-label">Momentum</span>
       </div>
     </div>
   </div>
@@ -533,7 +541,7 @@ class VaultiaApp {
           { label:"Lessons",    val: completed,                                                                     max: 14,  color: accent },
           { label:"Accuracy",   val: prog?.accuracy != null ? Math.round(prog.accuracy*100) : null,                 max: 100, color:"#4ade80", suf:"%" },
           { label:"Vocabulary", val: (prog?.vocabSeen||[]).length || ((prog?.weakWords||[]).length ? (prog?.weakWords||[]).length : null), max: 200, color: accent },
-          { label:"Commit Score",     val: Math.min(streak, 30),                                                          max: 30,  color:"#fbbf24" },
+          { label:"Momentum",     val: Math.min(streak, 30),                                                          max: 30,  color:"#fbbf24" },
         ].map(s => `
           <div class="ws-stat-row">
             <div class="ws-stat-row-labels">
@@ -1003,7 +1011,7 @@ class VaultiaApp {
   ${queue.length > 0 ? `
   <div class="card" style="background:${accent}08;border-color:${accent}20;padding:20px 24px;">
     <div style="font-size:0.75rem;color:${accent};font-family:var(--font-mono);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">How Review Works</div>
-    <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.65;">Vaultia uses spaced repetition — items with lower accuracy or longer gaps since last review are prioritized. Each correct answer strengthens the memory trace and pushes the next review further into the future.</p>
+    <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.65;">Vaultria uses spaced repetition — items with lower accuracy or longer gaps since last review are prioritized. Each correct answer strengthens the memory trace and pushes the next review further into the future.</p>
   </div>` : ""}
 </div>`;
 
@@ -1151,10 +1159,10 @@ class VaultiaApp {
     const xp      = prog.xp || 0;
     const stars5  = Object.values(prog.stars || {}).filter(s => s >= 5).length;
     const challenges = [
-      { icon:"🔥", title:"Daily Commit",        desc:"Complete 1 session today",          xp:50,  type:"Daily",    progress:Math.min(done>0?1:0,1), goal:1 },
+      { icon:"🔥", title:"Daily Momentum",        desc:"Complete 1 session today",          xp:50,  type:"Daily",    progress:Math.min(done>0?1:0,1), goal:1 },
       { icon:"📖", title:"Vocabulary Builder",  desc:"Complete 10 sessions",              xp:100, type:"Weekly",   progress:Math.min(done,10),      goal:10 },
       { icon:"⭐", title:"Perfect Session",     desc:"Earn 5 stars on any session",       xp:150, type:"Challenge",progress:Math.min(stars5,1),     goal:1 },
-      { icon:"⚔️", title:"Week Warrior",       desc:"Stay committed 7 days straight",           xp:300, type:"Monthly",  progress:Math.min(streak,7),     goal:7 },
+      { icon:"⚔️", title:"Week Warrior",       desc:"Build momentum 7 days straight",           xp:300, type:"Monthly",  progress:Math.min(streak,7),     goal:7 },
       { icon:"🔄", title:"Error Recovery",     desc:"Complete 5+ sessions",              xp:80,  type:"Weekly",   progress:Math.min(done,5),       goal:5 },
       { icon:"🏆", title:"Century Club",       desc:"Reach 100 completed sessions",      xp:500, type:"Lifetime", progress:Math.min(done,100),     goal:100 },
       { icon:"🌟", title:"Stage Clear",        desc:"Complete all 14 units in a stage",  xp:250, type:"Stage",    progress:Math.min(done%14||done,14), goal:14 },
@@ -1361,18 +1369,18 @@ class VaultiaApp {
     canvas.innerHTML = `
 <div class="canvas-content page-enter" style="max-width:620px;">
   <div style="margin-bottom:32px;">
-    <h2 class="section-title">Support Vaultia</h2>
+    <h2 class="section-title">Support Vaultria</h2>
     <p class="section-subtitle">Keeping language learning independent and ad-free</p>
   </div>
 
   <div class="card-elevated" style="padding:32px;margin-bottom:20px;border-color:${accent}25;">
     <div style="font-size:2rem;margin-bottom:16px;">🌱</div>
     <h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:300;color:var(--text-primary);margin-bottom:14px;">Made with care</h3>
-    <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.75;margin-bottom:14px;">Vaultia is an independent project — no venture capital, no advertisers, no data brokers. Just a genuine attempt to make language learning feel meaningful, beautiful, and worth your time.</p>
-    <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.75;margin-bottom:20px;">If Vaultia has helped you, a small contribution on Ko-fi keeps the servers running, the content growing, and the team caffeinated.</p>
+    <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.75;margin-bottom:14px;">Vaultria is an independent project — no venture capital, no advertisers, no data brokers. Just a genuine attempt to make language learning feel meaningful, beautiful, and worth your time.</p>
+    <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.75;margin-bottom:20px;">If Vaultria has helped you, a small contribution on Ko-fi keeps the servers running, the content growing, and the team caffeinated.</p>
     <a href="${KOFI_URL}" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      Support on Ko-fi
+      Support the Builder
     </a>
   </div>
 
@@ -1380,7 +1388,8 @@ class VaultiaApp {
     ${[
       { icon:"🚫", title:"No Ads",         desc:"Your learning experience is never interrupted by advertising." },
       { icon:"🔒", title:"No Data Sales",  desc:"Your progress and usage is never sold to third parties." },
-      { icon:"🌐", title:"Always Free",    desc:"Core features remain free — paying is entirely optional." },
+      { icon:"🗝️", title:"Starter Trial", desc:"A short free trial lets learners feel the climb before buying full access." },
+      { icon:"💳", title:"Fair Unlock", desc:"Plan around a simple one-tier unlock — roughly $5, $8, or $10 — instead of ad sludge." },
       { icon:"💬", title:"Community First",desc:"Feature decisions are driven by learner feedback." },
     ].map(f => `
       <div class="card" style="padding:18px;">
@@ -1393,7 +1402,7 @@ class VaultiaApp {
 
   <div class="card" style="padding:20px 24px;text-align:center;">
     <div style="font-size:0.75rem;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:8px;">Thank you for being here.</div>
-    <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:300;color:var(--text-secondary);">Every contribution makes a real difference.</div>
+    <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:300;color:var(--text-secondary);">Every contribution helps keep Vaultria independent, useful, and ad-light.</div>
   </div>
 </div>`;
   }
@@ -1425,7 +1434,7 @@ class VaultiaApp {
       <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:16px;word-break:break-all;">${user?.email || "Guest session"}</div>
       <div style="display:flex;flex-direction:column;gap:6px;align-items:center;">
         ${dev ? `<span class="ws-tag" style="color:#a08fff;border-color:rgba(139,124,255,0.3);background:rgba(139,124,255,0.1);">Developer</span>` : ""}
-        ${!user?._isLocal && !user?._isGuest ? `<span class="ws-tag" style="color:#4db8ff;border-color:rgba(77,184,255,0.25);background:rgba(77,184,255,0.1);">Cloud Synced</span>` : `<span class="ws-tag" style="color:#fbbf24;border-color:rgba(251,191,36,0.25);background:rgba(251,191,36,0.08);">Local Save</span>`}
+        ${!user?._isLocal && !user?._isGuest ? `<span class="ws-tag" style="color:#4db8ff;border-color:rgba(77,184,255,0.25);background:rgba(77,184,255,0.1);">Cloud Sync</span>` : `<span class="ws-tag" style="color:#fbbf24;border-color:rgba(251,191,36,0.25);background:rgba(251,191,36,0.08);">Local Save</span>`}
       </div>
     </div>
 
@@ -1450,7 +1459,7 @@ class VaultiaApp {
         </div>
         <div>
           <span class="profile-stat-value">${this.currentProgress?.streak||0}</span>
-          <span class="profile-stat-label">Commit</span>
+          <span class="profile-stat-label">Momentum</span>
         </div>
         <div>
           <span class="profile-stat-value">${level}</span>
@@ -1505,7 +1514,7 @@ class VaultiaApp {
     });
   }
 
-  // ── Leaderboards (live Firestore) ───────────────────────────────
+  // ── Performance Board (live Firestore) ───────────────────────────────
   async _pageLeaderboards(canvas) {
     const me     = getUser();
     const accent = ACCENT[this.currentLang];
@@ -1555,7 +1564,7 @@ class VaultiaApp {
             </div>
           </div>
           <div style="font-family:var(--font-mono);font-size:0.87rem;color:${ua};">${xpVal.toLocaleString()}</div>
-          <div style="font-size:0.82rem;color:var(--text-secondary);">${u.streak||0}d 🔥</div>
+          <div style="font-size:0.82rem;color:var(--text-secondary);">${u.streak||0}d ascent</div>
           <div style="font-size:0.7rem;font-family:var(--font-mono);color:var(--text-muted);">${STAGES[u.stageUnlocked||0]||"Starter"}</div>
           ${!isMe && me && !isGuest?.() ? `<button class="btn btn-sm btn-ghost lb-add-friend" data-uid="${u.uid}" style="font-size:0.7rem;padding:4px 8px;">+ Friend</button>` : `<div></div>`}
         </div>`;
@@ -1597,7 +1606,7 @@ class VaultiaApp {
   <div class="section-header">
     <div>
       <h2 class="section-title">Performance Board</h2>
-      <p class="section-subtitle">Live rankings · only active learners · updates in real-time</p>
+      <p class="section-subtitle">Accuracy, retention, and momentum — not empty grind</p>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;">
       <button class="select-pill lb-mode active" data-m="alltime">All Time</button>
@@ -1613,7 +1622,7 @@ class VaultiaApp {
   </div>
   <div class="card-elevated" style="overflow:hidden;padding:0;">
     <div style="padding:10px 20px;border-bottom:1px solid var(--border-subtle);display:grid;grid-template-columns:42px 1fr 80px 70px 90px 90px;gap:8px;font-size:0.6rem;font-family:var(--font-mono);letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);">
-      <div>#</div><div>Learner</div><div>XP</div><div>Commit</div><div>Stage</div><div></div>
+      <div>#</div><div>Learner</div><div>XP</div><div>Momentum</div><div>Stage</div><div></div>
     </div>
     <div id="lb-body"><div style="padding:40px;text-align:center;color:var(--text-muted);font-size:0.82rem;font-family:var(--font-mono);">Connecting…</div></div>
   </div>
@@ -1697,7 +1706,7 @@ class VaultiaApp {
             ${[
               {v:xp.toLocaleString(), l:"XP"},
               {v:"Lv."+level, l:"Level"},
-              {v:(u.streak||0)+"d", l:"Commit"},
+              {v:(u.streak||0)+"d", l:"Momentum"},
               {v:stage, l:"Stage"},
             ].map(s=>`<div style="background:var(--bg-hover);border-radius:8px;padding:10px 6px;text-align:center;">
               <div style="font-size:0.88rem;font-weight:600;font-family:var(--font-mono);color:var(--text-primary);">${s.v}</div>
@@ -1796,7 +1805,7 @@ class VaultiaApp {
             </div>
             <div style="text-align:right;">
               <div style="font-size:0.82rem;font-family:var(--font-mono);color:${fa};">${(p.xp||0).toLocaleString()} XP</div>
-              <div style="font-size:0.68rem;color:var(--text-muted);">${p.streak||0}d commit 🔥</div>
+              <div style="font-size:0.68rem;color:var(--text-muted);">${p.streak||0}d ascent</div>
             </div>
             <button class="btn btn-sm btn-ghost remove-friend" data-uid="${p.uid}" title="Remove friend" style="flex-shrink:0;opacity:0.5;">✕</button>
           </div>`;
@@ -1846,7 +1855,7 @@ class VaultiaApp {
           </div>
           <div style="flex:1;min-width:0;">
             <div style="font-size:0.88rem;font-weight:500;color:var(--text-primary);">${n}${u.online?` <span style="font-size:0.62rem;color:#4ade80;">● online</span>`:""}</div>
-            <div style="font-size:0.7rem;color:var(--text-muted);">${(u.xp||0).toLocaleString()} XP · ${u.streak||0}d commit</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);">${(u.xp||0).toLocaleString()} XP · ${u.streak||0}d ascent</div>
           </div>
           <button class="btn btn-sm btn-primary add-friend-btn" data-uid="${u.uid}">+ Add</button>
         </div>`;
@@ -2102,8 +2111,9 @@ class VaultiaApp {
         const input = modal.querySelector("#reply-input");
         const body  = input?.value?.trim();
         if (!body) return;
-        if (_isBlocked(body)) { showToast("That content violates community guidelines.", "error"); return; }
-        const { clean } = _filterContent(body);
+        const review = _filterContent(body);
+        if (review.blocked) { showToast(review.reason || "That content violates community guidelines.", "error"); return; }
+        const { clean } = review;
         input.value = ""; input.disabled = true;
         setTyping(postId, false);
         const res = await replyToPost(postId, clean);
@@ -2146,7 +2156,7 @@ class VaultiaApp {
       modal.innerHTML = `
         <div style="background:var(--bg-surface);border:1px solid var(--border-normal);border-radius:14px;width:100%;max-width:500px;">
           <div style="padding:16px 20px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;">
-            <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:400;flex:1;color:var(--text-primary);">Post to the Plaza</h3>
+            <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:400;flex:1;color:var(--text-primary);">Post to Plaza</h3>
             <button id="close-form" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:1.3rem;line-height:1;">×</button>
           </div>
           <div style="padding:20px;display:flex;flex-direction:column;gap:14px;">
@@ -2164,12 +2174,13 @@ class VaultiaApp {
             </div>
             <div>
               <label style="font-size:0.65rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:6px;">Your Post</label>
-              <textarea id="np-q" class="input" placeholder="Share a question, discussion, tip, meme…" style="width:100%;height:90px;resize:vertical;font-size:0.88rem;line-height:1.5;"></textarea>
+              <textarea id="np-q" class="input" placeholder="Ask for help, share a tip, or post a clean text-only joke. No links, no cursing, no NSFW content." style="width:100%;height:90px;resize:vertical;font-size:0.88rem;line-height:1.5;"></textarea>
             </div>
             <div>
               <label style="font-size:0.65rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:6px;">Tags (comma separated, optional)</label>
               <input id="np-tags" class="input" placeholder="Grammar, Vocabulary…" style="font-size:0.87rem;width:100%;" />
             </div>
+            <div style="font-size:0.75rem;color:var(--text-muted);line-height:1.6;padding:10px 12px;border:1px dashed var(--border-subtle);border-radius:10px;background:var(--bg-panel);">Plaza is text-first and tightly moderated. No links, no cursing, no NSFW content, no contact-sharing, and no loophole games.</div>
             <div id="np-err" style="display:none;color:var(--error);font-size:0.82rem;"></div>
             <button id="np-submit" class="btn btn-primary">Post</button>
           </div>
@@ -2187,18 +2198,19 @@ class VaultiaApp {
       modal.addEventListener("click", e => { if(e.target===modal) modal.remove(); });
       modal.querySelector("#np-submit").addEventListener("click", async () => {
         const q    = modal.querySelector("#np-q")?.value?.trim();
-        const tags = (modal.querySelector("#np-tags")?.value||"").split(",").map(t=>t.trim()).filter(Boolean);
+        const tags = (modal.querySelector("#np-tags")?.value||"").split(",").map(t=>t.trim()).filter(Boolean).map(t => t.replace(/[^a-z0-9\- ]/gi, "").slice(0, 24)).filter(Boolean).slice(0, 5);
         const err  = modal.querySelector("#np-err");
-        if (!q) { err.style.display="block"; err.textContent="Please enter a question."; return; }
+        if (!q) { err.style.display="block"; err.textContent="Please enter a post."; return; }
         if (!selLang) { err.style.display="block"; err.textContent="Please select a language."; return; }
         err.style.display = "none";
         modal.querySelector("#np-submit").textContent = "Posting…";
         modal.querySelector("#np-submit").disabled    = true;
         // Profanity check
-        if (_isBlocked(q)) { err.style.display="block"; err.textContent="That content violates our community guidelines."; modal.querySelector("#np-submit").disabled=false; modal.querySelector("#np-submit").textContent="Post Question"; return; }
-        const { clean: cleanQ } = _filterContent(q);
+        const review = _filterContent(q);
+        if (review.blocked) { err.style.display="block"; err.textContent = review.reason || "That content violates our community guidelines."; modal.querySelector("#np-submit").disabled=false; modal.querySelector("#np-submit").textContent="Publish Post"; return; }
+        const { clean: cleanQ } = review;
         const res = await createPlazaPost({ question: cleanQ, lang: selLang, tags, category: selCategory });
-        if (res.ok) { modal.remove(); showToast("Question posted! 🎉","success"); }
+        if (res.ok) { modal.remove(); showToast("Plaza post published! 🎉","success"); }
         else {
           const msg = (res.error || "").toLowerCase().includes("permission")
             ? "Firestore rules not deployed yet. Go to Firebase Console → Firestore → Rules and publish the rules from firestore.rules."
@@ -2206,7 +2218,7 @@ class VaultiaApp {
           err.style.display="block";
           err.textContent = msg;
           modal.querySelector("#np-submit").disabled=false;
-          modal.querySelector("#np-submit").textContent="Post Question";
+          modal.querySelector("#np-submit").textContent="Publish Post";
         }
       });
     };
@@ -2216,10 +2228,11 @@ class VaultiaApp {
   <div class="section-header">
     <div>
       <h2 class="section-title">The Plaza</h2>
-      <p class="section-subtitle">Live community board · real questions from real learners</p>
+      <p class="section-subtitle">Text-first help board · clean questions, tips, and safe humor only</p>
     </div>
     ${me && !isGuest?.() ? `<button id="plaza-post-btn" class="btn btn-primary">+ Ask Question</button>` : ""}
   </div>
+  <div style="font-size:0.74rem;color:var(--text-muted);line-height:1.6;margin-bottom:12px;max-width:760px;">No links, no cursing, no NSFW content, and no contact-sharing. Plaza is for help, clean memes, tips, and useful discussion.</div>
   <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;">
     <button class="select-pill plaza-lang active" data-l="">All Languages</button>
     <button class="select-pill plaza-lang" data-l="japanese" style="color:${ACCENT.japanese};">Japanese</button>
@@ -2296,7 +2309,7 @@ class VaultiaApp {
   ${[
     { label:"Notifications", rows:[
       { key:"daily_reminder",    name:"Daily reminder",     hint:"" },
-      { key:"streak_alerts",     name:"Commit alerts",      hint:"" },
+      { key:"streak_alerts",     name:"Momentum reminders",      hint:"" },
       { key:"community_replies", name:"Community replies",  hint:"" },
       { key:"xp_milestones",     name:"XP milestones",      hint:"" },
     ]},
@@ -2509,5 +2522,5 @@ class VaultiaApp {
   }
 }
 
-const app = new VaultiaApp();
+const app = new VaultriaApp();
 app.boot();

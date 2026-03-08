@@ -1,5 +1,5 @@
 /**
- * Vaultia — Toast & Reward Notifications
+ * Vaultria — Toast & Reward Notifications
  * Regular toasts + cinematic XP / level-up / prestige popups
  */
 
