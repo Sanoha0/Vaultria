@@ -1,3 +1,4 @@
+
 /**
  * Vaultria — Static TTS Service
  * Static-only lesson audio.
@@ -75,7 +76,6 @@ async function _getManifest() {
   return _manifestLoad;
 }
 
-// Warm manifest on module load
 _getManifest();
 
 export async function speak(text, langKey, opts = {}) {
@@ -101,7 +101,6 @@ export async function speak(text, langKey, opts = {}) {
 
   const { key, url, relativePath } = resolved;
 
-  // Same clip already playing
   if (_currentAudio && _currentKey === key && !_currentAudio.paused) {
     console.log(`[TTS] already playing → "${text}"`);
     return _currentAudio;
@@ -172,7 +171,6 @@ export function stop() {
   _stopAudio();
 }
 
-// compatibility alias
 export const stopSpeech = stop;
 
 export async function preload(items, langKey) {
@@ -214,33 +212,6 @@ export function attachWordTap(container) {
       if (text && langKey) speak(text, langKey);
     });
   });
-}
-
-export function startItemTimer(item, langKey) {
-  const t0 = Date.now();
-  return {
-    resolve(correct) {
-      const elapsedMs = Date.now() - t0;
-      eventBus.emit("tts:timing", { item, langKey, elapsedMs });
-      if (item?.answer && elapsedMs > 8000) {
-        eventBus.emit("tts:hesitation", { item, langKey, elapsedMs, correct });
-      }
-    },
-  };
-}
-
-// compatibility helpers
-export async function primeAudio() {
-  await _getManifest();
-}
-
-export function getVoiceName(langKey) {
-  const code = LANG_CODES[langKey] || "?";
-  return `static-pack (${code})`;
-}
-
-export function listVoices() {
-  return [];
 }
 
 async function _resolveStaticAudio(ttsText, langCode) {
