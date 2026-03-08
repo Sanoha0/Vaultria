@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <filter id="blur-heavy"><feGaussianBlur stdDeviation="14"/></filter>
+    <filter id="blur-med"><feGaussianBlur stdDeviation="6"/></filter>
+    <filter id="blur-soft"><feGaussianBlur stdDeviation="3"/></filter>
+    <linearGradient id="sunsetSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0d0604"/>
+      <stop offset="30%" stop-color="#1a0a04"/>
+      <stop offset="65%" stop-color="#2a1005"/>
+      <stop offset="100%" stop-color="#1c0d06"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff9040" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ff9040" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Sky gradient -->
+  <rect width="1440" height="900" fill="url(#sunsetSky)"/>
+  <!-- Horizon glow - warm Mediterranean sunset -->
+  <ellipse cx="720" cy="520" rx="800" ry="180" fill="url(#sunGlow)"/>
+  <ellipse cx="720" cy="560" rx="650" ry="120" fill="rgba(255,100,30,0.09)" filter="url(#blur-heavy)"/>
+  <ellipse cx="400" cy="580" rx="400" ry="100" fill="rgba(220,80,20,0.07)" filter="url(#blur-heavy)"/>
+  <ellipse cx="1100" cy="570" rx="350" ry="90" fill="rgba(255,120,40,0.07)" filter="url(#blur-heavy)"/>
+  <!-- Distant hills -->
+  <ellipse cx="200"  cy="600" rx="280" ry="120" fill="rgba(40,15,5,0.70)"/>
+  <ellipse cx="1300" cy="590" rx="260" ry="110" fill="rgba(35,12,4,0.72)"/>
+  <ellipse cx="720"  cy="620" rx="500" ry="100" fill="rgba(30,10,3,0.65)"/>
+  <!-- Bell tower / church tower silhouette -->
+  <g fill="rgba(50,18,5,0.80)">
+    <!-- Tower body -->
+    <rect x="680" y="320" width="52" height="260"/>
+    <!-- Arched top -->
+    <path d="M680,320 Q706,290 732,320 Z"/>
+    <!-- Belfry arches -->
+    <path d="M684,350 Q706,335 728,350" fill="none" stroke="rgba(80,28,8,0.6)" stroke-width="3"/>
+    <!-- Cross -->
+    <rect x="701" y="282" width="5" height="30" fill="rgba(50,18,5,0.80)"/>
+    <rect x="694" y="290" width="19" height="5" fill="rgba(50,18,5,0.80)"/>
+    <!-- Roof -->
+    <polygon points="668,325 694,295 718,325 732,325 732,328 668,328"/>
+  </g>
+  <!-- Mediterranean plaza / buildings left -->
+  <g fill="rgba(45,16,4,0.72)">
+    <rect x="0"   y="450" width="200" height="330"/>
+    <rect x="30"  y="400" width="120" height="380"/>
+    <rect x="120" y="430" width="90"  height="350"/>
+    <!-- Arched windows on buildings -->
+    <path d="M50,430 Q70,415 90,430 L90,460 L50,460 Z" fill="rgba(80,28,8,0.5)"/>
+    <path d="M110,430 Q130,415 150,430 L150,460 L110,460 Z" fill="rgba(80,28,8,0.5)"/>
+    <path d="M50,490 Q70,475 90,490 L90,520 L50,520 Z" fill="rgba(80,28,8,0.5)"/>
+    <!-- Balconies -->
+    <rect x="46" y="458" width="48" height="4" fill="rgba(100,35,10,0.6)"/>
+    <rect x="106" y="458" width="48" height="4" fill="rgba(100,35,10,0.6)"/>
+  </g>
+  <!-- Mediterranean buildings right -->
+  <g fill="rgba(40,14,3,0.74)">
+    <rect x="1240" y="440" width="200" height="340"/>
+    <rect x="1310" y="390" width="130" height="390"/>
+    <rect x="1380" y="460" width="60"  height="320"/>
+    <!-- Arched windows -->
+    <path d="M1260,465 Q1280,450 1300,465 L1300,495 L1260,495 Z" fill="rgba(80,28,8,0.5)"/>
+    <path d="M1260,525 Q1280,510 1300,525 L1300,555 L1260,555 Z" fill="rgba(80,28,8,0.5)"/>
+    <path d="M1325,415 Q1345,400 1365,415 L1365,445 L1325,445 Z" fill="rgba(80,28,8,0.5)"/>
+    <rect x="1256" y="493" width="48" height="4" fill="rgba(100,35,10,0.6)"/>
+  </g>
+  <!-- Terracotta ground / plaza -->
+  <rect x="0" y="720" width="1440" height="180" fill="rgba(30,10,3,0.85)"/>
+  <ellipse cx="720" cy="720" rx="900" ry="25" fill="rgba(180,60,10,0.07)" filter="url(#blur-med)"/>
+  <!-- Tile pattern suggestion on plaza -->
+  <g opacity="0.08" stroke="rgba(200,80,20,0.4)" stroke-width="0.5" fill="none">
+    <line x1="0" y1="740" x2="1440" y2="740"/>
+    <line x1="0" y1="760" x2="1440" y2="760"/>
+    <line x1="0" y1="780" x2="1440" y2="780"/>
+    <line x1="200" y1="720" x2="200" y2="900"/>
+    <line x1="400" y1="720" x2="400" y2="900"/>
+    <line x1="600" y1="720" x2="600" y2="900"/>
+    <line x1="800" y1="720" x2="800" y2="900"/>
+    <line x1="1000" y1="720" x2="1000" y2="900"/>
+    <line x1="1200" y1="720" x2="1200" y2="900"/>
+  </g>
+  <!-- Warm lamp glow -->
+  <circle cx="450"  cy="680" r="40" fill="rgba(255,140,40,0.07)" filter="url(#blur-heavy)"/>
+  <circle cx="1000" cy="680" r="40" fill="rgba(255,140,40,0.07)" filter="url(#blur-heavy)"/>
+  <!-- Orange tree / olive tree silhouettes -->
+  <g opacity="0.25" fill="#1e0a03">
+    <circle cx="520" cy="680" r="35" filter="url(#blur-soft)"/>
+    <rect x="516" y="680" width="8" height="50"/>
+    <circle cx="930" cy="675" r="30" filter="url(#blur-soft)"/>
+    <rect x="926" y="675" width="8" height="50"/>
+  </g>
+  <!-- Stars / night atmosphere -->
+  <circle cx="150"  cy="100" r="1"   fill="rgba(255,200,150,0.4)"/>
+  <circle cx="380"  cy="60"  r="1.5" fill="rgba(255,200,150,0.3)"/>
+  <circle cx="600"  cy="80"  r="1"   fill="rgba(255,200,150,0.5)"/>
+  <circle cx="900"  cy="55"  r="1"   fill="rgba(255,200,150,0.3)"/>
+  <circle cx="1150" cy="90"  r="1.5" fill="rgba(255,200,150,0.4)"/>
+  <circle cx="1380" cy="70"  r="1"   fill="rgba(255,200,150,0.3)"/>
+</svg>

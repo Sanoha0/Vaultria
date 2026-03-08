@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <filter id="blur-soft"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="blur-heavy"><feGaussianBlur stdDeviation="12"/></filter>
+    <filter id="blur-med"><feGaussianBlur stdDeviation="6"/></filter>
+    <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffe8f0" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffe8f0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Deep night sky -->
+  <rect width="1440" height="900" fill="#0a0710"/>
+  <!-- Atmospheric gradients -->
+  <ellipse cx="720" cy="-60" rx="600" ry="320" fill="rgba(160,40,80,0.10)" filter="url(#blur-heavy)"/>
+  <ellipse cx="1100" cy="180" rx="300" ry="200" fill="rgba(100,20,55,0.08)" filter="url(#blur-heavy)"/>
+  <!-- Moon -->
+  <circle cx="1180" cy="130" r="70" fill="url(#moonGlow)"/>
+  <circle cx="1180" cy="130" r="38" fill="rgba(255,235,245,0.07)" filter="url(#blur-med)"/>
+  <circle cx="1180" cy="130" r="28" fill="rgba(255,228,240,0.09)"/>
+  <!-- Distant mountain range -->
+  <polygon points="0,580 120,440 240,510 360,390 480,470 600,350 720,440 840,380 960,450 1080,360 1200,430 1320,380 1440,420 1440,900 0,900" fill="rgba(25,12,35,0.85)"/>
+  <polygon points="0,620 180,500 320,550 480,490 640,530 800,470 960,510 1100,480 1260,520 1440,490 1440,900 0,900" fill="rgba(18,8,28,0.90)"/>
+  <!-- Torii gate silhouette (right side) -->
+  <g opacity="0.22" fill="#c05080">
+    <!-- Kasagi (top horizontal) -->
+    <rect x="980" y="300" width="240" height="14" rx="2"/>
+    <!-- Nuki (second horizontal) -->
+    <rect x="995" y="345" width="210" height="9" rx="2"/>
+    <!-- Left pillar -->
+    <rect x="1002" y="300" width="16" height="240" rx="3"/>
+    <!-- Right pillar -->
+    <rect x="1182" y="300" width="16" height="240" rx="3"/>
+    <!-- Kasagi upward curve suggestion -->
+    <ellipse cx="980" cy="307" rx="16" ry="8" opacity="0.7"/>
+    <ellipse cx="1220" cy="307" rx="16" ry="8" opacity="0.7"/>
+  </g>
+  <!-- Temple/pagoda silhouette (left) -->
+  <g opacity="0.14" fill="#8a3060">
+    <!-- Pagoda levels -->
+    <polygon points="180,520 320,520 310,500 190,500"/>
+    <polygon points="195,500 305,500 295,478 205,478"/>
+    <polygon points="210,478 290,478 280,455 220,455"/>
+    <polygon points="222,455 278,455 270,432 230,432"/>
+    <!-- Tower base -->
+    <rect x="240" y="520" width="20" height="40"/>
+    <rect x="290" y="520" width="20" height="40"/>
+    <!-- Roof ridge peak -->
+    <line x1="250" y1="432" x2="250" y2="395" stroke="#8a3060" stroke-width="3"/>
+    <!-- Spire -->
+    <line x1="250" y1="395" x2="250" y2="360" stroke="#8a3060" stroke-width="2"/>
+    <circle cx="250" cy="360" r="5"/>
+  </g>
+  <!-- Pine tree silhouettes -->
+  <g opacity="0.18" fill="#180e28">
+    <polygon points="60,680 100,580 140,680"/>
+    <polygon points="75,650 100,560 125,650"/>
+    <polygon points="1300,670 1340,570 1380,670"/>
+    <polygon points="1315,645 1340,555 1365,645"/>
+    <rect x="95" y="680" width="10" height="40"/>
+    <rect x="1335" y="670" width="10" height="40"/>
+  </g>
+  <!-- Ground fog -->
+  <ellipse cx="720" cy="820" rx="900" ry="80" fill="rgba(180,100,140,0.06)" filter="url(#blur-heavy)"/>
+  <ellipse cx="300" cy="860" rx="400" ry="50" fill="rgba(140,70,100,0.05)" filter="url(#blur-heavy)"/>
+  <!-- Subtle lantern glow -->
+  <circle cx="400" cy="480" r="25" fill="rgba(255,160,100,0.06)" filter="url(#blur-heavy)"/>
+  <circle cx="1050" cy="500" r="20" fill="rgba(255,160,100,0.05)" filter="url(#blur-heavy)"/>
+  <!-- Subtle paper texture overlay (noise pattern) -->
+  <filter id="noise">
+    <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feBlend in="SourceGraphic" mode="overlay" result="blend"/>
+    <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+  </filter>
+</svg>
