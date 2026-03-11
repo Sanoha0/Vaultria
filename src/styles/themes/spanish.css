@@ -1,0 +1,92 @@
+/* ================================================================
+   Vaultria — Spanish Theme
+   Mediterranean plaza · bell towers · terracotta · warm dusk
+   ================================================================ */
+
+[data-lang="spanish"] {
+  --bg-base:        #0d0703;
+  --bg-surface:     #160c04;
+  --bg-panel:       rgba(12, 7, 2, 0.97);
+  --bg-glass:       rgba(220, 110, 35, 0.045);
+  --bg-hover:       rgba(220, 110, 35, 0.08);
+  --bg-active:      rgba(220, 110, 35, 0.13);
+  --border-subtle:  rgba(200, 95, 25, 0.09);
+  --border-normal:  rgba(200, 95, 25, 0.18);
+  --border-strong:  rgba(200, 95, 25, 0.32);
+  --text-primary:   rgba(255, 240, 225, 0.95);
+  --text-secondary: rgba(240, 200, 165, 0.60);
+  --text-muted:     rgba(215, 165, 120, 0.33);
+  --accent-primary: #e8843a;
+  --accent-glow:    rgba(232, 132, 58, 0.24);
+  --accent-dim:     rgba(232, 132, 58, 0.09);
+  --accent-2:       #c04030;
+  --success:        #6dcc90;
+  --success-glow:   rgba(109, 204, 144, 0.14);
+  --error:          #e86060;
+  --error-glow:     rgba(232, 96, 96, 0.14);
+  --scrollbar-thumb: rgba(232, 132, 58, 0.18);
+  --font-display: 'Cormorant Garamond', 'Palatino', serif;
+}
+
+[data-lang="spanish"] .env-canvas {
+  background:
+    radial-gradient(ellipse 120% 65% at 50% 55%,  rgba(200,80,15,0.16) 0%, transparent 55%),
+    radial-gradient(ellipse 60%  45% at 20% 60%,  rgba(180,60,10,0.10) 0%, transparent 50%),
+    radial-gradient(ellipse 55%  40% at 80% 58%,  rgba(220,100,20,0.10) 0%, transparent 50%),
+    radial-gradient(ellipse 80%  30% at 50% 85%,  rgba(120,40,8,0.18) 0%, transparent 55%),
+    linear-gradient(175deg, #0d0703 0%, #1a0c05 45%, #130904 100%);
+}
+
+[data-lang="spanish"] .env-canvas::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('../../assets/svg/bg-spanish.svg');
+  background-size: cover;
+  background-position: center 60%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.88;
+  mix-blend-mode: lighten;
+}
+
+/* Warm vignette + terracotta ground glow */
+[data-lang="spanish"] .env-canvas::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 35%, rgba(8, 4, 1, 0.75) 100%),
+    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(8, 4, 1, 0.8) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 30% at 50% 105%, rgba(200,80,15,0.07) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+[data-lang="spanish"] .left-panel,
+[data-lang="spanish"] .right-panel {
+  background: rgba(12, 6, 2, 0.97);
+  border-color: rgba(190, 85, 20, 0.11);
+}
+
+[data-lang="spanish"] .env-canvas.glow-correct::after {
+  background:
+    radial-gradient(ellipse 70% 48% at 50% 50%, rgba(255,165,60,0.14) 0%, transparent 65%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 35%, rgba(8, 4, 1, 0.75) 100%),
+    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(8, 4, 1, 0.8) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 30% at 50% 105%, rgba(200,80,15,0.07) 0%, transparent 60%);
+  animation: correctPulse 1.3s ease forwards;
+}
+
+[data-lang="spanish"] .env-canvas.glow-error::after {
+  background:
+    radial-gradient(ellipse 70% 48% at 50% 50%, rgba(200,35,30,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 35%, rgba(8, 4, 1, 0.75) 100%),
+    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(8, 4, 1, 0.8) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 30% at 50% 105%, rgba(200,80,15,0.07) 0%, transparent 60%);
+  animation: errorDim 0.8s ease forwards;
+}
+
+@keyframes correctPulse { 0%{opacity:0} 20%{opacity:1} 100%{opacity:0} }
+@keyframes errorDim     { 0%{opacity:0} 15%{opacity:1} 100%{opacity:0} }
