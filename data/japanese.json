@@ -1,0 +1,4096 @@
+{
+  "meta": {
+    "language": "japanese",
+    "languageNative": "日本語",
+    "scripts": [
+      "latin (romaji entry aid)",
+      "hiragana",
+      "katakana",
+      "kanji"
+    ],
+    "scriptRules": {
+      "stage_0": "Romaji is allowed as an entry aid, but kana is the real target.",
+      "stages_1_2": "Kana fluent, early/common kanji introduced only where useful and high-frequency.",
+      "stages_3_5": "Practical fluency and useful kanji readings, not handwriting-heavy obscure kanji.",
+      "stage_6": "Archivist stage focuses on nuance, maintenance, and resource handoff, not rare-kanji suffering."
+    },
+    "defaultRegister": "natural",
+    "registerModel": [
+      "textbook",
+      "natural",
+      "formal",
+      "informal"
+    ]
+  },
+  "stages": [
+    {
+      "id": 0,
+      "key": "starter",
+      "label": "Starter",
+      "labelNative": "入口",
+      "description": "Absolute zero to practical starter. Romaji supports the first steps, but kana and real-life Japanese are the target from day one.",
+      "registerAvailable": [
+        "textbook",
+        "natural"
+      ],
+      "units": [
+        {
+          "id": "ja-s0-u1",
+          "title": "Social I: Greetings & Introductions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s0-u1-sess1",
+              "title": "Social I: Greetings & Introductions",
+              "type": "script_recognition",
+              "items": [
+                {
+                  "target": "こんにちは",
+                  "romanji": "konnichiwa",
+                  "meaning": "hello",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "はじめまして",
+                  "romanji": "hajimemashite",
+                  "meaning": "nice to meet you",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "わたしはアレックスです",
+                  "romanji": "watashi wa Arekkusu desu",
+                  "meaning": "I am Alex",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "よろしくおねがいします",
+                  "romanji": "yoroshiku onegaishimasu",
+                  "meaning": "please treat me well / nice to meet you",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u2",
+          "title": "Logic I: This/That & Existence",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s0-u2-sess1",
+              "title": "Logic I: This/That & Existence",
+              "type": "script_recognition",
+              "items": [
+                {
+                  "target": "これ",
+                  "romanji": "kore",
+                  "meaning": "this",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "それ",
+                  "romanji": "sore",
+                  "meaning": "that",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "あります",
+                  "romanji": "arimasu",
+                  "meaning": "there is / have (non-living)",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "います",
+                  "romanji": "imasu",
+                  "meaning": "there is / have (living)",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u3",
+          "title": "Temporal I: Numbers & Time Basics",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s0-u3-sess1",
+              "title": "Temporal I: Numbers & Time Basics",
+              "type": "script_recognition",
+              "items": [
+                {
+                  "target": "いち",
+                  "romanji": "ichi",
+                  "meaning": "one",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "に",
+                  "romanji": "ni",
+                  "meaning": "two",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "さん",
+                  "romanji": "san",
+                  "meaning": "three",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "いまなんじですか",
+                  "romanji": "ima nanji desu ka",
+                  "meaning": "what time is it now?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u4",
+          "title": "Physical I: Objects & Food Basics",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s0-u4-sess1",
+              "title": "Physical I: Objects & Food Basics",
+              "type": "script_recognition",
+              "items": [
+                {
+                  "target": "みず",
+                  "romanji": "mizu",
+                  "meaning": "water",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "ごはん",
+                  "romanji": "gohan",
+                  "meaning": "rice / meal",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "コーヒー",
+                  "romanji": "koohii",
+                  "meaning": "coffee",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "これをください",
+                  "romanji": "kore o kudasai",
+                  "meaning": "please give me this",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u5",
+          "title": "Social II: Family & Descriptions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s0-u5-sess1",
+              "title": "Social II: Family & Descriptions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "かぞく",
+                  "romanji": "kazoku",
+                  "meaning": "family",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "おかあさん",
+                  "romanji": "okaasan",
+                  "meaning": "mother",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "ちいさい",
+                  "romanji": "chiisai",
+                  "meaning": "small",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "おおきい",
+                  "romanji": "ookii",
+                  "meaning": "big",
+                  "audio": true,
+                  "register": "textbook"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u6",
+          "title": "Functional I: Directions & Transport",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s0-u6-sess1",
+              "title": "Functional I: Directions & Transport",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "どこですか",
+                  "romanji": "doko desu ka",
+                  "meaning": "where is it?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "えき",
+                  "romanji": "eki",
+                  "meaning": "station",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "みぎ",
+                  "romanji": "migi",
+                  "meaning": "right",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "ひだり",
+                  "romanji": "hidari",
+                  "meaning": "left",
+                  "audio": true,
+                  "register": "textbook"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u7",
+          "title": "Checkpoint: Starter Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s0-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Starter mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u8",
+          "title": "Logic II: First Verbs",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s0-u8-sess1",
+              "title": "Logic II: First Verbs",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "いきます",
+                  "romanji": "ikimasu",
+                  "meaning": "go",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "きます",
+                  "romanji": "kimasu",
+                  "meaning": "come",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "たべます",
+                  "romanji": "tabemasu",
+                  "meaning": "eat",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "のみます",
+                  "romanji": "nomimasu",
+                  "meaning": "drink",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u9",
+          "title": "Physical II: Body, Health & Shopping",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s0-u9-sess1",
+              "title": "Physical II: Body, Health & Shopping",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "あたま",
+                  "romanji": "atama",
+                  "meaning": "head",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "て",
+                  "romanji": "te",
+                  "meaning": "hand",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "いたいです",
+                  "romanji": "itai desu",
+                  "meaning": "it hurts",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "いくらですか",
+                  "romanji": "ikura desu ka",
+                  "meaning": "how much is it?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u10",
+          "title": "Temporal II: Days & Past Intro",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s0-u10-sess1",
+              "title": "Temporal II: Days & Past Intro",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "きょう",
+                  "romanji": "kyou",
+                  "meaning": "today",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "あした",
+                  "romanji": "ashita",
+                  "meaning": "tomorrow",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "きのう",
+                  "romanji": "kinou",
+                  "meaning": "yesterday",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "たべました",
+                  "romanji": "tabemashita",
+                  "meaning": "ate",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u11",
+          "title": "Social III: Likes & Emotions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s0-u11-sess1",
+              "title": "Social III: Likes & Emotions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "すきです",
+                  "romanji": "suki desu",
+                  "meaning": "like",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "きらいです",
+                  "romanji": "kirai desu",
+                  "meaning": "dislike",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "うれしいです",
+                  "romanji": "ureshii desu",
+                  "meaning": "happy",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "かなしいです",
+                  "romanji": "kanashii desu",
+                  "meaning": "sad",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u12",
+          "title": "Functional II: School, Work & Digital",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s0-u12-sess1",
+              "title": "Functional II: School, Work & Digital",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "がっこう",
+                  "romanji": "gakkou",
+                  "meaning": "school",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "しごと",
+                  "romanji": "shigoto",
+                  "meaning": "work",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "メール",
+                  "romanji": "meeru",
+                  "meaning": "email",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "ワイファイ",
+                  "romanji": "waifai",
+                  "meaning": "Wi-Fi",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u13",
+          "title": "Cultural: Politeness Basics",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s0-u13-sess1",
+              "title": "Cultural: Politeness Basics",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "すみません",
+                  "romanji": "sumimasen",
+                  "meaning": "excuse me / sorry",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "いただきます",
+                  "romanji": "itadakimasu",
+                  "meaning": "said before eating",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "しつれいします",
+                  "romanji": "shitsurei shimasu",
+                  "meaning": "excuse me / pardon the interruption",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "おねがいします",
+                  "romanji": "onegaishimasu",
+                  "meaning": "please / I ask of you",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s0-u14",
+          "title": "Gateway: Starter Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s0-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Starter gateway assessment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "key": "beginner",
+      "label": "Beginner",
+      "labelNative": "初級",
+      "description": "A1–A2. Daily survival Japanese for food, travel, school, home, and basic social interaction in Japan.",
+      "registerAvailable": [
+        "textbook",
+        "natural"
+      ],
+      "units": [
+        {
+          "id": "ja-s1-u1",
+          "title": "Social I: Everyday Greetings",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s1-u1-sess1",
+              "title": "Social I: Everyday Greetings",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "おはようございます",
+                  "romanji": "ohayou gozaimasu",
+                  "meaning": "good morning",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "こんばんは",
+                  "romanji": "konbanwa",
+                  "meaning": "good evening",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "おげんきですか",
+                  "romanji": "ogenki desu ka",
+                  "meaning": "how are you?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "げんきです",
+                  "romanji": "genki desu",
+                  "meaning": "I am well",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u2",
+          "title": "Logic I: Pronouns & Copula",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s1-u2-sess1",
+              "title": "Logic I: Pronouns & Copula",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "わたしはがくせいです",
+                  "romanji": "watashi wa gakusei desu",
+                  "meaning": "I am a student",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "これはほんです",
+                  "romanji": "kore wa hon desu",
+                  "meaning": "this is a book",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "それはペンじゃないです",
+                  "romanji": "sore wa pen ja nai desu",
+                  "meaning": "that is not a pen",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "だれですか",
+                  "romanji": "dare desu ka",
+                  "meaning": "who is it?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u3",
+          "title": "Temporal I: Numbers, Days, Time",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s1-u3-sess1",
+              "title": "Temporal I: Numbers, Days, Time",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "十 (じゅう)",
+                  "romanji": "juu",
+                  "meaning": "ten",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "月曜日",
+                  "romanji": "getsuyoubi",
+                  "meaning": "Monday",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "七時半",
+                  "romanji": "shichiji han",
+                  "meaning": "7:30",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "いま何時ですか",
+                  "romanji": "ima nanji desu ka",
+                  "meaning": "what time is it?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u4",
+          "title": "Physical I: Food & Essentials",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s1-u4-sess1",
+              "title": "Physical I: Food & Essentials",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "水（みず）",
+                  "romanji": "mizu",
+                  "meaning": "water",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "魚（さかな）",
+                  "romanji": "sakana",
+                  "meaning": "fish",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "肉（にく）",
+                  "romanji": "niku",
+                  "meaning": "meat",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "お茶をください",
+                  "romanji": "ocha o kudasai",
+                  "meaning": "tea, please",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u5",
+          "title": "Social II: Family & Description",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s1-u5-sess1",
+              "title": "Social II: Family & Description",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "兄（あに）",
+                  "romanji": "ani",
+                  "meaning": "older brother",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "妹（いもうと）",
+                  "romanji": "imouto",
+                  "meaning": "younger sister",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "やさしい",
+                  "romanji": "yasashii",
+                  "meaning": "kind / gentle",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "にぎやかです",
+                  "romanji": "nigiyaka desu",
+                  "meaning": "lively",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u6",
+          "title": "Functional I: Around Town",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s1-u6-sess1",
+              "title": "Functional I: Around Town",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "まっすぐ",
+                  "romanji": "massugu",
+                  "meaning": "straight ahead",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "バスてい",
+                  "romanji": "basu tei",
+                  "meaning": "bus stop",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "でんしゃ",
+                  "romanji": "densha",
+                  "meaning": "train",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "駅はどこですか",
+                  "romanji": "eki wa doko desu ka",
+                  "meaning": "where is the station?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u7",
+          "title": "Checkpoint: Beginner Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s1-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Beginner mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u8",
+          "title": "Logic II: Present Patterns",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s1-u8-sess1",
+              "title": "Logic II: Present Patterns",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "日本語をべんきょうします",
+                  "romanji": "nihongo o benkyou shimasu",
+                  "meaning": "study Japanese",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "コーヒーをのみます",
+                  "romanji": "koohii o nomimasu",
+                  "meaning": "drink coffee",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "友だちにあいます",
+                  "romanji": "tomodachi ni aimasu",
+                  "meaning": "meet a friend",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "毎日あるきます",
+                  "romanji": "mainichi arukimasu",
+                  "meaning": "walk every day",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u9",
+          "title": "Physical II: Shopping & Health",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s1-u9-sess1",
+              "title": "Physical II: Shopping & Health",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "くすり",
+                  "romanji": "kusuri",
+                  "meaning": "medicine",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "シャツ",
+                  "romanji": "shatsu",
+                  "meaning": "shirt",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "サイズはLです",
+                  "romanji": "saizu wa eru desu",
+                  "meaning": "the size is L",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "のどがいたいです",
+                  "romanji": "nodo ga itai desu",
+                  "meaning": "my throat hurts",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u10",
+          "title": "Temporal II: Past Foundations",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s1-u10-sess1",
+              "title": "Temporal II: Past Foundations",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "先週（せんしゅう）",
+                  "romanji": "senshuu",
+                  "meaning": "last week",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "去年（きょねん）",
+                  "romanji": "kyonen",
+                  "meaning": "last year",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "見ました",
+                  "romanji": "mimashita",
+                  "meaning": "saw",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "きのう映画を見ました",
+                  "romanji": "kinou eiga o mimashita",
+                  "meaning": "I watched a movie yesterday",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u11",
+          "title": "Social III: Hobbies & Feelings",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s1-u11-sess1",
+              "title": "Social III: Hobbies & Feelings",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "サッカーがすきです",
+                  "romanji": "sakkaa ga suki desu",
+                  "meaning": "I like soccer",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "読書（どくしょ）",
+                  "romanji": "dokusho",
+                  "meaning": "reading books",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "つかれています",
+                  "romanji": "tsukarete imasu",
+                  "meaning": "I am tired",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "たのしいです",
+                  "romanji": "tanoshii desu",
+                  "meaning": "it is fun",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u12",
+          "title": "Functional II: School & Online Life",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s1-u12-sess1",
+              "title": "Functional II: School & Online Life",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "しゅくだい",
+                  "romanji": "shukudai",
+                  "meaning": "homework",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "会議（かいぎ）",
+                  "romanji": "kaigi",
+                  "meaning": "meeting",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "ログインします",
+                  "romanji": "roguin shimasu",
+                  "meaning": "log in",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "パスワードをわすれました",
+                  "romanji": "pasuwaado o wasuremashita",
+                  "meaning": "I forgot my password",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u13",
+          "title": "Cultural: Natural vs Formal",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s1-u13-sess1",
+              "title": "Cultural: Natural vs Formal",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "ありがとうございます",
+                  "romanji": "arigatou gozaimasu",
+                  "meaning": "thank you (polite)",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "ありがとう",
+                  "romanji": "arigatou",
+                  "meaning": "thanks",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "失礼します",
+                  "romanji": "shitsurei shimasu",
+                  "meaning": "excuse me / I will leave now",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "じゃあね",
+                  "romanji": "jaa ne",
+                  "meaning": "see you",
+                  "audio": true,
+                  "register": "informal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s1-u14",
+          "title": "Gateway: Beginner Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s1-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Beginner gateway assessment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "key": "explorer",
+      "label": "Explorer",
+      "labelNative": "探究",
+      "description": "A2–B1. Connected everyday Japanese, plain vs polite choices, and early common kanji in useful contexts.",
+      "registerAvailable": [
+        "textbook",
+        "natural",
+        "formal",
+        "informal"
+      ],
+      "units": [
+        {
+          "id": "ja-s2-u1",
+          "title": "Social I: Meeting & Following Up",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s2-u1-sess1",
+              "title": "Social I: Meeting & Following Up",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "お久しぶりです",
+                  "romanji": "ohisashiburi desu",
+                  "meaning": "long time no see",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "最近どう？",
+                  "romanji": "saikin dou?",
+                  "meaning": "how have you been lately?",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "お元気そうですね",
+                  "romanji": "ogenki sou desu ne",
+                  "meaning": "you look well",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "また会えてうれしいです",
+                  "romanji": "mata aete ureshii desu",
+                  "meaning": "I am glad to see you again",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u2",
+          "title": "Logic I: Existence, Pronouns, Preferences",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s2-u2-sess1",
+              "title": "Logic I: Existence, Pronouns, Preferences",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "私はコーヒーよりお茶のほうが好きです",
+                  "romanji": "watashi wa koohii yori ocha no hou ga suki desu",
+                  "meaning": "I prefer tea to coffee",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "ここに店があります",
+                  "romanji": "koko ni mise ga arimasu",
+                  "meaning": "there is a shop here",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "あそこに友だちがいます",
+                  "romanji": "asoko ni tomodachi ga imasu",
+                  "meaning": "my friend is over there",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "どちらがいいですか",
+                  "romanji": "dochira ga ii desu ka",
+                  "meaning": "which do you prefer?",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u3",
+          "title": "Temporal I: Time in Real Life",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s2-u3-sess1",
+              "title": "Temporal I: Time in Real Life",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "九時から五時まで",
+                  "romanji": "kuji kara goji made",
+                  "meaning": "from 9 to 5",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "来週（らいしゅう）",
+                  "romanji": "raishuu",
+                  "meaning": "next week",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "毎週土曜日に",
+                  "romanji": "maishuu doyoubi ni",
+                  "meaning": "every Saturday",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "何分ぐらいかかりますか",
+                  "romanji": "nanpun gurai kakarimasu ka",
+                  "meaning": "about how many minutes does it take?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u4",
+          "title": "Physical I: Meals & Daily Items",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s2-u4-sess1",
+              "title": "Physical I: Meals & Daily Items",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "野菜（やさい）",
+                  "romanji": "yasai",
+                  "meaning": "vegetables",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "朝ごはん",
+                  "romanji": "asagohan",
+                  "meaning": "breakfast",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "おなかがすきました",
+                  "romanji": "onaka ga sukimashita",
+                  "meaning": "I am hungry",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "箸（はし）はありますか",
+                  "romanji": "hashi wa arimasu ka",
+                  "meaning": "do you have chopsticks?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u5",
+          "title": "Social II: Home Life & Description",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s2-u5-sess1",
+              "title": "Social II: Home Life & Description",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "一人暮らし",
+                  "romanji": "hitorigurashi",
+                  "meaning": "living alone",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "にぎやかな家族です",
+                  "romanji": "nigiyaka na kazoku desu",
+                  "meaning": "it is a lively family",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "父は静かな人です",
+                  "romanji": "chichi wa shizuka na hito desu",
+                  "meaning": "my father is a quiet person",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "部屋（へや）がせまいです",
+                  "romanji": "heya ga semai desu",
+                  "meaning": "the room is small",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u6",
+          "title": "Functional I: Navigation in Japan",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s2-u6-sess1",
+              "title": "Functional I: Navigation in Japan",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "改札（かいさつ）",
+                  "romanji": "kaisatsu",
+                  "meaning": "ticket gate",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "乗り換え",
+                  "romanji": "norikae",
+                  "meaning": "transfer",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "渋谷まで行きたいです",
+                  "romanji": "Shibuya made ikitai desu",
+                  "meaning": "I want to go to Shibuya",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "この電車は新宿に止まりますか",
+                  "romanji": "kono densha wa Shinjuku ni tomarimasu ka",
+                  "meaning": "does this train stop at Shinjuku?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u7",
+          "title": "Checkpoint: Explorer Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s2-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Explorer mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u8",
+          "title": "Logic II: Plain vs Polite",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s2-u8-sess1",
+              "title": "Logic II: Plain vs Polite",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "食べます / 食べる",
+                  "romanji": "tabemasu / taberu",
+                  "meaning": "eat (polite / plain)",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "行きます / 行く",
+                  "romanji": "ikimasu / iku",
+                  "meaning": "go (polite / plain)",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "今日は家で食べる",
+                  "romanji": "kyou wa ie de taberu",
+                  "meaning": "I am eating at home today",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "今日は家で食べます",
+                  "romanji": "kyou wa ie de tabemasu",
+                  "meaning": "I will eat at home today",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u9",
+          "title": "Physical II: Shopping & Needs",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s2-u9-sess1",
+              "title": "Physical II: Shopping & Needs",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "試着（しちゃく）",
+                  "romanji": "shichaku",
+                  "meaning": "trying on clothes",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "もう少し大きいサイズ",
+                  "romanji": "mou sukoshi ookii saizu",
+                  "meaning": "a slightly bigger size",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "頭が痛いです",
+                  "romanji": "atama ga itai desu",
+                  "meaning": "I have a headache",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "おすすめはありますか",
+                  "romanji": "osusume wa arimasu ka",
+                  "meaning": "do you have a recommendation?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u10",
+          "title": "Temporal II: Past Narration",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s2-u10-sess1",
+              "title": "Temporal II: Past Narration",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "先月（せんげつ）",
+                  "romanji": "sengetsu",
+                  "meaning": "last month",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "去年日本に行きました",
+                  "romanji": "kyonen Nihon ni ikimashita",
+                  "meaning": "I went to Japan last year",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "子どものころ",
+                  "romanji": "kodomo no koro",
+                  "meaning": "when I was a child",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "昨日は忙しかったです",
+                  "romanji": "kinou wa isogashikatta desu",
+                  "meaning": "yesterday was busy",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u11",
+          "title": "Social III: Preferences & Emotion",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s2-u11-sess1",
+              "title": "Social III: Preferences & Emotion",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "〜するのが好きです",
+                  "romanji": "... suru no ga suki desu",
+                  "meaning": "I like doing ...",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "ちょっと緊張しています",
+                  "romanji": "chotto kinchou shite imasu",
+                  "meaning": "I am a little nervous",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "本当に楽しかった",
+                  "romanji": "hontou ni tanoshikatta",
+                  "meaning": "it was really fun",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "あまり興味がありません",
+                  "romanji": "amari kyoumi ga arimasen",
+                  "meaning": "I am not very interested",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u12",
+          "title": "Functional II: School, Work, Digital",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s2-u12-sess1",
+              "title": "Functional II: School, Work, Digital",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "授業（じゅぎょう）",
+                  "romanji": "jugyou",
+                  "meaning": "class / lesson",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "締め切り（しめきり）",
+                  "romanji": "shimekiri",
+                  "meaning": "deadline",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "添付（てんぷ）しました",
+                  "romanji": "tenpu shimashita",
+                  "meaning": "I attached it",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "オンライン会議があります",
+                  "romanji": "onrain kaigi ga arimasu",
+                  "meaning": "there is an online meeting",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u13",
+          "title": "Cultural: Register & Set Phrases",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s2-u13-sess1",
+              "title": "Cultural: Register & Set Phrases",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "おつかれさまです",
+                  "romanji": "otsukaresama desu",
+                  "meaning": "thanks for your hard work",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "よろしくお願いします",
+                  "romanji": "yoroshiku onegaishimasu",
+                  "meaning": "please / nice to work with you",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "マジで？",
+                  "romanji": "maji de?",
+                  "meaning": "seriously?",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "それはちょっと…",
+                  "romanji": "sore wa chotto...",
+                  "meaning": "that may be difficult / I am not comfortable with that",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s2-u14",
+          "title": "Gateway: Explorer Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s2-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Explorer gateway assessment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "key": "speaker",
+      "label": "Speaker",
+      "labelNative": "話者",
+      "description": "B1. Real conversations, preferences, requests, storytelling, and practical social/work Japanese.",
+      "registerAvailable": [
+        "textbook",
+        "natural",
+        "formal",
+        "informal"
+      ],
+      "units": [
+        {
+          "id": "ja-s3-u1",
+          "title": "Social I: Relationship Management",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s3-u1-sess1",
+              "title": "Social I: Relationship Management",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "ご無沙汰しています",
+                  "romanji": "gobusata shite imasu",
+                  "meaning": "sorry it has been so long",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "最近どうしてた？",
+                  "romanji": "saikin dou shiteta?",
+                  "meaning": "what have you been up to lately?",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "また今度ゆっくり話しましょう",
+                  "romanji": "mata kondo yukkuri hanashimashou",
+                  "meaning": "let us talk properly another time",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "お会いできて光栄です",
+                  "romanji": "oai dekite kouei desu",
+                  "meaning": "it is an honor to meet you",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u2",
+          "title": "Logic I: Explanation & Comparison",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s3-u2-sess1",
+              "title": "Logic I: Explanation & Comparison",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "日本より韓国のほうが近いです",
+                  "romanji": "Nihon yori Kankoku no hou ga chikai desu",
+                  "meaning": "Korea is closer than Japan",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "私にとって一番大事なのは時間です",
+                  "romanji": "watashi ni totte ichiban daiji na no wa jikan desu",
+                  "meaning": "for me, time is the most important thing",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "それってどういう意味？",
+                  "romanji": "sorette dou iu imi?",
+                  "meaning": "what does that mean?",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "理由は二つあります",
+                  "romanji": "riyuu wa futatsu arimasu",
+                  "meaning": "there are two reasons",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u3",
+          "title": "Temporal I: Planning & Scheduling",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s3-u3-sess1",
+              "title": "Temporal I: Planning & Scheduling",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "予定（よてい）",
+                  "romanji": "yotei",
+                  "meaning": "schedule / plan",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "今週中に",
+                  "romanji": "konshuujuu ni",
+                  "meaning": "by the end of this week",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "時間が合えば",
+                  "romanji": "jikan ga aeba",
+                  "meaning": "if our schedules line up",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "三十分ほどかかります",
+                  "romanji": "sanjuppun hodo kakarimasu",
+                  "meaning": "it takes about 30 minutes",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u4",
+          "title": "Physical I: Service Encounters",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s3-u4-sess1",
+              "title": "Physical I: Service Encounters",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "辛いものは苦手です",
+                  "romanji": "karai mono wa nigate desu",
+                  "meaning": "I am not good with spicy food",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "持ち帰りできますか",
+                  "romanji": "mochikaeri dekimasu ka",
+                  "meaning": "can I get it to go?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "温かいお茶をお願いします",
+                  "romanji": "atatakai ocha o onegaishimasu",
+                  "meaning": "warm tea, please",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "アレルギーがあります",
+                  "romanji": "arerugii ga arimasu",
+                  "meaning": "I have an allergy",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u5",
+          "title": "Social II: Households & Neighbors",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s3-u5-sess1",
+              "title": "Social II: Households & Neighbors",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "同居（どうきょ）しています",
+                  "romanji": "doukyo shite imasu",
+                  "meaning": "I live with someone",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "近所（きんじょ）付き合い",
+                  "romanji": "kinjo tsukiai",
+                  "meaning": "neighborly relations",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "静かな場所に住みたいです",
+                  "romanji": "shizuka na basho ni sumitai desu",
+                  "meaning": "I want to live in a quiet place",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "家事（かじ）を分担します",
+                  "romanji": "kaji o buntan shimasu",
+                  "meaning": "we divide household chores",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u6",
+          "title": "Functional I: Travel Trouble-Shooting",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s3-u6-sess1",
+              "title": "Functional I: Travel Trouble-Shooting",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "終電（しゅうでん）",
+                  "romanji": "shuuden",
+                  "meaning": "last train",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "遅延（ちえん）しています",
+                  "romanji": "chien shite imasu",
+                  "meaning": "it is delayed",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "この切符で入れますか",
+                  "romanji": "kono kippu de hairasemasu ka",
+                  "meaning": "can I enter with this ticket?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "乗り場はどちらですか",
+                  "romanji": "noriba wa dochira desu ka",
+                  "meaning": "which platform is it?",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u7",
+          "title": "Checkpoint: Speaker Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s3-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Speaker mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u8",
+          "title": "Logic II: Requests & Possibility",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s3-u8-sess1",
+              "title": "Logic II: Requests & Possibility",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "手伝ってもらえますか",
+                  "romanji": "tetsudatte moraemasu ka",
+                  "meaning": "could you help me?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "見せてもいい？",
+                  "romanji": "misete mo ii?",
+                  "meaning": "can I show you?",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "日本語で説明できます",
+                  "romanji": "nihongo de setsumei dekimasu",
+                  "meaning": "I can explain in Japanese",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "行けそうです",
+                  "romanji": "ike sou desu",
+                  "meaning": "it looks like I can go",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u9",
+          "title": "Physical II: Shopping for Quality",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s3-u9-sess1",
+              "title": "Physical II: Shopping for Quality",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "返品（へんぴん）できますか",
+                  "romanji": "henpin dekimasu ka",
+                  "meaning": "can I return it?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "サイズ感（かん）がちょうどいい",
+                  "romanji": "saizu-kan ga choudo ii",
+                  "meaning": "the fit is just right",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "肌（はだ）に合いません",
+                  "romanji": "hada ni aimasen",
+                  "meaning": "it does not suit my skin",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "少し高いけど質がいい",
+                  "romanji": "sukoshi takai kedo shitsu ga ii",
+                  "meaning": "it is a bit expensive, but the quality is good",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u10",
+          "title": "Temporal II: Storytelling",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s3-u10-sess1",
+              "title": "Temporal II: Storytelling",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "そのころ",
+                  "romanji": "sono koro",
+                  "meaning": "around that time",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "最初は緊張していました",
+                  "romanji": "saisho wa kinchou shite imashita",
+                  "meaning": "at first I was nervous",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "だんだん慣れてきました",
+                  "romanji": "dandan narete kimashita",
+                  "meaning": "I gradually got used to it",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "結局行きませんでした",
+                  "romanji": "kekkyoku ikimasen deshita",
+                  "meaning": "in the end, I did not go",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u11",
+          "title": "Social III: Feelings in Conversation",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s3-u11-sess1",
+              "title": "Social III: Feelings in Conversation",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "正直（しょうじき）に言うと",
+                  "romanji": "shoujiki ni iu to",
+                  "meaning": "to be honest",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "それはうれしいですね",
+                  "romanji": "sore wa ureshii desu ne",
+                  "meaning": "that is great to hear",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "ちょっと気まずかった",
+                  "romanji": "chotto kimazukatta",
+                  "meaning": "it felt a little awkward",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "かなり安心しました",
+                  "romanji": "kanari anshin shimashita",
+                  "meaning": "I felt quite relieved",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u12",
+          "title": "Functional II: Work, School, Digital",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s3-u12-sess1",
+              "title": "Functional II: Work, School, Digital",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "資料（しりょう）を共有します",
+                  "romanji": "shiryou o kyouyuu shimasu",
+                  "meaning": "I will share the materials",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "提出（ていしゅつ）は明日です",
+                  "romanji": "teishutsu wa ashita desu",
+                  "meaning": "submission is tomorrow",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "接続（せつぞく）が不安定です",
+                  "romanji": "setsuzoku ga fuantei desu",
+                  "meaning": "the connection is unstable",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "一応送っておきます",
+                  "romanji": "ichiou okutte okimasu",
+                  "meaning": "I will send it just in case",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u13",
+          "title": "Cultural: Tone & Indirectness",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s3-u13-sess1",
+              "title": "Cultural: Tone & Indirectness",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "検討します",
+                  "romanji": "kentou shimasu",
+                  "meaning": "I will consider it",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "今回は遠慮します",
+                  "romanji": "konkai wa enryo shimasu",
+                  "meaning": "I will pass this time",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "微妙ですね",
+                  "romanji": "bimyou desu ne",
+                  "meaning": "it is kind of iffy",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "空気を読む",
+                  "romanji": "kuuki o yomu",
+                  "meaning": "read the room",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s3-u14",
+          "title": "Gateway: Speaker Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s3-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Speaker gateway assessment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "key": "scholar",
+      "label": "Scholar",
+      "labelNative": "学究",
+      "description": "B2. Nuanced communication for work, study, service encounters, and more precise explanation in Japanese.",
+      "registerAvailable": [
+        "textbook",
+        "natural",
+        "formal",
+        "informal"
+      ],
+      "units": [
+        {
+          "id": "ja-s4-u1",
+          "title": "Social I: Nuanced Introductions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s4-u1-sess1",
+              "title": "Social I: Nuanced Introductions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "はじめまして、営業部の田中と申します",
+                  "romanji": "hajimemashite, eigyoubu no Tanaka to moushimasu",
+                  "meaning": "nice to meet you, I am Tanaka from sales",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "いつもお世話になっております",
+                  "romanji": "itsumo osewa ni natte orimasu",
+                  "meaning": "thank you for your continued support",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "ざっくばらんに話してください",
+                  "romanji": "zakkubaran ni hanashite kudasai",
+                  "meaning": "please speak frankly",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "改めてよろしくお願いします",
+                  "romanji": "aratamete yoroshiku onegaishimasu",
+                  "meaning": "I look forward to working with you again",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u2",
+          "title": "Logic I: Framing Arguments",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s4-u2-sess1",
+              "title": "Logic I: Framing Arguments",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "つまり",
+                  "romanji": "tsumari",
+                  "meaning": "in other words",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "一方で",
+                  "romanji": "ippou de",
+                  "meaning": "on the other hand",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "私の立場としては",
+                  "romanji": "watashi no tachiba to shite wa",
+                  "meaning": "from my standpoint",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "それは現実的ではありません",
+                  "romanji": "sore wa genjitsuteki de wa arimasen",
+                  "meaning": "that is not realistic",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u3",
+          "title": "Temporal I: Deadlines & Scheduling",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s4-u3-sess1",
+              "title": "Temporal I: Deadlines & Scheduling",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "締切（しめきり）厳守",
+                  "romanji": "shimekiri genshu",
+                  "meaning": "strict deadline compliance",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "今月末までに",
+                  "romanji": "kongetsu matsu made ni",
+                  "meaning": "by the end of this month",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "先送りにする",
+                  "romanji": "sakiokuri ni suru",
+                  "meaning": "put off / postpone",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "再調整が必要です",
+                  "romanji": "saichousei ga hitsuyou desu",
+                  "meaning": "it needs to be rescheduled",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u4",
+          "title": "Physical I: Services & Preferences",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s4-u4-sess1",
+              "title": "Physical I: Services & Preferences",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "常温（じょうおん）でお願いします",
+                  "romanji": "jouon de onegaishimasu",
+                  "meaning": "room temperature, please",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "控えめにしてください",
+                  "romanji": "hikaeme ni shite kudasai",
+                  "meaning": "please keep it light / minimal",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "内容（ないよう）を確認します",
+                  "romanji": "naiyou o kakunin shimasu",
+                  "meaning": "I will confirm the contents",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "食感（しょっかん）が苦手です",
+                  "romanji": "shokkan ga nigate desu",
+                  "meaning": "I do not like the texture",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u5",
+          "title": "Social II: Relationships & Boundaries",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s4-u5-sess1",
+              "title": "Social II: Relationships & Boundaries",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "距離感（きょりかん）",
+                  "romanji": "kyorikan",
+                  "meaning": "sense of personal distance",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "家族ぐるみの付き合い",
+                  "romanji": "kazoku gurumi no tsukiai",
+                  "meaning": "family-to-family relationship",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "無理のない範囲で",
+                  "romanji": "muri no nai han'i de",
+                  "meaning": "within a reasonable range",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "事情（じじょう）があります",
+                  "romanji": "jijou ga arimasu",
+                  "meaning": "there are circumstances",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u6",
+          "title": "Functional I: Complex Navigation",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s4-u6-sess1",
+              "title": "Functional I: Complex Navigation",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "乗り換え案内",
+                  "romanji": "norikae annai",
+                  "meaning": "transfer guidance",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "迂回（うかい）ルート",
+                  "romanji": "ukai ruuto",
+                  "meaning": "detour route",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "最寄り駅（もよりえき）",
+                  "romanji": "moyori eki",
+                  "meaning": "nearest station",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "この先は通行止めです",
+                  "romanji": "kono saki wa tsuukoudome desu",
+                  "meaning": "the road is closed ahead",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u7",
+          "title": "Checkpoint: Scholar Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s4-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Scholar mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u8",
+          "title": "Logic II: Permission, Obligation, Nuance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s4-u8-sess1",
+              "title": "Logic II: Permission, Obligation, Nuance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "〜ざるを得ない",
+                  "romanji": "...zaru o enai",
+                  "meaning": "have no choice but to ...",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "確認しておいたほうがいい",
+                  "romanji": "kakunin shite oita hou ga ii",
+                  "meaning": "it would be better to check in advance",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "対応していただけますでしょうか",
+                  "romanji": "taiou shite itadakemasu deshou ka",
+                  "meaning": "would you be able to handle this?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "その可能性もあります",
+                  "romanji": "sono kanousei mo arimasu",
+                  "meaning": "that possibility also exists",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u9",
+          "title": "Physical II: Needs & Purchases",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s4-u9-sess1",
+              "title": "Physical II: Needs & Purchases",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "品質保証（ひんしつほしょう）",
+                  "romanji": "hinshitsu hoshou",
+                  "meaning": "quality guarantee",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "交換（こうかん）の対象",
+                  "romanji": "koukan no taishou",
+                  "meaning": "eligible for exchange",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "症状（しょうじょう）が続いています",
+                  "romanji": "shoujou ga tsuzuite imasu",
+                  "meaning": "the symptoms are continuing",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "見た目より軽いです",
+                  "romanji": "mitame yori karui desu",
+                  "meaning": "it is lighter than it looks",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u10",
+          "title": "Temporal II: Reflection & Past",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s4-u10-sess1",
+              "title": "Temporal II: Reflection & Past",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "当時（とうじ）",
+                  "romanji": "touji",
+                  "meaning": "at that time",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "以前から気になっていました",
+                  "romanji": "izen kara ki ni natte imashita",
+                  "meaning": "I had been curious about it for some time",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "結果として",
+                  "romanji": "kekka to shite",
+                  "meaning": "as a result",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "振り返ってみると",
+                  "romanji": "furikaette miru to",
+                  "meaning": "looking back on it",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u11",
+          "title": "Social III: Emotion & Stance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s4-u11-sess1",
+              "title": "Social III: Emotion & Stance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "納得（なっとく）できません",
+                  "romanji": "nattoku dekimasen",
+                  "meaning": "I cannot accept / be convinced",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "気まずくならないように",
+                  "romanji": "kimazuku naranai you ni",
+                  "meaning": "so that it does not get awkward",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "少し引っかかっています",
+                  "romanji": "sukoshi hikkakatte imasu",
+                  "meaning": "something is still bothering me a little",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "率直（そっちょく）に申し上げると",
+                  "romanji": "socchoku ni moushiageru to",
+                  "meaning": "to speak frankly",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u12",
+          "title": "Functional II: Professional Communication",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s4-u12-sess1",
+              "title": "Functional II: Professional Communication",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "議事録（ぎじろく）",
+                  "romanji": "gijiroku",
+                  "meaning": "meeting minutes",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "承知（しょうち）しました",
+                  "romanji": "shouchi shimashita",
+                  "meaning": "understood",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "共有ありがとうございました",
+                  "romanji": "kyouyuu arigatou gozaimashita",
+                  "meaning": "thank you for sharing",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "念のため確認します",
+                  "romanji": "nen no tame kakunin shimasu",
+                  "meaning": "I will confirm just in case",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u13",
+          "title": "Cultural: Nuance, Set Expressions, Context",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s4-u13-sess1",
+              "title": "Cultural: Nuance, Set Expressions, Context",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "お先に失礼します",
+                  "romanji": "osaki ni shitsurei shimasu",
+                  "meaning": "excuse me for leaving before you",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "よろしくお伝えください",
+                  "romanji": "yoroshiku otsutae kudasai",
+                  "meaning": "please give them my regards",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "それ、あるあるだね",
+                  "romanji": "sore, aru aru da ne",
+                  "meaning": "that is so relatable",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "建前（たてまえ）と本音（ほんね）",
+                  "romanji": "tatemae to honne",
+                  "meaning": "public face and true feelings",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s4-u14",
+          "title": "Gateway: Scholar Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s4-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Scholar gateway assessment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "key": "specialist",
+      "label": "Specialist",
+      "labelNative": "達人",
+      "description": "C1 practical mastery. Natural sounding Japanese for life in Japan, without diving into nightmare kanji overload.",
+      "registerAvailable": [
+        "textbook",
+        "natural",
+        "formal",
+        "informal"
+      ],
+      "units": [
+        {
+          "id": "ja-s5-u1",
+          "title": "Social I: High-Fluency Introductions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s5-u1-sess1",
+              "title": "Social I: High-Fluency Introductions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "本日はお時間をいただきありがとうございます",
+                  "romanji": "honjitsu wa ojikan o itadaki arigatou gozaimasu",
+                  "meaning": "thank you for taking the time today",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "気負わず話してもらって大丈夫です",
+                  "romanji": "kiowazu hanashite moratte daijoubu desu",
+                  "meaning": "you can speak without feeling pressured",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "以前からぜひお話ししたかったんです",
+                  "romanji": "izen kara zehi ohanashi shitakatta n desu",
+                  "meaning": "I have wanted to talk with you for some time",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "改めて自己紹介させてください",
+                  "romanji": "aratamete jikoshoukai sasete kudasai",
+                  "meaning": "let me introduce myself properly",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u2",
+          "title": "Logic I: Position, Framing, Contrast",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s5-u2-sess1",
+              "title": "Logic I: Position, Framing, Contrast",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "前提（ぜんてい）として",
+                  "romanji": "zentei to shite",
+                  "meaning": "as a premise",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "必ずしも〜とは限りません",
+                  "romanji": "kanarazushimo ... to wa kagirimasen",
+                  "meaning": "it is not always the case that ...",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "感覚的にはそう思います",
+                  "romanji": "kankakuteki ni wa sou omoimasu",
+                  "meaning": "intuitively, that is how I feel",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "その解釈も成り立ちます",
+                  "romanji": "sono kaishaku mo naritatimasu",
+                  "meaning": "that interpretation also holds",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u3",
+          "title": "Temporal I: Long-Range Planning",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s5-u3-sess1",
+              "title": "Temporal I: Long-Range Planning",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "中長期的（ちゅうちょうきてき）",
+                  "romanji": "chuuchoukiteki",
+                  "meaning": "mid-to-long term",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "目処（めど）が立つ",
+                  "romanji": "medo ga tatsu",
+                  "meaning": "to have a rough timeline in sight",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "前倒しで進める",
+                  "romanji": "maedaoshi de susumeru",
+                  "meaning": "move it forward ahead of schedule",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "期限を切る",
+                  "romanji": "kigen o kiru",
+                  "meaning": "set a hard deadline",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u4",
+          "title": "Physical I: Precision Requests",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s5-u4-sess1",
+              "title": "Physical I: Precision Requests",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "刺激（しげき）が強すぎます",
+                  "romanji": "shigeki ga tsuyo sugimasu",
+                  "meaning": "it is too strong / intense",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "代替案（だいたいあん）はありますか",
+                  "romanji": "daitai-an wa arimasu ka",
+                  "meaning": "is there an alternative?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "細かい調整が必要です",
+                  "romanji": "komakai chousei ga hitsuyou desu",
+                  "meaning": "it needs fine adjustments",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "素材感（そざいかん）がいいですね",
+                  "romanji": "sozai-kan ga ii desu ne",
+                  "meaning": "the material feels nice",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u5",
+          "title": "Social II: Social Expectations",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s5-u5-sess1",
+              "title": "Social II: Social Expectations",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "立ち回り（たちまわり）",
+                  "romanji": "tachimawari",
+                  "meaning": "how one conducts oneself socially",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "気を遣わせたくない",
+                  "romanji": "ki o tsukawasetaku nai",
+                  "meaning": "I do not want to make them feel obliged",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "お互い様（さま）です",
+                  "romanji": "otagaisama desu",
+                  "meaning": "we are all in the same boat / it goes both ways",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "距離を取りたいわけではありません",
+                  "romanji": "kyori o toritai wake de wa arimasen",
+                  "meaning": "it is not that I want distance",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u6",
+          "title": "Functional I: Negotiating Routes & Options",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s5-u6-sess1",
+              "title": "Functional I: Negotiating Routes & Options",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "最短（さいたん）ルート",
+                  "romanji": "saitan ruuto",
+                  "meaning": "shortest route",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "混雑（こんざつ）を避けたいです",
+                  "romanji": "konzatsu o saketai desu",
+                  "meaning": "I want to avoid the crowds",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "別経路（べつけいろ）を提案します",
+                  "romanji": "betsu keiro o teian shimasu",
+                  "meaning": "I propose a different route",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "状況次第（じょうきょうしだい）です",
+                  "romanji": "joukyou shidai desu",
+                  "meaning": "it depends on the situation",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u7",
+          "title": "Checkpoint: Specialist Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s5-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Specialist mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u8",
+          "title": "Logic II: Nuanced Action Patterns",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s5-u8-sess1",
+              "title": "Logic II: Nuanced Action Patterns",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "〜気味（ぎみ）",
+                  "romanji": "...gimi",
+                  "meaning": "tending to / somewhat",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "後回しにしがちです",
+                  "romanji": "atomawashi ni shigachi desu",
+                  "meaning": "I tend to put it off",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "対応を急ぐ必要があります",
+                  "romanji": "taiou o isogu hitsuyou ga arimasu",
+                  "meaning": "we need to respond quickly",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "やることはやりました",
+                  "romanji": "yaru koto wa yarimashita",
+                  "meaning": "I did what needed to be done",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u9",
+          "title": "Physical II: Complex Needs & Evaluation",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s5-u9-sess1",
+              "title": "Physical II: Complex Needs & Evaluation",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "使用感（しようかん）",
+                  "romanji": "shiyoukan",
+                  "meaning": "how it feels in use",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "予想以上に使いやすい",
+                  "romanji": "yosou ijou ni tsukaiyasui",
+                  "meaning": "easier to use than expected",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "経過観察（けいかかんさつ）",
+                  "romanji": "keika kansatsu",
+                  "meaning": "monitoring over time",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "費用対効果（ひようたいこうか）",
+                  "romanji": "hiyou taikouka",
+                  "meaning": "cost performance",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u10",
+          "title": "Temporal II: Retrospective Nuance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s5-u10-sess1",
+              "title": "Temporal II: Retrospective Nuance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "振り返り（ふりかえり）",
+                  "romanji": "furikaeri",
+                  "meaning": "retrospective review",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "結果論（けっかろん）ですが",
+                  "romanji": "kekkaron desu ga",
+                  "meaning": "with hindsight, though",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "少し遠回りでしたが",
+                  "romanji": "sukoshi toomawari deshita ga",
+                  "meaning": "it was a bit of a detour, but",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "節目（ふしめ）になりました",
+                  "romanji": "fushime ni narimashita",
+                  "meaning": "it became a turning point",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u11",
+          "title": "Social III: Emotions & Interpersonal Nuance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s5-u11-sess1",
+              "title": "Social III: Emotions & Interpersonal Nuance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "腑（ふ）に落ちない",
+                  "romanji": "fu ni ochinai",
+                  "meaning": "does not sit right / does not click",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "ありがた迷惑（めいわく）",
+                  "romanji": "arigata meiwaku",
+                  "meaning": "well-meant but troublesome",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "感情的（かんじょうてき）になりたくない",
+                  "romanji": "kanjouteki ni naritaku nai",
+                  "meaning": "I do not want to get emotional",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "気持ちに整理をつける",
+                  "romanji": "kimochi ni seiri o tsukeru",
+                  "meaning": "sort out one’s feelings",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u12",
+          "title": "Functional II: Advanced Work & Digital",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s5-u12-sess1",
+              "title": "Functional II: Advanced Work & Digital",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "運用（うんよう）フロー",
+                  "romanji": "unyou furoo",
+                  "meaning": "operational flow",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "暫定対応（ざんていたいおう）",
+                  "romanji": "zantei taiou",
+                  "meaning": "temporary response",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "権限（けんげん）が足りません",
+                  "romanji": "kengen ga tarimasen",
+                  "meaning": "I do not have enough permissions",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "この件は巻き取ります",
+                  "romanji": "kono ken wa makitorimasu",
+                  "meaning": "I will take over this matter",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u13",
+          "title": "Cultural: Natural Japanese in Real Life",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s5-u13-sess1",
+              "title": "Cultural: Natural Japanese in Real Life",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "無理しないでね",
+                  "romanji": "muri shinai de ne",
+                  "meaning": "do not push yourself",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "ご縁（えん）ですね",
+                  "romanji": "go-en desu ne",
+                  "meaning": "what a fortunate connection",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "それはありがたいです",
+                  "romanji": "sore wa arigatai desu",
+                  "meaning": "that is appreciated",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "言わなくても伝わると思っていた",
+                  "romanji": "iwanakute mo tsutawaru to omotte ita",
+                  "meaning": "I thought it would get across without saying it",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s5-u14",
+          "title": "Gateway: Specialist Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s5-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Specialist gateway assessment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "key": "archivist",
+      "label": "Archivist",
+      "labelNative": "記録者",
+      "description": "Archivist loop. Maintenance, nuance, review, sandboxing, and Vault preparation — not handwriting torture or obscure kanji flexing.",
+      "registerAvailable": [
+        "textbook",
+        "natural",
+        "formal",
+        "informal"
+      ],
+      "units": [
+        {
+          "id": "ja-s6-u1",
+          "title": "Archivist I: Weekly Decay Review",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s6-u1-sess1",
+              "title": "Archivist I: Weekly Decay Review",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "復習（ふくしゅう）ループ",
+                  "romanji": "fukushuu ruupu",
+                  "meaning": "review loop",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "忘れかけた表現",
+                  "romanji": "wasurekaketa hyougen",
+                  "meaning": "expression I was starting to forget",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "定着（ていちゃく）させる",
+                  "romanji": "teichaku saseru",
+                  "meaning": "make it stick",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "今週の弱点を見直す",
+                  "romanji": "konshuu no jakuten o minaosu",
+                  "meaning": "review this week’s weak points",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u2",
+          "title": "Archivist II: Sandbox Conversation",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s6-u2-sess1",
+              "title": "Archivist II: Sandbox Conversation",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "話を広げる",
+                  "romanji": "hanashi o hirogeru",
+                  "meaning": "expand the conversation",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "自然に言い換える",
+                  "romanji": "shizen ni iikaeru",
+                  "meaning": "rephrase naturally",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "場面に合わせて調整する",
+                  "romanji": "bamen ni awasete chousei suru",
+                  "meaning": "adjust to the situation",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "不自然なら直してください",
+                  "romanji": "fushizen nara naoshite kudasai",
+                  "meaning": "please correct me if it sounds unnatural",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u3",
+          "title": "Archivist III: Vault Bridge",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s6-u3-sess1",
+              "title": "Archivist III: Vault Bridge",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "参考資料（さんこうしりょう）",
+                  "romanji": "sankou shiryou",
+                  "meaning": "reference material",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "動画で補強する",
+                  "romanji": "douga de hokyou suru",
+                  "meaning": "reinforce it with videos",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "書き取り練習",
+                  "romanji": "kakitori renshuu",
+                  "meaning": "copy-writing practice",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "次の深掘りに進む",
+                  "romanji": "tsugi no fukabori ni susumu",
+                  "meaning": "move on to the next deeper dive",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u4",
+          "title": "Archivist IV: Real Register Choice",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s6-u4-sess1",
+              "title": "Archivist IV: Real Register Choice",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "砕けすぎる",
+                  "romanji": "kudakesugiru",
+                  "meaning": "too casual / too loose",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "硬すぎる",
+                  "romanji": "kata sugiru",
+                  "meaning": "too stiff / too formal",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "場に合っている",
+                  "romanji": "ba ni atte iru",
+                  "meaning": "appropriate for the situation",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "自然さを優先する",
+                  "romanji": "shizensa o yuusen suru",
+                  "meaning": "prioritize naturalness",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u5",
+          "title": "Archivist V: Listening Tolerance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s6-u5-sess1",
+              "title": "Archivist V: Listening Tolerance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "聞き流さない",
+                  "romanji": "kikinagasanai",
+                  "meaning": "do not let it just wash over you",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "聞き取れた部分を拾う",
+                  "romanji": "kikitoreta bubun o hirou",
+                  "meaning": "grab the parts you caught",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "曖昧でも会話を続ける",
+                  "romanji": "aimai demo kaiwa o tsuzukeru",
+                  "meaning": "keep the conversation going even if it is fuzzy",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "確認しながら進める",
+                  "romanji": "kakunin shinagara susumeru",
+                  "meaning": "move forward while checking",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u6",
+          "title": "Archivist VI: Practical Autonomy",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s6-u6-sess1",
+              "title": "Archivist VI: Practical Autonomy",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "自力で切り抜ける",
+                  "romanji": "jiryoku de kirinukeru",
+                  "meaning": "get through it on your own",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "助けを求めるタイミング",
+                  "romanji": "tasuke o motomeru taimingu",
+                  "meaning": "when to ask for help",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "説明責任を果たす",
+                  "romanji": "setsumei sekinin o hatasu",
+                  "meaning": "fulfill your responsibility to explain",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "言い淀みを減らす",
+                  "romanji": "iidomio o herasu",
+                  "meaning": "reduce hesitation in speech",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u7",
+          "title": "Checkpoint: Archivist Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s6-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Archivist mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u8",
+          "title": "Archivist VIII: Self-Repair",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s6-u8-sess1",
+              "title": "Archivist VIII: Self-Repair",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "言い直します",
+                  "romanji": "iinaoshimasu",
+                  "meaning": "let me rephrase that",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "今のはちょっと違いました",
+                  "romanji": "ima no wa chotto chigaimashita",
+                  "meaning": "that was not quite right",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "もっと自然な言い方",
+                  "romanji": "motto shizen na iikata",
+                  "meaning": "a more natural way to say it",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "意味は通じるけど不自然",
+                  "romanji": "imi wa tsuujiru kedo fushizen",
+                  "meaning": "understandable but unnatural",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u9",
+          "title": "Archivist IX: Resource Use",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s6-u9-sess1",
+              "title": "Archivist IX: Resource Use",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "教材（きょうざい）を使い分ける",
+                  "romanji": "kyouzai o tsukaiwakeru",
+                  "meaning": "use materials for different purposes",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "辞書だけに頼らない",
+                  "romanji": "jisho dake ni tayoranai",
+                  "meaning": "do not rely only on dictionaries",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "動画と音声で補強する",
+                  "romanji": "douga to onsei de hokyou suru",
+                  "meaning": "reinforce with video and audio",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "紙で手を動かして覚える",
+                  "romanji": "kami de te o ugokashite oboeru",
+                  "meaning": "learn by physically writing on paper",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u10",
+          "title": "Archivist X: Time & Maintenance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s6-u10-sess1",
+              "title": "Archivist X: Time & Maintenance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "毎週のメンテナンス",
+                  "romanji": "maishuu no mentenansu",
+                  "meaning": "weekly maintenance",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "忘却（ぼうきゃく）を防ぐ",
+                  "romanji": "boukyaku o fusegu",
+                  "meaning": "prevent forgetting",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "学習習慣を守る",
+                  "romanji": "gakushuu shuukan o mamoru",
+                  "meaning": "protect the learning habit",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "短くても続ける",
+                  "romanji": "mijikakute mo tsuzukeru",
+                  "meaning": "keep going even if it is short",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u11",
+          "title": "Archivist XI: Emotional Endurance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s6-u11-sess1",
+              "title": "Archivist XI: Emotional Endurance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "完璧主義を手放す",
+                  "romanji": "kanpekishugi o tebanasu",
+                  "meaning": "let go of perfectionism",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "伸び悩み",
+                  "romanji": "nobinayami",
+                  "meaning": "plateau / frustration about not improving",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "通じた経験を積む",
+                  "romanji": "tsuujita keiken o tsumu",
+                  "meaning": "build experiences of being understood",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "学び直しを怖がらない",
+                  "romanji": "manabinaoshi o kowagaranai",
+                  "meaning": "do not be afraid to relearn",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u12",
+          "title": "Archivist XII: Work/Study Continuity",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s6-u12-sess1",
+              "title": "Archivist XII: Work/Study Continuity",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "実務（じつむ）で使う",
+                  "romanji": "jitsumu de tsukau",
+                  "meaning": "use it in real tasks",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "学術（がくじゅつ）ではなく実用",
+                  "romanji": "gakujutsu de wa naku jitsuyou",
+                  "meaning": "practical, not academic",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "現場感覚（げんばかんかく）",
+                  "romanji": "genba kankaku",
+                  "meaning": "on-the-ground feel",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "継続的に磨く",
+                  "romanji": "keizokuteki ni migaku",
+                  "meaning": "keep refining continuously",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u13",
+          "title": "Archivist XIII: Culture & Human Detail",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ja-s6-u13-sess1",
+              "title": "Archivist XIII: Culture & Human Detail",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "言葉の温度感",
+                  "romanji": "kotoba no ondokan",
+                  "meaning": "the emotional temperature of language",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "言い方ひとつで変わる",
+                  "romanji": "iikata hitotsu de kawaru",
+                  "meaning": "one turn of phrase changes everything",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "文化に沿って選ぶ",
+                  "romanji": "bunka ni sotte erabu",
+                  "meaning": "choose words in line with the culture",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "人に合わせて言い換える",
+                  "romanji": "hito ni awasete iikaeru",
+                  "meaning": "rephrase depending on the person",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ja-s6-u14",
+          "title": "Gateway: Archivist Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ja-s6-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Archivist gateway assessment."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "ja-scene-konbini",
+      "title": "Convenience Store",
+      "titleNative": "コンビニ",
+      "context": "#Everyday #Natural",
+      "minStage": 1,
+      "exchanges": [
+        {
+          "role": "staff",
+          "text": "いらっしゃいませ。温めますか？",
+          "translation": "Welcome. Would you like this heated?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say yes, and ask for chopsticks too.",
+          "acceptedAnswers": [
+            "はい、おねがいします",
+            "はしもください"
+          ],
+          "modelAnswer": "はい、お願いします。おはしもください。",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "ja-scene-train",
+      "title": "Train Station",
+      "titleNative": "駅",
+      "context": "#Travel #Formal",
+      "minStage": 1,
+      "exchanges": [
+        {
+          "role": "staff",
+          "text": "どちらまで行かれますか。",
+          "translation": "Where are you headed?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say you are going to Shibuya and ask if this train stops there.",
+          "acceptedAnswers": [
+            "渋谷",
+            "止まりますか"
+          ],
+          "modelAnswer": "渋谷までです。この電車は渋谷に止まりますか。",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "ja-scene-office",
+      "title": "Office Small Talk",
+      "titleNative": "オフィス",
+      "context": "#Work #Natural",
+      "minStage": 3,
+      "exchanges": [
+        {
+          "role": "coworker",
+          "text": "昨日の会議、どうでした？",
+          "translation": "How was yesterday’s meeting?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say it was useful but a little long.",
+          "acceptedAnswers": [
+            "役に立ちました",
+            "長かった"
+          ],
+          "modelAnswer": "役に立ちましたけど、少し長かったです。",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "ja-scene-doctor",
+      "title": "Clinic Visit",
+      "titleNative": "クリニック",
+      "context": "#Health #Formal",
+      "minStage": 2,
+      "exchanges": [
+        {
+          "role": "staff",
+          "text": "今日はどうされましたか。",
+          "translation": "What brings you in today?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say you have had a sore throat since yesterday.",
+          "acceptedAnswers": [
+            "のど",
+            "きのうから"
+          ],
+          "modelAnswer": "きのうからのどが痛いです。",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "ja-scene-friends",
+      "title": "Casual Meet-Up",
+      "titleNative": "友だち",
+      "context": "#Casual #Natural",
+      "minStage": 2,
+      "exchanges": [
+        {
+          "role": "friend",
+          "text": "今日なにする？",
+          "translation": "What are we doing today?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Suggest grabbing coffee first, then going to the bookstore.",
+          "acceptedAnswers": [
+            "コーヒー",
+            "本屋"
+          ],
+          "modelAnswer": "先にコーヒー飲んで、それから本屋に行こう。",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "ja-scene-vault",
+      "title": "Archivist Vault Bridge",
+      "titleNative": "資料の間",
+      "context": "#Archivist #Vault",
+      "minStage": 6,
+      "exchanges": [
+        {
+          "role": "guide",
+          "text": "ここから先は、自分で選んで深めていく段階です。",
+          "translation": "From here on, you choose your own deeper path.",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say you want to strengthen listening and practical conversation first.",
+          "acceptedAnswers": [
+            "聞き取り",
+            "会話"
+          ],
+          "modelAnswer": "まずは聞き取りと実用会話を強化したいです。",
+          "audio": true
+        }
+      ]
+    }
+  ],
+  "phraseLibrary": [
+    {
+      "id": "ja-ph-001",
+      "phrase": "電車はどこですか？",
+      "romanji": "densha wa doko desu ka",
+      "translation": "Where is the train?",
+      "contextTags": [
+        "#Travel",
+        "#Polite"
+      ],
+      "grammarNote": "〜はどこですか asks where something is.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "ja-ph-002",
+      "phrase": "すみません",
+      "romanji": "sumimasen",
+      "translation": "Excuse me / Sorry",
+      "contextTags": [
+        "#Polite",
+        "#Everyday"
+      ],
+      "grammarNote": "万能表現。Use to get attention, apologize, or soften a request.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "ja-ph-003",
+      "phrase": "もう一度お願いします",
+      "romanji": "mou ichido onegaishimasu",
+      "translation": "One more time, please",
+      "contextTags": [
+        "#Class",
+        "#Polite"
+      ],
+      "grammarNote": "Useful when you need repetition without sounding rude.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "ja-ph-004",
+      "phrase": "今、ちょっと手が離せません",
+      "romanji": "ima, chotto te ga hanasemasen",
+      "translation": "I am tied up right now",
+      "contextTags": [
+        "#Work",
+        "#Natural"
+      ],
+      "grammarNote": "Natural way to say you are busy at the moment.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "ja-ph-005",
+      "phrase": "それ、すごくいいですね",
+      "romanji": "sore, sugoku ii desu ne",
+      "translation": "That is really nice",
+      "contextTags": [
+        "#Social",
+        "#Natural"
+      ],
+      "grammarNote": "Soft, natural praise.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "ja-ph-006",
+      "phrase": "失礼ですが、お名前をもう一度よろしいですか",
+      "romanji": "shitsurei desu ga, onamae o mou ichido yoroshii desu ka",
+      "translation": "Excuse me, may I have your name once more?",
+      "contextTags": [
+        "#Formal",
+        "#Polite"
+      ],
+      "grammarNote": "Useful formal recovery line.",
+      "register": "formal",
+      "audio": true
+    },
+    {
+      "id": "ja-ph-007",
+      "phrase": "この言い方、自然ですか",
+      "romanji": "kono iikata, shizen desu ka",
+      "translation": "Is this way of saying it natural?",
+      "contextTags": [
+        "#Study",
+        "#Archivist"
+      ],
+      "grammarNote": "Perfect for sandbox correction.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "ja-ph-008",
+      "phrase": "本音で言うと、ちょっと不安です",
+      "romanji": "honne de iu to, chotto fuan desu",
+      "translation": "Honestly, I am a little anxious",
+      "contextTags": [
+        "#Emotion",
+        "#Natural"
+      ],
+      "grammarNote": "Models natural emotional openness.",
+      "register": "natural",
+      "audio": true
+    }
+  ]
+}
