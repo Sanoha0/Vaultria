@@ -19,7 +19,8 @@ import { xpToLevel, xpProgressInLevel } from "./utils/textUtils.js";
 import { joinQueue, leaveQueue, subscribeQueue, subscribeMatch, submitAnswer, completeMatch } from "./services/arenaService.js";
 import { XP_PER_LEVEL, KOFI_URL } from "./utils/constants.js";
 import {
-  heartbeat, setOffline, isUserOnline, syncProgressToProfile,
+  startPresence, endPresence, watchUserPresence, checkUserPresence, checkMultiplePresences, isUserOnlineRealtime,
+  syncProgressToProfile,
   loadLeaderboard, loadReplies, createPlazaPost, replyToPost, toggleLike,
   loadFriends, sendFriendRequest, acceptFriendRequest, removeFriend,
   getFriendStatus, searchUsers, subscribePlaza, subscribeFriendRequests,
@@ -183,6 +184,22 @@ const SKILL_TREES = {
 };
 
 // ────────────────────────────────────────────────────────────────────
+// Global helper for presence (used in template strings throughout this file)
+// This will be set once app is initialized
+let _appInstance = null;
+
+function isUserOnline(user) {
+  if (!user || !user.uid) return false;
+  // Try to get from app presence cache first (real-time)
+  if (_appInstance) {
+    _appInstance._subscribeToPresence(user.uid); // Start subscription if not already done
+    return _appInstance._isUserOnlineFromCache(user.uid);
+  }
+  // Fallback: no app instance yet
+  return false;
+}
+
+// ────────────────────────────────────────────────────────────────────
 class VaultriaApp {
   constructor() {
     this.currentLang     = null;
@@ -194,6 +211,8 @@ class VaultriaApp {
     this._langDataCache  = {};
     this._navHistory     = [];
     this._navFuture      = [];
+    this._presenceCache  = {}; // Real-time presence data { uid -> { online, lastSeen, username } }
+    this._presenceSubs   = new Map(); // Unsubscribe functions for presence listeners
     this._registerGlobalEvents();
   }
 
@@ -224,6 +243,7 @@ class VaultriaApp {
 
   // ── Auth ──────────────────────────────────────────────────────────
   _showAuth() {
+    endPresence(); // Clean up real-time presence on logout
     const app = document.getElementById("app");
     if (!app) return;
     app.innerHTML = "";
@@ -238,15 +258,52 @@ class VaultriaApp {
     this.allProgress = await loadAllProgress();
     this._buildShell();
     this._showHub();
-    heartbeat();
-    this._heartbeatInterval = setInterval(() => heartbeat(), 60000);
-    window.addEventListener("beforeunload", () => setOffline(), { once: true });
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "hidden") setOffline();
-      else heartbeat();
-    });
+    // Initialize real-time presence system (replaces old heartbeat)
+    startPresence();
     this._unsubFriendReqs = subscribeFriendRequests((reqs) => {
       this.rightPanel?.setBadge?.("friends", reqs.length > 0);
+    });
+  }
+
+  /**
+   * Subscribe to presence for a user and get real-time updates
+   * Returns whether the user is currently online
+   */
+  _subscribeToPresence(uid) {
+    if (!uid) return false;
+    if (this._presenceSubs.has(uid)) return this._presenceCache[uid]?.online ?? false;
+
+    const unsub = watchUserPresence(uid, (presenceData) => {
+      this._presenceCache[uid] = presenceData;
+      // Trigger UI update for any visible elements showing this user
+      this._updatePresenceUI(uid);
+    });
+    this._presenceSubs.set(uid, unsub);
+    return this._presenceCache[uid]?.online ?? false;
+  }
+
+  /**
+   * Check if a user is online from cached presence data
+   */
+  _isUserOnlineFromCache(uid) {
+    return this._presenceCache[uid]?.online ?? false;
+  }
+
+  /**
+   * Update UI elements showing presence for a user
+   */
+  _updatePresenceUI(uid) {
+    // Find all elements that show this user's presence indicator
+    const isOnline = this._isUserOnlineFromCache(uid);
+    const elements = document.querySelectorAll(`[data-presence-uid="${uid}"]`);
+    elements.forEach((el) => {
+      if (isOnline) {
+        el.classList.add("online");
+        el.classList.remove("offline");
+      } else {
+        el.classList.remove("online");
+        el.classList.add("offline");
+      }
     });
   }
 
@@ -2936,4 +2993,5 @@ class VaultriaApp {
 }
 
 const app = new VaultriaApp();
+_appInstance = app; // Set global for presence helper
 app.boot();

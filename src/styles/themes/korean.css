@@ -31,10 +31,10 @@
 
 [data-lang="korean"] .env-canvas {
   background:
-    radial-gradient(ellipse 80% 55% at 28% -8%,  rgba(15,60,180,0.18) 0%, transparent 55%),
-    radial-gradient(ellipse 55% 40% at 82% 25%,  rgba(60,170,255,0.10) 0%, transparent 50%),
-    radial-gradient(ellipse 40% 30% at 8%  82%,  rgba(255,60,160,0.08) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 50% at 70% 90%,  rgba(30,80,200,0.10) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 55% at 28% -8%,  rgba(20,80,200,0.24) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 40% at 82% 25%,  rgba(80,200,255,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 8%  82%,  rgba(255,100,180,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 70% 90%,  rgba(50,120,220,0.14) 0%, transparent 50%),
     linear-gradient(172deg, #030610 0%, #050918 55%, #040818 100%);
 }
 
@@ -48,7 +48,7 @@
   background-repeat: no-repeat;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.85;
+  opacity: 0.88;
   mix-blend-mode: lighten;
 }
 
@@ -63,8 +63,8 @@
       transparent 0px, transparent 3px,
       rgba(77,184,255,0.008) 3px, rgba(77,184,255,0.008) 4px
     ),
-    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 38%, rgba(2,4,14,0.55) 100%),
-    radial-gradient(ellipse 60% 35% at 50% 100%, rgba(2,4,14,0.65) 0%, transparent 55%);
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 35%, rgba(5,8,20,0.72) 100%),
+    radial-gradient(ellipse 60% 35% at 50% 100%, rgba(5,8,20,0.80) 0%, transparent 55%);
   pointer-events: none;
   z-index: 1;
 }
@@ -79,8 +79,8 @@
   background:
     repeating-linear-gradient(0deg, transparent 0px, transparent 3px, rgba(77,184,255,0.008) 3px, rgba(77,184,255,0.008) 4px),
     radial-gradient(ellipse 65% 42% at 50% 50%, rgba(77,184,255,0.16) 0%, transparent 65%),
-    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 38%, rgba(2,4,14,0.55) 100%),
-    radial-gradient(ellipse 60% 35% at 50% 100%, rgba(2,4,14,0.65) 0%, transparent 55%);
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 35%, rgba(5,8,20,0.72) 100%),
+    radial-gradient(ellipse 60% 35% at 50% 100%, rgba(5,8,20,0.80) 0%, transparent 55%);
   animation: correctPulse 1.3s ease forwards;
 }
 
@@ -88,8 +88,8 @@
   background:
     repeating-linear-gradient(0deg, transparent 0px, transparent 3px, rgba(77,184,255,0.008) 3px, rgba(77,184,255,0.008) 4px),
     radial-gradient(ellipse 65% 42% at 50% 50%, rgba(255,50,75,0.20) 0%, transparent 60%),
-    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 38%, rgba(2,4,14,0.55) 100%),
-    radial-gradient(ellipse 60% 35% at 50% 100%, rgba(2,4,14,0.65) 0%, transparent 55%);
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 35%, rgba(5,8,20,0.72) 100%),
+    radial-gradient(ellipse 60% 35% at 50% 100%, rgba(5,8,20,0.80) 0%, transparent 55%);
   animation: errorDim 0.8s ease forwards;
 }
 

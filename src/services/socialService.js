@@ -11,6 +11,7 @@
  */
 
 import { getDb, getAuth } from "../firebase/instance.js";
+import { initializePresence, cleanupPresence, subscribeToUserPresence, getMultiplePresences, getUserPresence } from "./presenceService.js";
 
 // ─── Firebase accessors ────────────────────────────────────────────
 // Use getDb()/getAuth() which always return the live singleton after initFirebase() runs.
@@ -56,46 +57,52 @@ function _validatePlazaText(text) {
   return { ok: true, clean };
 }
 
-// ─── Presence ──────────────────────────────────────────────────────
+// ─── Presence (Real-Time via Realtime Database) ────────────────────
 
-export async function heartbeat() {
-  try {
-    const me = _me();
-    const db = _db();
-    if (!db) return;
-    await db.collection("users").doc(me.uid).set({
-      online:      true,
-      lastSeenAt:  _now(),
-      uid:         me.uid,
-      username:    me.displayName || me.email?.split("@")[0] || "Learner",
-      usernameLower: (me.displayName || me.email?.split("@")[0] || "learner").toLowerCase(),
-      email:       me.email || "",
-    }, { merge: true });
-  } catch (_) {}
+/**
+ * Initialize real-time presence system for the current user
+ * Should be called after authentication succeeds
+ */
+export function startPresence() {
+  initializePresence();
 }
 
-export async function setOffline() {
-  try {
-    const me = _me();
-    const db = _db();
-    if (!db) return;
-    await db.collection("users").doc(me.uid).update({ online: false, lastSeenAt: _now() });
-  } catch (_) {}
+/**
+ * Clean up presence on logout
+ */
+export async function endPresence() {
+  await cleanupPresence();
 }
 
-// ─── Presence helpers ──────────────────────────────────────────────
+/**
+ * Subscribe to presence updates for a single user
+ * Returns unsubscribe function
+ */
+export function watchUserPresence(uid, callback) {
+  return subscribeToUserPresence(uid, callback);
+}
 
-const PRESENCE_STALE_MS = 5 * 60 * 1000; // 5 minutes
+/**
+ * Get presence snapshot for a user
+ */
+export async function checkUserPresence(uid) {
+  return await getUserPresence(uid);
+}
 
-/** Staleness-based online check — treats users as offline if no heartbeat in 5 min */
-export function isUserOnline(user) {
-  if (!user?.online) return false;
-  if (!user?.lastSeenAt) return false;
-  const ts = typeof user.lastSeenAt === "string" ? new Date(user.lastSeenAt).getTime()
-           : user.lastSeenAt?.toMillis ? user.lastSeenAt.toMillis()
-           : Number(user.lastSeenAt);
-  if (!ts || isNaN(ts)) return false;
-  return (Date.now() - ts) < PRESENCE_STALE_MS;
+/**
+ * Get presence for multiple users at once
+ */
+export async function checkMultiplePresences(uids) {
+  return await getMultiplePresences(uids);
+}
+
+/**
+ * Check if a user is currently online (real-time)
+ * This queries the Realtime Database for instant status
+ */
+export async function isUserOnlineRealtime(uid) {
+  const presence = await getUserPresence(uid);
+  return presence ? presence.online === true : false;
 }
 
 // ─── User search ───────────────────────────────────────────────────

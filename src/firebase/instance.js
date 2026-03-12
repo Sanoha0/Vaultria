@@ -10,6 +10,7 @@ export let fbApp     = null;
 export let fbAuth    = null;
 export let db        = null;
 export let fbStorage = null;
+export let rtdb      = null; // Firebase Realtime Database for presence
 export let isFirebaseReady = false;
 
 /**
@@ -28,6 +29,7 @@ export async function initFirebase() {
     fbAuth    = window.firebase.auth();
     db        = window.firebase.firestore();
     fbStorage = window.firebase.storage();
+    rtdb      = window.firebase.database(); // Realtime Database for presence
 
     await fbAuth.setPersistence(window.firebase.auth.Auth.Persistence.LOCAL);
 
@@ -49,3 +51,4 @@ export async function initFirebase() {
  */
 export function getDb() { return db; }
 export function getAuth() { return fbAuth; }
+export function getRtdb() { return rtdb; }

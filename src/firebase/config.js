@@ -19,4 +19,5 @@ export const FIREBASE_SDK_URLS = [
   `https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-auth-compat.js`,
   `https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-firestore-compat.js`,
   `https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-storage-compat.js`,
+  `https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-database-compat.js`,
 ];
