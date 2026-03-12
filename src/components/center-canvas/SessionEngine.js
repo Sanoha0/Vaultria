@@ -214,10 +214,6 @@ export class SessionEngine {
     if (!card) return;
     card.className = "exercise-card";
 
-    const showTranslation = this.immersion !== "full_immersion";
-    const showRomanji     = this.immersion === "full_translation" ||
-                            (this.immersion === "partial" && this.langKey === "japanese");
-
     const hasAudio  = item.audio !== false;
     const audioText = item.target || item.phrase || item.prompt || "";
     const isCJK     = this.langKey === "japanese" || this.langKey === "korean";
@@ -232,12 +228,12 @@ export class SessionEngine {
         ${targetDisplay}
       </div>
 
-      ${showRomanji && item.romanji
-        ? `<div class="exercise-romanji">${item.romanji}</div>`
+      ${item.romanji
+        ? `<div class="exercise-romanji sess-hint-hidden" id="sess-romanji">${item.romanji}</div>`
         : ""}
 
-      ${showTranslation && item.meaning
-        ? `<div class="exercise-meaning">${item.meaning}</div>`
+      ${item.meaning
+        ? `<div class="exercise-meaning sess-hint-hidden" id="sess-meaning">${item.meaning}</div>`
         : ""}
 
       ${item.context ? `
@@ -460,21 +456,40 @@ export class SessionEngine {
   _showHint(item) {
     this.hintsUsed++;
     const hintEl = this.container.querySelector("#hint-text");
-    if (!hintEl) return;
-
     const isTypingDrill = !!(this.container.querySelector("#sess-input"));
 
+    // Level 0 → reveal romanji on the exercise card
     if (this.hintLevel === 0 && (item.romanji || item.reading)) {
-      hintEl.innerHTML = `<span style="font-family:var(--font-mono);opacity:0.85;">${item.romanji || item.reading}</span>`;
+      const romEl = this.container.querySelector("#sess-romanji");
+      if (romEl) {
+        romEl.classList.remove("sess-hint-hidden");
+        romEl.classList.add("sess-hint-reveal");
+      }
       this.hintLevel = 1;
-    } else if (this.hintLevel <= 1 && item.meaning) {
-      hintEl.innerHTML = `<span style="color:var(--text-secondary);">${item.meaning}</span>`;
+      return;
+    }
+
+    // Level 1 → reveal meaning on the exercise card
+    if (this.hintLevel <= 1 && item.meaning) {
+      const meanEl = this.container.querySelector("#sess-meaning");
+      if (meanEl) {
+        meanEl.classList.remove("sess-hint-hidden");
+        meanEl.classList.add("sess-hint-reveal");
+      }
       this.hintLevel = 2;
-    } else if (isTypingDrill && this.hintLevel >= 2) {
+      return;
+    }
+
+    // Level 2+ → progressive character hints (typing drills)
+    if (isTypingDrill && hintEl && this.hintLevel >= 2) {
       const hint = generateHint(item.answer || item.target || "", this.hintLevel - 2);
       hintEl.innerHTML = `<span style="font-family:var(--font-mono);">${hint}</span>`;
       this.hintLevel = Math.min(this.hintLevel + 1, 5);
-    } else if (item.notes) {
+      return;
+    }
+
+    // Fallback: show notes
+    if (item.notes && hintEl) {
       hintEl.innerHTML = `<span style="color:var(--text-muted);font-style:italic;">${item.notes}</span>`;
       this.hintLevel++;
     }

@@ -210,21 +210,24 @@ export class LanguageHub {
 .hub-header{text-align:center;margin-bottom:44px;position:relative;z-index:2;}
 .hub-wordmark{font-size:clamp(1.4rem,3vw,2rem);font-weight:300;letter-spacing:0.24em;color:rgba(255,245,235,0.88);text-transform:uppercase;margin-bottom:8px;}
 .hub-subtitle{font-size:0.72rem;letter-spacing:0.18em;color:rgba(255,240,220,0.32);text-transform:uppercase;font-family:'DM Mono','Courier New',monospace;}
-.hub-cards{display:grid;grid-template-columns:repeat(3,320px);gap:18px;position:relative;z-index:2;padding:0 20px;}
-@media(max-width:1060px){.hub-cards{grid-template-columns:repeat(3,minmax(0,1fr));max-width:98vw;}}
-@media(max-width:680px){.hub-cards{grid-template-columns:1fr;max-width:360px;}.hub-header{margin-bottom:24px;}}
-.lang-world{position:relative;border-radius:14px;overflow:hidden;cursor:pointer;height:330px;border:1px solid rgba(255,255,255,0.07);transition:transform 0.45s cubic-bezier(0.22,1,0.36,1),box-shadow 0.45s cubic-bezier(0.22,1,0.36,1),border-color 0.3s ease;animation:worldReveal 0.65s cubic-bezier(0.22,1,0.36,1) both;}
+.hub-cards{display:grid;grid-template-columns:repeat(3,340px);gap:22px;position:relative;z-index:2;padding:0 20px;}
+@media(max-width:1100px){.hub-cards{grid-template-columns:repeat(3,minmax(0,1fr));max-width:98vw;}}
+@media(max-width:680px){.hub-cards{grid-template-columns:1fr;max-width:380px;}.hub-header{margin-bottom:24px;}}
+.lang-world{position:relative;border-radius:16px;overflow:hidden;cursor:pointer;height:360px;border:1px solid rgba(255,255,255,0.08);transition:transform 0.45s cubic-bezier(0.22,1,0.36,1),box-shadow 0.45s cubic-bezier(0.22,1,0.36,1),border-color 0.35s ease;animation:worldReveal 0.65s cubic-bezier(0.22,1,0.36,1) both;}
 .lang-world:nth-child(1){animation-delay:0.05s;}.lang-world:nth-child(2){animation-delay:0.15s;}.lang-world:nth-child(3){animation-delay:0.25s;}
 @keyframes worldReveal{from{opacity:0;transform:translateY(24px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
 .lang-world:hover{transform:translateY(-8px) scale(1.02);}
 .lang-world:hover .world-scene div{transform:scale(1.06);transition:transform 0.6s cubic-bezier(0.22,1,0.36,1);}
-.lang-world:hover .world-overlay{background:rgba(0,0,0,0.22);}
+.lang-world:hover .world-overlay{background:rgba(0,0,0,0.18);}
 .lang-world:hover .world-enter{opacity:1;transform:translateY(0);}
+.lang-world[data-lang="japanese"]:hover{border-color:rgba(232,160,184,0.45);box-shadow:0 16px 48px rgba(232,160,184,0.12),0 4px 16px rgba(0,0,0,0.3);}
+.lang-world[data-lang="spanish"]:hover{border-color:rgba(232,164,74,0.45);box-shadow:0 16px 48px rgba(232,164,74,0.12),0 4px 16px rgba(0,0,0,0.3);}
+.lang-world[data-lang="korean"]:hover{border-color:rgba(77,184,255,0.45);box-shadow:0 16px 48px rgba(77,184,255,0.12),0 4px 16px rgba(0,0,0,0.3);}
 .lang-world:active{transform:translateY(-4px) scale(1.01);}
 .world-scene{position:absolute;inset:0;overflow:hidden;}
-.world-scene svg{width:100%;height:100%;display:block;transition:transform 0.6s cubic-bezier(0.22,1,0.36,1);}
-.world-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.30);transition:background 0.4s ease;}
-.world-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.93) 0%,rgba(0,0,0,0.55) 38%,rgba(0,0,0,0.08) 68%,transparent 100%);}
+.world-scene div{transition:transform 0.6s cubic-bezier(0.22,1,0.36,1);}
+.world-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.28);transition:background 0.4s ease;}
+.world-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.94) 0%,rgba(0,0,0,0.58) 35%,rgba(0,0,0,0.10) 65%,transparent 100%);}
 .world-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:26px 24px;z-index:2;}
 .world-tag{font-family:'DM Mono','Courier New',monospace;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-bottom:8px;}
 .world-name{font-size:2.2rem;font-weight:300;line-height:1;color:rgba(255,255,255,0.96);letter-spacing:0.04em;margin-bottom:4px;}

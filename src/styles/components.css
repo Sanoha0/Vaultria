@@ -999,6 +999,9 @@
 }
 .exercise-romanji { font-family: var(--font-mono); font-size: 1rem; color: var(--text-muted); letter-spacing: 0.06em; }
 .exercise-meaning { font-size: 1rem; color: var(--text-secondary); }
+.sess-hint-hidden { display: none; }
+.sess-hint-reveal { animation: hintFadeIn 0.35s ease forwards; }
+@keyframes hintFadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 .hint-text { font-size: 0.85rem; color: var(--accent-primary); font-style: italic; font-family: var(--font-mono); }
 
 /* ── Why Card ────────────────────────────────────────────────────── */

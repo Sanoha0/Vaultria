@@ -681,8 +681,15 @@ class VaultriaApp {
     }
 
     // Phrase of the day: play button
-    canvas.querySelector("#ws-phrase-play")?.addEventListener("click", () => {
-      if (todayPhrase) ttsSpeak(todayPhrase.phrase, lang);
+    canvas.querySelector("#ws-phrase-play")?.addEventListener("click", async (e) => {
+      if (!todayPhrase) return;
+      const btn = e.currentTarget;
+      const result = await ttsSpeak(todayPhrase.phrase, lang);
+      if (!result) {
+        btn.style.opacity = "0.4";
+        btn.title = "Audio not available for this phrase";
+        setTimeout(() => { btn.style.opacity = "0.8"; }, 1200);
+      }
     });
 
     // Quick actions
