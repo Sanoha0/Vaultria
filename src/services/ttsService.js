@@ -214,6 +214,22 @@ export function attachWordTap(container) {
   });
 }
 
+export function startItemTimer(item, langKey) {
+  const start = Date.now();
+  return {
+    resolve(correct) {
+      const elapsed = Date.now() - start;
+      const text = item.target || item.phrase || item.word || "";
+      eventBus.emit("session:item-time", {
+        text,
+        langKey,
+        correct,
+        ms: elapsed,
+      });
+    },
+  };
+}
+
 async function _resolveStaticAudio(ttsText, langCode) {
   const manifest = await _getManifest();
   const key = `${langCode}::${ttsText}`;
