@@ -1,17 +1,7 @@
 
 /**
  * Vaultria — Static TTS Service
- * Static-only lesson audio.
- *
- * Uses:
- * - audio/manifest.json
- * - audio/ja/*.wav
- * - audio/ko/*.wav
- * - audio/es/*.wav
- *
- * No live HF fallback.
- * No puter fallback.
- * No Web Speech fallback.
+ * Plays pre-generated audio from audio/manifest.json + audio/{ja,ko,es}/*.wav
  */
 
 import { eventBus } from "../utils/eventBus.js";

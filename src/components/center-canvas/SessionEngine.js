@@ -5,7 +5,7 @@
  * TTS integration (static-first):
  *  - preload() tells the browser to buffer static audio files before rendering
  *  - Auto-plays target word/phrase ONCE per item via _lastAutoplayKey guard
- *  - No noticeable delay: static files are already buffered; HF only for missing
+ *  - No noticeable delay: static files are already buffered by preload()
  *  - Play / Slow / Shadow buttons guarded by _speakWithGuard (no tap-spam)
  *  - Kana/script drills: all items preloaded at concur=8 immediately on open
  *  - Normal sessions: first 8 items preloaded before render, rest in background
@@ -189,6 +189,7 @@ export class SessionEngine {
    * @param {boolean} [opts.force]  Bypass guard (feedback playback)
    */
   async _speakWithGuard(text, langKey, opts = {}) {
+    if (opts.interrupt) { stop(); this._speaking = false; }
     if (this._speaking && !opts.force) return;
     this._speaking = true;
     try {
@@ -284,17 +285,17 @@ export class SessionEngine {
       });
       card.querySelector(".sess-tts-play")?.addEventListener("click", e => {
         e.stopPropagation();
-        this._speakWithGuard(audioText, this.langKey);
+        this._speakWithGuard(audioText, this.langKey, { interrupt: true });
       });
       card.querySelector(".sess-tts-slow")?.addEventListener("click", e => {
         e.stopPropagation();
-        this._speakWithGuard(audioText, this.langKey, { slow: true });
+        this._speakWithGuard(audioText, this.langKey, { slow: true, interrupt: true });
       });
       card.querySelector(".sess-tts-shadow")?.addEventListener("click", e => {
         e.stopPropagation();
         this._shadowMode = !this._shadowMode;
         e.currentTarget.classList.toggle("active", this._shadowMode);
-        if (this._shadowMode) this._speakWithGuard(audioText, this.langKey, { shadowing: true });
+        if (this._shadowMode) this._speakWithGuard(audioText, this.langKey, { shadowing: true, interrupt: true });
       });
     }
   }

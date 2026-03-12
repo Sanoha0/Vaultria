@@ -16,9 +16,10 @@ import { LanguageHub }         from "./pages/LanguageHub.js";
 import { SessionEngine }       from "./components/center-canvas/SessionEngine.js";
 import { speak as ttsSpeak }  from "./services/ttsService.js";
 import { xpToLevel, xpProgressInLevel } from "./utils/textUtils.js";
+import { joinQueue, leaveQueue, subscribeQueue, subscribeMatch, submitAnswer, completeMatch } from "./services/arenaService.js";
 import { XP_PER_LEVEL, KOFI_URL } from "./utils/constants.js";
 import {
-  heartbeat, setOffline, syncProgressToProfile,
+  heartbeat, setOffline, isUserOnline, syncProgressToProfile,
   loadLeaderboard, loadReplies, createPlazaPost, replyToPost, toggleLike,
   loadFriends, sendFriendRequest, acceptFriendRequest, removeFriend,
   getFriendStatus, searchUsers, subscribePlaza, subscribeFriendRequests,
@@ -240,6 +241,10 @@ class VaultriaApp {
     heartbeat();
     this._heartbeatInterval = setInterval(() => heartbeat(), 60000);
     window.addEventListener("beforeunload", () => setOffline(), { once: true });
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") setOffline();
+      else heartbeat();
+    });
     this._unsubFriendReqs = subscribeFriendRequests((reqs) => {
       this.rightPanel?.setBadge?.("friends", reqs.length > 0);
     });
@@ -1396,7 +1401,10 @@ class VaultriaApp {
         <span style="font-size:0.72rem;font-family:var(--font-mono);color:var(--text-muted);">·</span>
         <span style="font-size:0.72rem;font-family:var(--font-mono);color:${accent};">Solo or 1v1</span>
       </div>
-      <button class="btn btn-primary" id="arena-find-match">▶ Start Solo Run</button>
+      <div style="display:flex;gap:8px;justify-content:center;">
+        <button class="btn btn-primary" id="arena-solo">▶ Solo Run</button>
+        <button class="btn btn-ghost" id="arena-1v1" style="border-color:${accent}40;color:${accent};">⚔ Find Match</button>
+      </div>
     </div>
     <div class="card-elevated" style="text-align:center;padding:28px 20px;opacity:0.65;">
       <div style="font-size:2.2rem;margin-bottom:12px;filter:grayscale(0.5);">🎙️</div>
@@ -1444,7 +1452,9 @@ class VaultriaApp {
     }
 
     // Solo speed run
-    canvas.querySelector("#arena-find-match")?.addEventListener("click", () => this._startArenaRun());
+    canvas.querySelector("#arena-solo")?.addEventListener("click", () => this._startArenaRun());
+    // 1v1 matchmaking
+    canvas.querySelector("#arena-1v1")?.addEventListener("click", () => this._startArenaMatchmaking());
   }
 
   async _startArenaRun() {
@@ -1528,6 +1538,186 @@ class VaultriaApp {
     renderQ();
   }
 
+  async _startArenaMatchmaking() {
+    const lang   = this.currentLang;
+    const canvas = document.getElementById("center-canvas");
+    const accent = ACCENT[lang];
+    const me     = getUser();
+    if (!me || isGuest?.()) { showToast("Sign in to play 1v1", "info"); return; }
+
+    // Prepare items for the match
+    const langData = await this._fetchLangData(lang);
+    const pool = [];
+    const stage = this.currentProgress?.stageUnlocked || 0;
+    (langData?.stages?.[stage]?.units || []).forEach(u => (u.items||[]).forEach(i => pool.push(i)));
+    const items = pool.sort(() => Math.random() - 0.5).slice(0, 10);
+    if (!items.length) { showToast("No content available for arena yet", "info"); return; }
+
+    // Show waiting screen
+    canvas.innerHTML = `<div class="canvas-content page-enter" style="text-align:center;padding:80px 40px;">
+      <div style="font-size:3rem;margin-bottom:20px;">⚔</div>
+      <h2 style="font-family:var(--font-display);font-size:1.8rem;font-weight:300;color:var(--text-primary);margin-bottom:12px;">Finding Opponent…</h2>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:32px;">Waiting for another player in ${LABEL[lang]}…</p>
+      <div id="arena-queue-spinner" style="width:40px;height:40px;border:3px solid var(--border-subtle);border-top-color:${accent};border-radius:50%;margin:0 auto 32px;animation:spin 1s linear infinite;"></div>
+      <style>@keyframes spin{to{transform:rotate(360deg);}}</style>
+      <button class="btn btn-ghost" id="arena-cancel">Cancel</button>
+    </div>`;
+    this._injectNavBar(canvas);
+
+    // Join queue
+    await joinQueue(me.uid, me.displayName || "Learner", lang);
+
+    let unsubQueue = null;
+    let cancelled = false;
+
+    canvas.querySelector("#arena-cancel")?.addEventListener("click", async () => {
+      cancelled = true;
+      if (unsubQueue) unsubQueue();
+      await leaveQueue(me.uid);
+      this._pageArena(canvas);
+    });
+
+    // Subscribe to queue — wait for match
+    unsubQueue = subscribeQueue(me.uid, lang, items, async ({ matchId }) => {
+      if (cancelled) return;
+      if (unsubQueue) unsubQueue();
+      await leaveQueue(me.uid);
+      this._startArenaMultiplayer(matchId, items, pool);
+    });
+  }
+
+  _startArenaMultiplayer(matchId, items, pool) {
+    const lang   = this.currentLang;
+    const canvas = document.getElementById("center-canvas");
+    const accent = ACCENT[lang];
+    const me     = getUser();
+    let idx = 0, myCorrect = 0, startTime = Date.now();
+    let unsubMatch = null;
+    let oppProgress = 0, oppScore = 0;
+
+    // Subscribe to match updates for opponent progress
+    unsubMatch = subscribeMatch(matchId, (match) => {
+      const oppUid = match.players.find(p => p !== me.uid);
+      oppProgress = (match.answers?.[oppUid] || []).filter(a => a != null).length;
+      oppScore = match.scores?.[oppUid] || 0;
+
+      // Update opponent display if visible
+      const oppEl = canvas.querySelector("#arena-opp-progress");
+      if (oppEl) oppEl.textContent = `Opponent: ${oppProgress}/10 (${oppScore} correct)`;
+
+      // Check if match is complete
+      if (match.state === "complete" && idx >= items.length) {
+        if (unsubMatch) unsubMatch();
+        const isWin = match.winnerId === me.uid;
+        const myScore = match.scores?.[me.uid] || 0;
+        const myTime = ((match.times?.[me.uid] || 0) / 1000).toFixed(1);
+        const xp = isWin ? myScore * 18 : myScore * 10;
+
+        canvas.innerHTML = `<div class="canvas-content page-enter" style="text-align:center;padding:60px 40px;">
+          <div style="font-size:3rem;margin-bottom:16px;">${isWin ? "🏆" : "💪"}</div>
+          <h2 style="font-family:var(--font-display);font-size:2rem;font-weight:300;color:var(--text-primary);margin-bottom:8px;">${isWin ? "Victory!" : "Defeat"}</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:340px;margin:24px auto;">
+            <div class="card" style="padding:16px;text-align:center;">
+              <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:4px;">You</div>
+              <div style="font-size:1.3rem;font-weight:600;color:${accent};">${myScore}/10</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">${myTime}s</div>
+            </div>
+            <div class="card" style="padding:16px;text-align:center;">
+              <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:4px;">Opponent</div>
+              <div style="font-size:1.3rem;font-weight:600;color:var(--text-secondary);">${oppScore}/10</div>
+            </div>
+          </div>
+          <div style="font-size:1.1rem;color:${accent};font-family:var(--font-mono);margin-bottom:24px;">+${xp} XP</div>
+          <button class="btn btn-primary" id="arena-back">Back to Arena</button>
+        </div>`;
+        this._injectNavBar(canvas);
+        canvas.querySelector("#arena-back")?.addEventListener("click", () => this._pageArena(canvas));
+        if (xp > 0) {
+          this.currentProgress.xp = (this.currentProgress.xp || 0) + xp;
+          saveProgress(lang, this.currentProgress);
+          showXpPopup(xp, isWin ? 5 : 2, null);
+        }
+      }
+    });
+
+    const renderQ = () => {
+      if (idx >= items.length) {
+        // Submit completion
+        completeMatch(matchId, me.uid);
+        canvas.innerHTML = `<div class="canvas-content page-enter" style="text-align:center;padding:80px 40px;">
+          <div style="font-size:2rem;margin-bottom:16px;">⏳</div>
+          <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:300;color:var(--text-primary);margin-bottom:8px;">Waiting for opponent…</h2>
+          <p style="font-size:0.85rem;color:var(--text-muted);">You scored ${myCorrect}/10. Waiting for results…</p>
+        </div>`;
+        this._injectNavBar(canvas);
+        return;
+      }
+      const item = items[idx];
+      const itemStart = Date.now();
+      canvas.innerHTML = `<div class="canvas-content page-enter" style="max-width:500px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:0.75rem;font-family:var(--font-mono);color:var(--text-muted);">${idx+1} / 10</span>
+          <span style="font-size:0.75rem;font-family:var(--font-mono);color:${accent};">${myCorrect} correct</span>
+        </div>
+        <div id="arena-opp-progress" style="font-size:0.7rem;font-family:var(--font-mono);color:var(--text-muted);text-align:right;margin-bottom:16px;">Opponent: ${oppProgress}/10 (${oppScore} correct)</div>
+        <div class="card-elevated" style="padding:32px;text-align:center;margin-bottom:20px;">
+          <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:12px;">Translate to ${LABEL[lang]}</div>
+          <div style="font-size:1.5rem;font-weight:500;color:var(--text-primary);">${item.english || item.meaning || item.back || ""}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;" id="arena-options"></div>
+      </div>`;
+      this._injectNavBar(canvas);
+
+      const correct_ans = item.front || item.phrase || item.target || item.kanji || "";
+      const all = pool.filter(p => p !== item).map(p => p.front || p.phrase || p.target || p.kanji || "").filter(Boolean);
+      const wrongs = all.sort(() => Math.random() - 0.5).slice(0, 3);
+      const options = [correct_ans, ...wrongs].sort(() => Math.random() - 0.5);
+
+      const optContainer = canvas.querySelector("#arena-options");
+      options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "btn btn-ghost";
+        btn.style.cssText = "text-align:left;padding:14px 18px;font-size:0.95rem;justify-content:flex-start;";
+        btn.textContent = opt;
+        btn.addEventListener("click", async () => {
+          const isRight = opt === correct_ans;
+          if (isRight) myCorrect++;
+          btn.style.background = isRight ? "rgba(74,222,128,0.15)" : "rgba(248,113,113,0.15)";
+          btn.style.borderColor = isRight ? "#4ade80" : "var(--error)";
+          optContainer.querySelectorAll("button").forEach(b => { b.disabled = true; });
+          if (!isRight) {
+            optContainer.querySelectorAll("button").forEach(b => {
+              if (b.textContent === correct_ans) { b.style.background = "rgba(74,222,128,0.15)"; b.style.borderColor = "#4ade80"; }
+            });
+          }
+          // Submit answer to Firestore
+          const elapsedMs = Date.now() - itemStart;
+          await submitAnswer(matchId, me.uid, idx, isRight, elapsedMs);
+          setTimeout(() => { idx++; renderQ(); }, 700);
+        });
+        optContainer.appendChild(btn);
+      });
+    };
+
+    // Countdown before starting
+    let count = 3;
+    canvas.innerHTML = `<div class="canvas-content page-enter" style="text-align:center;padding:100px 40px;">
+      <div style="font-size:4rem;font-weight:300;color:${accent};" id="arena-countdown">${count}</div>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-top:16px;">Match starting…</p>
+    </div>`;
+    const countdownEl = canvas.querySelector("#arena-countdown");
+    const countdownTimer = setInterval(() => {
+      count--;
+      if (count <= 0) {
+        clearInterval(countdownTimer);
+        startTime = Date.now();
+        renderQ();
+      } else if (countdownEl) {
+        countdownEl.textContent = count;
+      }
+    }, 1000);
+  }
+
   // ── Support ───────────────────────────────────────────────────────
   _pageSupport(canvas) {
     const accent = ACCENT[this.currentLang] || "#8b7cff";
@@ -1601,6 +1791,7 @@ class VaultriaApp {
         ${dev ? `<span class="ws-tag" style="color:#a08fff;border-color:rgba(139,124,255,0.3);background:rgba(139,124,255,0.1);">Developer</span>` : ""}
         ${!user?._isLocal && !user?._isGuest ? `<span class="ws-tag" style="color:#4db8ff;border-color:rgba(77,184,255,0.25);background:rgba(77,184,255,0.1);">Cloud Sync</span>` : `<span class="ws-tag" style="color:#fbbf24;border-color:rgba(251,191,36,0.25);background:rgba(251,191,36,0.08);">Local Save</span>`}
       </div>
+      <button class="btn btn-sm btn-ghost" id="go-to-settings" style="margin-top:12px;font-size:0.75rem;">Edit Profile</button>
     </div>
 
     <!-- Stats -->
@@ -1651,6 +1842,7 @@ class VaultriaApp {
   </div>
 </div>`;
 
+    canvas.querySelector("#go-to-settings")?.addEventListener("click", () => this._navigate("settings"));
     canvas.querySelector("#dev-add-xp")?.addEventListener("click", async () => {
       this.currentProgress.xp = (this.currentProgress.xp || 0) + 200;
       await saveProgress(this.currentLang, this.currentProgress);
@@ -1663,17 +1855,24 @@ class VaultriaApp {
       if (!confirm("Reset all progress for current language? This cannot be undone.\n\nLanguage: " + (LABEL[this.currentLang] || this.currentLang))) return;
       this.currentProgress = defaultProgress(this.currentLang);
       this.currentProgress.xp = 0;
+      this.currentProgress.level = 1;
       this.currentProgress.streak = 0;
       this.currentProgress.completed = [];
       this.currentProgress.stars = {};
       this.currentProgress.stageUnlocked = 0;
       this.currentProgress.accuracy = null;
       this.currentProgress.vocabSeen = [];
+      this.currentProgress.weakWords = [];
+      this.currentProgress.reviewQueue = [];
+      this.currentProgress.placement = null;
       await saveProgress(this.currentLang, this.currentProgress);
       this.allProgress[this.currentLang] = this.currentProgress;
       eventBus.emit("progress:update", this.currentProgress);
       this.rightPanel?.updateProgress(this.currentProgress);
       syncProgressToProfile(this.currentLang, this.currentProgress);
+      // Also reset Firestore user doc fields
+      const db = getDb(); const me = getUser();
+      if (db && me) db.collection("users").doc(me.uid).update({ level: 1, xp: 0, streak: 0 }).catch(() => {});
       showToast(`Progress reset for ${LABEL[this.currentLang] || this.currentLang}`, "success");
       this._pageProfile(canvas);
     });
@@ -1721,11 +1920,11 @@ class VaultriaApp {
           <div style="display:flex;align-items:center;gap:9px;cursor:pointer;" class="lb-name">
             <div style="position:relative;flex-shrink:0;">
               <div style="width:28px;height:28px;border-radius:50%;background:${ua}20;border:1px solid ${ua}40;display:flex;align-items:center;justify-content:center;font-size:0.74rem;font-weight:600;color:${ua};">${init}</div>
-              ${u.online ? `<div style="position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;background:#4ade80;border:1px solid var(--bg-surface);"></div>` : ""}
+              ${isUserOnline(u) ? `<div style="position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;background:#4ade80;border:1px solid var(--bg-surface);"></div>` : ""}
             </div>
             <div>
               <div style="font-size:0.87rem;font-weight:${isMe?600:400};color:${isMe?(ua):"var(--text-primary)"};">${name}${isMe?" (you)":""}</div>
-              ${u.online ? `<div style="font-size:0.62rem;color:#4ade80;">online now</div>` : u.lastSeenAt ? `<div style="font-size:0.62rem;color:var(--text-muted);">${timeAgo(u.lastSeenAt)}</div>` : ""}
+              ${isUserOnline(u) ? `<div style="font-size:0.62rem;color:#4ade80;">online now</div>` : u.lastSeenAt ? `<div style="font-size:0.62rem;color:var(--text-muted);">${timeAgo(u.lastSeenAt)}</div>` : ""}
             </div>
           </div>
           <div style="font-family:var(--font-mono);font-size:0.87rem;color:${ua};">${xpVal.toLocaleString()}</div>
@@ -1744,6 +1943,21 @@ class VaultriaApp {
       });
 
       body.querySelectorAll(".lb-add-friend").forEach(btn => {
+        // Check existing friend status and update button label
+        (async () => {
+          try {
+            const status = await getFriendStatus(btn.dataset.uid);
+            if (!btn.isConnected) return;
+            if (status === "accepted") {
+              btn.textContent = "Friends"; btn.disabled = true;
+              btn.style.color = "#4ade80"; btn.style.borderColor = "rgba(74,222,128,0.3)";
+            } else if (status === "pending_sent") {
+              btn.textContent = "Sent"; btn.disabled = true;
+            } else if (status === "pending_received") {
+              btn.textContent = "Accept"; btn.style.color = accent; btn.style.borderColor = accent + "60";
+            }
+          } catch (_) {}
+        })();
         btn.addEventListener("click", async (e) => {
           e.stopPropagation();
           btn.disabled = true; btn.textContent = "…";
@@ -1865,7 +2079,7 @@ class VaultriaApp {
         <!-- Info -->
         <div style="padding:10px 24px 0;">
           <div style="font-size:1.1rem;font-weight:600;color:var(--text-primary);">${name}</div>
-          <div style="font-size:0.75rem;color:${u.online?"#4ade80":"var(--text-muted)"};margin-bottom:12px;">${u.online?"● Online now":"Offline"}</div>
+          <div style="font-size:0.75rem;color:${isUserOnline(u)?"#4ade80":"var(--text-muted)"};margin-bottom:12px;">${isUserOnline(u)?"● Online now":"Offline"}</div>
           <!-- Stats row -->
           <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;">
             ${[
@@ -1962,11 +2176,11 @@ class VaultriaApp {
           return `<div class="card friend-row" data-uid="${p.uid}" style="display:flex;align-items:center;gap:12px;padding:14px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s;">
             <div style="position:relative;flex-shrink:0;">
               <div style="width:36px;height:36px;border-radius:50%;background:${fa}20;border:1px solid ${fa}35;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:${fa};">${n[0].toUpperCase()}</div>
-              ${p.online ? `<div style="position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;background:#4ade80;border:2px solid var(--bg-surface);"></div>` : ""}
+              ${isUserOnline(p) ? `<div style="position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;background:#4ade80;border:2px solid var(--bg-surface);"></div>` : ""}
             </div>
             <div style="flex:1;min-width:0;">
               <div style="font-size:0.9rem;font-weight:500;color:var(--text-primary);">${n}</div>
-              <div style="font-size:0.72rem;color:${p.online?"#4ade80":"var(--text-muted)"};">${p.online ? "Online now" : (p.lastSeenAt ? "Last seen " + timeAgo(p.lastSeenAt) : "Offline")}</div>
+              <div style="font-size:0.72rem;color:${isUserOnline(p)?"#4ade80":"var(--text-muted)"};">${isUserOnline(p) ? "Online now" : (p.lastSeenAt ? "Last seen " + timeAgo(p.lastSeenAt) : "Offline")}</div>
             </div>
             <div style="text-align:right;">
               <div style="font-size:0.82rem;font-family:var(--font-mono);color:${fa};">${(p.xp||0).toLocaleString()} XP</div>
@@ -2016,10 +2230,10 @@ class VaultriaApp {
         return `<div class="card" style="display:flex;align-items:center;gap:10px;padding:12px;margin-bottom:6px;">
           <div style="position:relative;flex-shrink:0;">
             <div style="width:32px;height:32px;border-radius:50%;background:${ua}20;border:1px solid ${ua}35;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:600;color:${ua};">${n[0].toUpperCase()}</div>
-            ${u.online ? `<div style="position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;background:#4ade80;border:1px solid var(--bg-surface);"></div>` : ""}
+            ${isUserOnline(u) ? `<div style="position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;background:#4ade80;border:1px solid var(--bg-surface);"></div>` : ""}
           </div>
           <div style="flex:1;min-width:0;">
-            <div style="font-size:0.88rem;font-weight:500;color:var(--text-primary);">${n}${u.online?` <span style="font-size:0.62rem;color:#4ade80;">● online</span>`:""}</div>
+            <div style="font-size:0.88rem;font-weight:500;color:var(--text-primary);">${n}${isUserOnline(u)?` <span style="font-size:0.62rem;color:#4ade80;">● online</span>`:""}</div>
             <div style="font-size:0.7rem;color:var(--text-muted);">${(u.xp||0).toLocaleString()} XP · ${u.streak||0}d ascent</div>
           </div>
           <button class="btn btn-sm btn-primary add-friend-btn" data-uid="${u.uid}">+ Add</button>
@@ -2429,9 +2643,19 @@ class VaultriaApp {
   }
 
   // ── Settings ──────────────────────────────────────────────────────
-  _pageSettings(canvas) {
+  async _pageSettings(canvas) {
     const user = getUser();
     const prefs = JSON.parse(localStorage.getItem("vaultia_prefs") || "{}");
+
+    // Load bio from Firestore
+    let bioText = "";
+    try {
+      const db = getDb();
+      if (db && user) {
+        const doc = await db.collection("users").doc(user.uid).get();
+        bioText = doc?.data()?.bio || "";
+      }
+    } catch (_) {}
 
     const defaults = {
       daily_reminder:    true,
@@ -2469,6 +2693,7 @@ class VaultriaApp {
       </div>
       <button id="save-profile-btn" class="btn btn-sm btn-primary">Save</button>
     </div>
+    <textarea id="bio-input" class="input" placeholder="Write a short bio..." style="font-size:0.85rem;resize:vertical;min-height:60px;max-height:120px;margin-top:12px;width:100%;box-sizing:border-box;">${bioText}</textarea>
   </div>
 
   ${[
@@ -2535,29 +2760,42 @@ class VaultriaApp {
       });
     });
 
-    // Profile pic upload (convert to base64 data URL for now)
+    // Profile pic upload — tiny thumbnail for Firebase Auth, higher-res in Firestore
     canvas.querySelector("#pfp-input")?.addEventListener("change", async (e) => {
       const file = e.target.files?.[0];
       if (!file) return;
-      // Resize to 128x128 before saving — Firebase Auth photoURL has a size limit
       const img = new Image();
       const objectURL = URL.createObjectURL(file);
       img.onload = async () => {
         URL.revokeObjectURL(objectURL);
-        const SIZE = 128;
-        const cvs = document.createElement("canvas");
-        cvs.width = SIZE; cvs.height = SIZE;
-        const ctx = cvs.getContext("2d");
-        // Center-crop
         const min = Math.min(img.width, img.height);
         const sx = (img.width - min) / 2, sy = (img.height - min) / 2;
-        ctx.drawImage(img, sx, sy, min, min, 0, 0, SIZE, SIZE);
-        const dataURL = cvs.toDataURL("image/jpeg", 0.82);
+
+        // Tiny version for Firebase Auth photoURL (limit ~2048 chars)
+        const thumbCvs = document.createElement("canvas");
+        thumbCvs.width = 48; thumbCvs.height = 48;
+        thumbCvs.getContext("2d").drawImage(img, sx, sy, min, min, 0, 0, 48, 48);
+        const thumbURL = thumbCvs.toDataURL("image/jpeg", 0.35);
+
+        // Higher-res version stored in Firestore user doc
+        const hiCvs = document.createElement("canvas");
+        hiCvs.width = 128; hiCvs.height = 128;
+        hiCvs.getContext("2d").drawImage(img, sx, sy, min, min, 0, 0, 128, 128);
+        const hiResURL = hiCvs.toDataURL("image/jpeg", 0.65);
+
         const preview = canvas.querySelector("#pfp-preview");
-        if (preview) preview.innerHTML = `<img src="${dataURL}" style="width:100%;height:100%;object-fit:cover;" />`;
-        const res = await updateProfile({ photoURL: dataURL });
-        if (res.ok) showToast("Profile photo updated!", "success");
-        else showToast(res.error || "Failed to update photo", "error");
+        if (preview) preview.innerHTML = `<img src="${hiResURL}" style="width:100%;height:100%;object-fit:cover;" />`;
+
+        const res = await updateProfile({ photoURL: thumbURL });
+        if (res.ok) {
+          // Store higher-res avatar in Firestore
+          const db = getDb();
+          const me = getUser();
+          if (db && me) db.collection("users").doc(me.uid).update({ avatar_url: hiResURL }).catch(() => {});
+          showToast("Profile photo updated!", "success");
+        } else {
+          showToast(res.error || "Failed to update photo", "error");
+        }
       };
       img.src = objectURL;
     });
@@ -2565,10 +2803,14 @@ class VaultriaApp {
     // Save display name
     canvas.querySelector("#save-profile-btn")?.addEventListener("click", async () => {
       const name = canvas.querySelector("#display-name-input")?.value?.trim();
+      const bio  = canvas.querySelector("#bio-input")?.value?.trim() || "";
       if (!name) { showToast("Enter a display name", "error"); return; }
       const btn = canvas.querySelector("#save-profile-btn");
       btn.disabled = true; btn.textContent = "Saving…";
       const res = await updateProfile({ displayName: name });
+      // Save bio to Firestore
+      const db = getDb(); const me = getUser();
+      if (db && me) await db.collection("users").doc(me.uid).update({ bio }).catch(() => {});
       btn.disabled = false; btn.textContent = "Save";
       if (res.ok) showToast("Profile updated!", "success");
       else showToast(res.error || "Failed to save", "error");
@@ -2685,18 +2927,10 @@ class VaultriaApp {
     eventBus.on("nav:showAuth",        () => this._showAuth());
     eventBus.on("nav:support",         () => { const c=document.getElementById("center-canvas"); if(c) this._pageSupport(c); });
     eventBus.on("tts:missing-audio",   payload => {
-      const now = Date.now();
-      if (now - this._lastTtsAlertAt < 2500) return;
-      this._lastTtsAlertAt = now;
       console.warn("[Vaultria] static audio missing:", payload);
-      showToast("Missing static audio for this lesson item. Regenerate the audio pack.", "error", 2800);
     });
     eventBus.on("tts:missing-pack", payload => {
-      const now = Date.now();
-      if (now - this._lastTtsAlertAt < 2500) return;
-      this._lastTtsAlertAt = now;
       console.warn("[Vaultria] audio pack issue:", payload);
-      showToast("Audio manifest missing or broken. Check the deployed audio pack.", "error", 3200);
     });
   }
 }

@@ -83,6 +83,21 @@ export async function setOffline() {
   } catch (_) {}
 }
 
+// ─── Presence helpers ──────────────────────────────────────────────
+
+const PRESENCE_STALE_MS = 5 * 60 * 1000; // 5 minutes
+
+/** Staleness-based online check — treats users as offline if no heartbeat in 5 min */
+export function isUserOnline(user) {
+  if (!user?.online) return false;
+  if (!user?.lastSeenAt) return false;
+  const ts = typeof user.lastSeenAt === "string" ? new Date(user.lastSeenAt).getTime()
+           : user.lastSeenAt?.toMillis ? user.lastSeenAt.toMillis()
+           : Number(user.lastSeenAt);
+  if (!ts || isNaN(ts)) return false;
+  return (Date.now() - ts) < PRESENCE_STALE_MS;
+}
+
 // ─── User search ───────────────────────────────────────────────────
 
 export async function searchUsers(query) {

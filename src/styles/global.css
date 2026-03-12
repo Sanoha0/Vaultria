@@ -160,8 +160,8 @@ img, svg { display: block; max-width: 100%; }
 
 .glass {
   background: var(--bg-glass);
-  backdrop-filter: blur(16px) saturate(1.4);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(8px) saturate(1.4);
+  -webkit-backdrop-filter: blur(8px) saturate(1.4);
   border: 1px solid var(--border-subtle);
 }
 

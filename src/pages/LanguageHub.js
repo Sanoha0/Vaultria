@@ -6,6 +6,12 @@
 import { eventBus } from "../utils/eventBus.js";
 import { LANGUAGES } from "../utils/constants.js";
 
+const LANG_PHOTOS = {
+  japanese: "https://images.unsplash.com/photo-1522383225653-ed111181a951?w=800&q=75&fit=crop",
+  korean:   "https://images.unsplash.com/photo-1549633030-89d2b9e2a4b7?w=800&q=75&fit=crop",
+  spanish:  "https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=800&q=75&fit=crop",
+};
+
 const LANG_SCENES = {
   japanese: {
     title:"Japanese", native:"日本語", sub:"日本語",
@@ -188,12 +194,12 @@ export class LanguageHub {
 @keyframes worldReveal{from{opacity:0;transform:translateY(24px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
 .lang-world:hover{transform:translateY(-8px) scale(1.02);}
 .lang-world:hover .world-scene svg{transform:scale(1.06);}
-.lang-world:hover .world-overlay{background:rgba(0,0,0,0.28);}
+.lang-world:hover .world-overlay{background:rgba(0,0,0,0.18);}
 .lang-world:hover .world-enter{opacity:1;transform:translateY(0);}
 .lang-world:active{transform:translateY(-4px) scale(1.01);}
 .world-scene{position:absolute;inset:0;overflow:hidden;}
 .world-scene svg{width:100%;height:100%;display:block;transition:transform 0.6s cubic-bezier(0.22,1,0.36,1);}
-.world-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.42);transition:background 0.4s ease;}
+.world-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.30);transition:background 0.4s ease;}
 .world-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.93) 0%,rgba(0,0,0,0.55) 38%,rgba(0,0,0,0.08) 68%,transparent 100%);}
 .world-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:26px 24px;z-index:2;}
 .world-tag{font-family:'DM Mono','Courier New',monospace;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-bottom:8px;}
@@ -204,7 +210,7 @@ export class LanguageHub {
 .world-xp{font-family:'DM Mono','Courier New',monospace;font-size:0.68rem;color:rgba(255,255,255,0.32);letter-spacing:0.06em;}
 .world-stage-pill{padding:3px 10px;border-radius:999px;font-family:'DM Mono','Courier New',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid;}
 .world-enter{margin-left:auto;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;font-family:'DM Mono','Courier New',monospace;color:rgba(255,255,255,0.65);opacity:0;transform:translateY(6px);transition:opacity 0.3s ease,transform 0.3s ease;display:flex;align-items:center;gap:5px;}
-.world-badge{position:absolute;top:14px;right:14px;z-index:3;font-family:'DM Mono','Courier New',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,0.52);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.45);}
+.world-badge{position:absolute;top:14px;right:14px;z-index:3;font-family:'DM Mono','Courier New',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,0.40);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.45);}
 .world-progress-bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,0.05);}
 .world-progress-fill{height:100%;transition:width 1.2s ease 0.4s;border-radius:0 999px 999px 0;}
 .hub-footer{margin-top:36px;position:relative;z-index:2;text-align:center;font-family:'DM Mono','Courier New',monospace;font-size:0.65rem;letter-spacing:0.1em;color:rgba(255,255,255,0.15);}
@@ -245,7 +251,10 @@ export class LanguageHub {
     const tot  = prog.completed?.length || 0;
     return `
 <div class="lang-world" data-lang="${lang}" role="button" tabindex="0">
-  <div class="world-scene">${m.scene}</div>
+  <div class="world-scene">
+    <div style="position:absolute;inset:0;background-image:url(${LANG_PHOTOS[lang]});background-size:cover;background-position:center;"></div>
+    ${m.scene}
+  </div>
   <div class="world-overlay"></div>
   <div class="world-gradient"></div>
   <div class="world-badge">${tot > 0 ? tot+' lessons' : 'Begin'}</div>
