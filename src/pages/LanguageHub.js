@@ -7,9 +7,9 @@ import { eventBus } from "../utils/eventBus.js";
 import { LANGUAGES } from "../utils/constants.js";
 
 const LANG_PHOTOS = {
-  japanese: "https://images.unsplash.com/photo-1522383225653-ed111181a951?w=800&q=75&fit=crop",
-  korean:   "https://images.unsplash.com/photo-1549633030-89d2b9e2a4b7?w=800&q=75&fit=crop",
-  spanish:  "https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=800&q=75&fit=crop",
+  japanese: "./Japanese-Card.jpg",
+  korean:   "./Korean-Card.jpg",
+  spanish:  "./Spanish-Card.jpg",
 };
 
 const LANG_SCENES = {
@@ -217,8 +217,8 @@ export class LanguageHub {
 .lang-world:nth-child(1){animation-delay:0.05s;}.lang-world:nth-child(2){animation-delay:0.15s;}.lang-world:nth-child(3){animation-delay:0.25s;}
 @keyframes worldReveal{from{opacity:0;transform:translateY(24px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
 .lang-world:hover{transform:translateY(-8px) scale(1.02);}
-.lang-world:hover .world-scene svg{transform:scale(1.06);}
-.lang-world:hover .world-overlay{background:rgba(0,0,0,0.18);}
+.lang-world:hover .world-scene div{transform:scale(1.06);transition:transform 0.6s cubic-bezier(0.22,1,0.36,1);}
+.lang-world:hover .world-overlay{background:rgba(0,0,0,0.22);}
 .lang-world:hover .world-enter{opacity:1;transform:translateY(0);}
 .lang-world:active{transform:translateY(-4px) scale(1.01);}
 .world-scene{position:absolute;inset:0;overflow:hidden;}
@@ -277,7 +277,6 @@ export class LanguageHub {
 <div class="lang-world" data-lang="${lang}" role="button" tabindex="0">
   <div class="world-scene">
     <div style="position:absolute;inset:0;background-image:url(${LANG_PHOTOS[lang]});background-size:cover;background-position:center;"></div>
-    ${m.scene}
   </div>
   <div class="world-overlay"></div>
   <div class="world-gradient"></div>

@@ -37,12 +37,12 @@ const LABEL  = { japanese:"Japanese", korean:"Korean", spanish:"Spanish" };
 // ── Language backgrounds (Unsplash free-to-use photos) ─────────────
 const LANG_BG = {
   japanese: "https://images.unsplash.com/photo-1522383225653-ed111181a951?w=1600&q=80&fit=crop", // Fushimi Inari torii gates
-  korean:   "https://images.unsplash.com/photo-1549633030-89d2b9e2a4b7?w=1600&q=80&fit=crop", // Seoul city neon night
+  korean:   "./Korean-Background.jpg", // Korean immersive background
   spanish:  "https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=1600&q=80&fit=crop", // Colorful Mexican street
 };
 const LANG_BG_ALT = {
   japanese: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1600&q=80&fit=crop", // Tokyo night
-  korean:   "https://images.unsplash.com/photo-1601046668428-94ea13437736?w=1600&q=80&fit=crop", // Gyeongbokgung palace
+  korean:   "./Korean-Background.jpg", // Korean immersive background
   spanish:  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&fit=crop", // Spain architecture
 };
 

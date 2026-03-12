@@ -6,6 +6,7 @@
 export const FIREBASE_CONFIG = {
   apiKey:            "AIzaSyBaVx30z8kE9n3UPDI9ZCPumfveKjtw65g",
   authDomain:        "lingua-ai-language-teacher.firebaseapp.com",
+  databaseURL:       "https://lingua-ai-language-teacher-default-rtdb.firebaseio.com",
   projectId:         "lingua-ai-language-teacher",
   storageBucket:     "lingua-ai-language-teacher.firebasestorage.app",
   messagingSenderId: "117411620808",
