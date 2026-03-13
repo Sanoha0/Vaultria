@@ -18,7 +18,7 @@ export const SPECIES = {
       <ellipse cx="9.5"  cy="18" rx="1.2" ry="1.4" class="fam-eye"/>
       <ellipse cx="14.5" cy="18" rx="1.2" ry="1.4" class="fam-eye"/>
       <circle  cx="12"   cy="21.5" r="0.7" class="fam-dark"/>`,
-    reactions: { speed: "bob", accuracy: "tail-wag", achieve: "bounce-once", momentum: "ear-twitch" },
+    reactions: { speed: "bob", accuracy: "tail-wag", achieve: "ear-twitch", momentum: "ear-twitch" },
     idleSet:   ["breathe","look-left","look-right","ear-twitch"],
   },
   cat: {
@@ -39,7 +39,7 @@ export const SPECIES = {
       <ellipse cx="14.5" cy="18.5" rx="0.6" ry="0.9" class="fam-dark"/>
       <path d="M11.5,21 L12,21.5 L12.5,21" stroke-width="0.6"
             class="fam-dark-stroke" fill="none" stroke-linecap="round"/>`,
-    reactions: { accuracy: "slow-blink", achieve: "bounce-once" },
+    reactions: { accuracy: "slow-blink", achieve: "slow-blink" },
     idleSet:   ["breathe","slow-blink","look-left","look-right"],
   },
   wolf: {
@@ -57,7 +57,7 @@ export const SPECIES = {
       <ellipse cx="14.5" cy="17.8" rx="1.3" ry="1.0" class="fam-eye"/>
       <circle  cx="9.5"  cy="17.8" r="0.6" class="fam-dark"/>
       <circle  cx="14.5" cy="17.8" r="0.6" class="fam-dark"/>`,
-    reactions: { momentum: "alert-stand", achieve: "bounce-once" },
+    reactions: { momentum: "alert-stand", achieve: "alert-stand" },
     idleSet:   ["breathe","look-left","look-right","breathe"],
   },
   crane: {
@@ -72,7 +72,7 @@ export const SPECIES = {
       <path d="M6,18 Q8,16 10,17 Q8,20 6,18Z"  class="fam-body" opacity="0.7"/>
       <path d="M18,18 Q16,16 14,17 Q16,20 18,18Z" class="fam-body" opacity="0.7"/>
       <circle cx="13.5" cy="5" r="0.8" class="fam-dark"/>`,
-    reactions: { reading: "extend-neck", achieve: "bounce-once" },
+    reactions: { reading: "extend-neck", achieve: "extend-neck" },
     idleSet:   ["breathe","look-left","breathe","slow-blink"],
   },
 };

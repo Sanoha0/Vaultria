@@ -38,6 +38,36 @@ export class ProfileDesk {
         material = desk.material ?? "walnut";
         artifacts = desk.artifacts ?? [];
       }
+
+      // Ensure earned seals always exist as desk artifacts (auto-placed if missing).
+      const seals = prof?.seals || {};
+      const want = [];
+      for (const [langKey, stageKeys] of Object.entries(seals)) {
+        const short = langKey === "spanish" ? "es" : langKey.slice(0, 2);
+        for (const stageKey of stageKeys || []) {
+          const id = `seal_${short}_${stageKey}`;
+          if (ARTIFACT_CATALOG[id]) want.push(id);
+        }
+      }
+
+      const have = new Set((artifacts || []).map((a) => a.id));
+      const occupied = new Set((artifacts || []).map((a) => `${a.col ?? 0},${a.row ?? 0}`));
+      for (const id of want) {
+        if (have.has(id)) continue;
+        let placed = false;
+        for (let row = 0; row < GRID_ROWS && !placed; row++) {
+          for (let col = 0; col < GRID_COLS; col++) {
+            const k = `${col},${row}`;
+            if (occupied.has(k)) continue;
+            artifacts.push({ id, col, row });
+            occupied.add(k);
+            placed = true;
+            break;
+          }
+        }
+        if (!placed) artifacts.push({ id, col: 0, row: 0 });
+        have.add(id);
+      }
     } catch (_) {}
     return new ProfileDesk(container, { material, artifacts });
   }
