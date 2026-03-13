@@ -2108,7 +2108,7 @@ class VaultriaApp {
           <div style="font-size:${rank<=3?"1.05rem":"0.84rem"};font-weight:600;color:${mc};font-family:var(--font-mono);">${medal}</div>
           <div style="display:flex;align-items:center;gap:9px;cursor:pointer;" class="lb-name">
             <div style="position:relative;flex-shrink:0;">
-              <div style="width:28px;height:28px;border-radius:50%;background:${ua}20;border:1px solid ${ua}40;display:flex;align-items:center;justify-content:center;font-size:0.74rem;font-weight:600;color:${ua};">${init}</div>
+              <div style="width:28px;height:28px;border-radius:50%;background:${ua}20;border:1px solid ${ua}40;display:flex;align-items:center;justify-content:center;font-size:0.74rem;font-weight:600;color:${ua};overflow:hidden;">${(u.avatar_url||u.photoURL)?`<img src="${u.avatar_url||u.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>`:init}</div>
               ${isUserOnline(u) ? `<div style="position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;background:#4ade80;border:1px solid var(--bg-surface);"></div>` : ""}
             </div>
             <div>
@@ -2346,7 +2346,7 @@ class VaultriaApp {
           const fa = ACCENT[p.currentLanguage] || accent;
           const n  = p.username || "Learner";
           return `<div class="card" style="display:flex;align-items:center;gap:12px;padding:14px;margin-bottom:8px;">
-            <div style="width:36px;height:36px;border-radius:50%;background:${fa}20;border:1px solid ${fa}35;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:${fa};flex-shrink:0;">${n[0].toUpperCase()}</div>
+            <div style="width:36px;height:36px;border-radius:50%;background:${fa}20;border:1px solid ${fa}35;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:${fa};flex-shrink:0;overflow:hidden;">${(p.avatar_url||p.photoURL)?`<img src="${p.avatar_url||p.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>`:n[0].toUpperCase()}</div>
             <div style="flex:1;min-width:0;">
               <div style="font-size:0.9rem;font-weight:500;color:var(--text-primary);">${n}</div>
               <div style="font-size:0.72rem;color:var(--text-muted);">wants to be friends</div>
@@ -2364,7 +2364,7 @@ class VaultriaApp {
           const n  = p.username || "Learner";
           return `<div class="card friend-row" data-uid="${p.uid}" style="display:flex;align-items:center;gap:12px;padding:14px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s;">
             <div style="position:relative;flex-shrink:0;">
-              <div style="width:36px;height:36px;border-radius:50%;background:${fa}20;border:1px solid ${fa}35;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:${fa};">${n[0].toUpperCase()}</div>
+              <div style="width:36px;height:36px;border-radius:50%;background:${fa}20;border:1px solid ${fa}35;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:${fa};overflow:hidden;">${(p.avatar_url||p.photoURL)?`<img src="${p.avatar_url||p.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>`:n[0].toUpperCase()}</div>
               ${isUserOnline(p) ? `<div style="position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;background:#4ade80;border:2px solid var(--bg-surface);"></div>` : ""}
             </div>
             <div style="flex:1;min-width:0;">
@@ -2418,7 +2418,7 @@ class VaultriaApp {
         const n  = u.username || "Learner";
         return `<div class="card" style="display:flex;align-items:center;gap:10px;padding:12px;margin-bottom:6px;">
           <div style="position:relative;flex-shrink:0;">
-            <div style="width:32px;height:32px;border-radius:50%;background:${ua}20;border:1px solid ${ua}35;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:600;color:${ua};">${n[0].toUpperCase()}</div>
+            <div style="width:32px;height:32px;border-radius:50%;background:${ua}20;border:1px solid ${ua}35;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:600;color:${ua};overflow:hidden;">${(u.avatar_url||u.photoURL)?`<img src="${u.avatar_url||u.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>`:n[0].toUpperCase()}</div>
             ${isUserOnline(u) ? `<div style="position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;background:#4ade80;border:1px solid var(--bg-surface);"></div>` : ""}
           </div>
           <div style="flex:1;min-width:0;">
