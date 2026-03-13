@@ -37,8 +37,10 @@ function _injectStyles() {
   style.id = "vaultia-reward-styles";
   style.textContent = `
     @keyframes xp-slam {
-      0%   { transform: scale(0.96) translateY(14px); opacity: 0; filter: blur(6px); }
-      100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
+      0%   { transform: scale(0.3) translateY(40px); opacity: 0; filter: blur(6px); }
+      55%  { transform: scale(1.18) translateY(-8px); opacity: 1; filter: blur(0); }
+      75%  { transform: scale(0.94) translateY(2px); }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
     }
     @keyframes xp-exit {
       0%   { transform: scale(1) translateY(0); opacity: 1; }
@@ -49,8 +51,9 @@ function _injectStyles() {
       50%     { background-position: 200% center; }
     }
     @keyframes star-pop {
-      0%   { transform: translateY(6px); opacity: 0; filter: blur(3px); }
-      100% { transform: translateY(0); opacity: 1; filter: blur(0); }
+      0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+      60%  { transform: scale(1.3) rotate(5deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
     }
     @keyframes level-flash {
       0%,100% { box-shadow: 0 0 0px transparent; }
@@ -60,9 +63,11 @@ function _injectStyles() {
       0%   { transform: translate(0,0) scale(1); opacity: 1; }
       100% { transform: translate(var(--px), var(--py)) scale(0); opacity: 0; }
     }
-    @keyframes xp-number-reveal {
-      0%   { transform: translateY(8px); opacity: 0; filter: blur(3px); }
-      100% { transform: translateY(0); opacity: 1; filter: blur(0); }
+    @keyframes xp-number-bounce {
+      0%  { transform: scale(1); }
+      30% { transform: scale(1.35); }
+      60% { transform: scale(0.9); }
+      100%{ transform: scale(1); }
     }
     @keyframes prestige-ring {
       0%   { transform: scale(0.5); opacity: 0.8; }
@@ -110,28 +115,6 @@ function _burstParticles(overlay, accent, count = 14) {
   }
 }
 
-function _trophySvg(size = 56, stroke = "rgba(255,255,255,0.88)") {
-  const common = `fill="none" stroke="${stroke}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"`;
-  return `
-    <svg width="${size}" height="${size}" viewBox="0 0 24 24" ${common} aria-hidden="true" focusable="false">
-      <path d="M8 4h8v3a4 4 0 0 1-8 0V4z"/>
-      <path d="M6 4H4v2a5 5 0 0 0 5 5"/>
-      <path d="M18 11a5 5 0 0 0 5-5V4h-2"/>
-      <path d="M12 11v5"/>
-      <path d="M9 21h6"/>
-      <path d="M10 16h4"/>
-    </svg>`;
-}
-
-function _starSvg(filled = true, size = 22, stroke = "rgba(255,255,255,0.9)") {
-  const fill = filled ? "currentColor" : "none";
-  const common = `stroke="${stroke}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"`;
-  return `
-    <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="${fill}" ${common} aria-hidden="true" focusable="false">
-      <path d="M12 2.6l2.9 6.2 6.7.9-4.9 4.6 1.3 6.6L12 17.8 6 20.9l1.3-6.6L2.4 9.7l6.7-.9z"/>
-    </svg>`;
-}
-
 /**
  * Cinematic XP popup — shown after every lesson.
  * @param {number} xpEarned
@@ -146,12 +129,10 @@ export function showXpPopup(xpEarned, stars = 0, levelUp = null) {
 
   const starsHtml = stars > 0
     ? Array.from({ length: 5 }, (_, i) =>
-        `<span style="
-          display:inline-flex;align-items:center;justify-content:center;
-          width:26px;height:26px;color:${accent};
-          animation:star-pop 0.45s ease ${0.18 + i * 0.07}s both;
-          filter:${i < stars ? "none" : "grayscale(1) opacity(0.25)"};
-        ">${_starSvg(i < stars, 22)}</span>`
+        `<span style="display:inline-block;font-size:1.5rem;
+          animation:star-pop 0.35s cubic-bezier(0.34,1.56,0.64,1) ${0.18 + i * 0.07}s both;
+          filter:${i < stars ? "none" : "grayscale(1) opacity(0.25)"};"
+        >${i < stars ? "⭐" : "☆"}</span>`
       ).join("")
     : "";
 
@@ -183,7 +164,7 @@ export function showXpPopup(xpEarned, stars = 0, levelUp = null) {
         font-size:3.5rem;font-weight:800;font-family:var(--font-display);
         background:linear-gradient(135deg,${accent},#fff 60%,${accent});
         -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-        line-height:1;animation:xp-number-reveal 0.55s ease 0.15s both;letter-spacing:-0.02em;
+        line-height:1;animation:xp-number-bounce 0.6s ease 0.3s both;letter-spacing:-0.02em;
       ">+${xpEarned}</div>
       <div style="font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;
         color:${accent};font-family:var(--font-mono);margin-top:4px;
@@ -209,12 +190,11 @@ export function showXpPopup(xpEarned, stars = 0, levelUp = null) {
  * Cinematic Prestige / Stage unlock popup.
  * @param {string} title
  * @param {string} sub
- * @param {string} iconHtml
+ * @param {string} icon
  */
-export function showPrestigePopup(title, sub = "", iconHtml = "") {
+export function showPrestigePopup(title, sub = "", icon = "🏆") {
   _injectStyles();
   const accent = _detectAccent();
-  const icon = iconHtml || _trophySvg(56, accent);
   const overlay = document.createElement("div");
   overlay.className = "xp-reward-overlay";
   overlay.style.cssText = "background:rgba(0,0,0,0.75);pointer-events:all;backdrop-filter:blur(4px);";
@@ -241,15 +221,13 @@ export function showPrestigePopup(title, sub = "", iconHtml = "") {
       <div style="position:relative;display:inline-block;margin-bottom:18px;">
         <div style="position:absolute;inset:-12px;border-radius:50%;
           border:2px solid ${accent}40;animation:level-flash 1.5s ease infinite;--xp-color:${accent};"></div>
-        <div style="width:64px;height:64px;display:flex;align-items:center;justify-content:center;animation:star-pop 0.55s ease 0.1s both;">
-          ${icon}
-        </div>
+        <div style="font-size:3.2rem;animation:star-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;">${icon}</div>
       </div>
       <!-- Title -->
       <div style="font-size:1.6rem;font-weight:700;font-family:var(--font-display);
         background:linear-gradient(135deg,#fff 30%,${accent});
         -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-        line-height:1.15;margin-bottom:8px;animation:xp-number-reveal 0.55s ease 0.18s both;">${title}</div>
+        line-height:1.15;margin-bottom:8px;animation:xp-number-bounce 0.6s ease 0.25s both;">${title}</div>
       ${sub ? `<div style="font-size:0.82rem;color:${accent};font-family:var(--font-mono);
         letter-spacing:0.12em;text-transform:uppercase;margin-bottom:20px;opacity:0.9;">${sub}</div>` : ""}
       <div style="font-size:0.65rem;color:var(--text-muted);opacity:0.5;letter-spacing:0.1em;">TAP TO CONTINUE</div>

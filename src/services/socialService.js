@@ -293,6 +293,7 @@ export async function syncProgressToProfile(lang, progress) {
     const me = _me();
     if (!db) return;
     const xp     = progress?.xp     || 0;
+    const streak = progress?.streak || 0;
     // Weekly XP
     const docRef = db.collection("users").doc(me.uid);
     const snap   = await docRef.get();
@@ -308,6 +309,7 @@ export async function syncProgressToProfile(lang, progress) {
       usernameLower:   (me.displayName || me.email?.split("@")[0] || "learner").toLowerCase(),
       email:           me.email || "",
       xp,
+      streak,
       weeklyXp,
       weekStart:       data.weekStart && data.weekStart >= nowWeek ? data.weekStart : nowWeek,
       currentLanguage: lang,

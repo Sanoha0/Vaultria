@@ -4,7 +4,7 @@
  */
 
 import { initFirebase, getDb }  from "./firebase/instance.js";
-import { listenAuthState, getUser, isDevUser, isGuest, setAvatarUrl } from "./auth/authService.js";
+import { listenAuthState, getUser, isDevUser, isGuest } from "./auth/authService.js";
 import { loadAllProgress, saveProgress, loadProgress, defaultProgress } from "./services/progressService.js";
 import { buildReviewQueue }    from "./services/tutorEngine.js";
 import { eventBus }            from "./utils/eventBus.js";
@@ -16,20 +16,8 @@ import { LanguageHub }         from "./pages/LanguageHub.js";
 import { SessionEngine }       from "./components/center-canvas/SessionEngine.js";
 import { speak as ttsSpeak }  from "./services/ttsService.js";
 import { xpToLevel, xpProgressInLevel } from "./utils/textUtils.js";
-import { loadProfile, updateProfile } from "./services/profileStore.js";
-
-import { MomentumSystem } from "./systems/momentum/MomentumSystem.js";
-import { SealSystem }     from "./systems/seals/SealSystem.js";
-import { PrestigeSystem } from "./systems/prestige/PrestigeSystem.js";
-import { ChronicleSystem } from "./systems/chronicle/ChronicleSystem.js";
-import { RewardSelector }  from "./systems/chronicle/RewardSelector.js";
-import { ProfileDesk }    from "./systems/desk/ProfileDesk.js";
-import { Familiar }       from "./systems/familiar/Familiar.js";
-import { MomentumRing }   from "./systems/momentum/MomentumRing.js";
-import { FrameRenderer }  from "./systems/identity/FrameRenderer.js";
-import { mountSealFilters, renderSeal } from "./systems/seals/SealRenderer.js";
 import { joinQueue, leaveQueue, subscribeQueue, subscribeMatch, submitAnswer, completeMatch } from "./services/arenaService.js";
-import { XP_PER_LEVEL, KOFI_URL, STAGES } from "./utils/constants.js";
+import { XP_PER_LEVEL, KOFI_URL } from "./utils/constants.js";
 import {
   startPresence, endPresence, watchUserPresence, checkUserPresence, checkMultiplePresences, isUserOnlineRealtime,
   syncProgressToProfile,
@@ -60,84 +48,13 @@ const LANG_BG_ALT = {
 
 // ── Plaza post categories ──────────────────────────────────────────
 const PLAZA_CATEGORIES = [
-  { id:"question",    label:"Question",    icon:"help",     color:"#a78bfa" },
-  { id:"discussion",  label:"Discussion",  icon:"chat",     color:"#4db8ff" },
-  { id:"tip",         label:"Tip",         icon:"spark",    color:"#fbbf24" },
-  { id:"meme",        label:"Humor",       icon:"smile",    color:"#4ade80" },
-  { id:"progress",    label:"Progress",    icon:"medal",    color:"#f472b6" },
-  { id:"resource",    label:"Resource",    icon:"book",     color:"#e8a44a" },
+  { id:"question",    label:"Question",    icon:"❓", color:"#a78bfa" },
+  { id:"discussion",  label:"Discussion",  icon:"💬", color:"#4db8ff" },
+  { id:"tip",         label:"Tip",         icon:"💡", color:"#fbbf24" },
+  { id:"meme",        label:"Meme/Humor",  icon:"😂", color:"#4ade80" },
+  { id:"progress",    label:"Progress",    icon:"🏆", color:"#f472b6" },
+  { id:"resource",    label:"Resource",    icon:"📚", color:"#e8a44a" },
 ];
-
-function _plazaIconSvg(kind, color) {
-  const common = `fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"`;
-  if (kind === "help")  return `<svg width="14" height="14" viewBox="0 0 24 24" ${common}><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>`;
-  if (kind === "chat")  return `<svg width="14" height="14" viewBox="0 0 24 24" ${common}><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>`;
-  if (kind === "spark") return `<svg width="14" height="14" viewBox="0 0 24 24" ${common}><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>`;
-  if (kind === "smile") return `<svg width="14" height="14" viewBox="0 0 24 24" ${common}><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/></svg>`;
-  if (kind === "medal") return `<svg width="14" height="14" viewBox="0 0 24 24" ${common}><path d="M7 2h10l-2 7H9z"/><circle cx="12" cy="14" r="5"/><path d="M12 11v3"/><path d="M10.5 13.5h3"/></svg>`;
-  if (kind === "book")  return `<svg width="14" height="14" viewBox="0 0 24 24" ${common}><path d="M4 19a2 2 0 0 0 2 2h14"/><path d="M6 17V5a2 2 0 0 1 2-2h12v18H8a2 2 0 0 1-2-2z"/></svg>`;
-  return "";
-}
-
-function _uiIconSvg(kind, size = 18, color = "currentColor") {
-  const common = `fill="none" stroke="${color}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"`;
-  const box = `width="${size}" height="${size}" viewBox="0 0 24 24"`;
-
-  if (kind === "books") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M4 19a2 2 0 0 0 2 2h14"/><path d="M6 17V5a2 2 0 0 1 2-2h12v18H8a2 2 0 0 1-2-2z"/><path d="M10 7h6"/></svg>`;
-  }
-  if (kind === "scroll") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M7 4h10v14a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3"/><path d="M7 8h6"/><path d="M7 12h6"/></svg>`;
-  }
-  if (kind === "leaf") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M20 4c-7 0-12 4-14 10"/><path d="M6 14c0 4 3 7 7 7 6 0 7-7 7-17-8 0-14 3-14 10z"/></svg>`;
-  }
-  if (kind === "pen") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/></svg>`;
-  }
-  if (kind === "museum") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M3 10l9-6 9 6"/><path d="M4 10v10"/><path d="M20 10v10"/><path d="M8 10v10"/><path d="M12 10v10"/><path d="M16 10v10"/><path d="M3 20h18"/></svg>`;
-  }
-  if (kind === "flask") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M10 2v6L5 19a3 3 0 0 0 2.6 4h8.8A3 3 0 0 0 19 19L14 8V2"/><path d="M8 12h8"/></svg>`;
-  }
-  if (kind === "mask") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M4 7c2-2 6-3 8-3s6 1 8 3"/><path d="M6 7v6c0 3 3 7 6 7s6-4 6-7V7"/><path d="M9 12h.01"/><path d="M15 12h.01"/><path d="M10 16c1 .8 3 .8 4 0"/></svg>`;
-  }
-  if (kind === "lock") {
-    return `<svg ${box} ${common} aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>`;
-  }
-  if (kind === "bolt") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>`;
-  }
-  if (kind === "play") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M8 5v14l12-7z"/></svg>`;
-  }
-  if (kind === "mic") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v4"/></svg>`;
-  }
-  if (kind === "trophy") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M8 4h8v3a4 4 0 0 1-8 0V4z"/><path d="M6 4H4v2a5 5 0 0 0 5 5"/><path d="M18 11a5 5 0 0 0 5-5V4h-2"/><path d="M12 11v5"/><path d="M9 21h6"/><path d="M10 16h4"/></svg>`;
-  }
-  if (kind === "chat") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>`;
-  }
-  if (kind === "ban") {
-    return `<svg ${box} ${common} aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M4.9 4.9l14.2 14.2"/></svg>`;
-  }
-  if (kind === "key") {
-    return `<svg ${box} ${common} aria-hidden="true"><circle cx="7.5" cy="14.5" r="3.5"/><path d="M11 14.5h10"/><path d="M18 14.5v3"/><path d="M15 14.5v2"/></svg>`;
-  }
-  if (kind === "card") {
-    return `<svg ${box} ${common} aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>`;
-  }
-  if (kind === "trash") {
-    return `<svg ${box} ${common} aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 16h10l1-16"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>`;
-  }
-
-  return "";
-}
-
 
 // ── Plaza moderation (strict text-only safety rails) ───────────────
 const BLOCKED_PROFANITY_RE = /\b(fuck|shit|bitch|cunt|dick|cock|pussy|nigger|nigga|fag|faggot|whore|slut|bastard|damn|hell|crap|piss|twat|wanker|bollocks|motherfucker|asshole|bullshit)\b/i;
@@ -283,7 +200,7 @@ function isUserOnline(user) {
 }
 
 // ────────────────────────────────────────────────────────────────────
-class VaultiaApp {
+class VaultriaApp {
   constructor() {
     this.currentLang     = null;
     this.currentProgress = null;
@@ -296,14 +213,6 @@ class VaultiaApp {
     this._navFuture      = [];
     this._presenceCache  = {}; // Real-time presence data { uid -> { online, lastSeen, username } }
     this._presenceSubs   = new Map(); // Unsubscribe functions for presence listeners
-    this._sessionIndex   = {}; // { langKey: Map(sessionId -> { stageKey, stageId, unitIndex, unitId }) }
-
-    // Workstation reward/identity systems
-    this.profile         = null;
-    this._systems        = null;
-    this._profileDesk    = null;
-    this._profileFam     = null;
-    this._profileRing    = null;
     this._registerGlobalEvents();
   }
 
@@ -328,7 +237,7 @@ class VaultiaApp {
       if (user) this._onAuthenticated(user);
       else      this._showAuth();
     });
-    if (!this._fbReady) { this._showAuth(); }
+    if (!this._fbReady) { this._showAuth(); return; }
     setTimeout(() => { if (!authResolved) this._showAuth(); }, 3000);
   }
 
@@ -347,67 +256,13 @@ class VaultiaApp {
 
   async _onAuthenticated(user) {
     this.allProgress = await loadAllProgress();
-    this.profile = await loadProfile();
-    this._applyThemeFromProfile(this.profile);
-    await this._initSystemsOnce();
     this._buildShell();
     this._showHub();
     // Initialize real-time presence system (replaces old heartbeat)
-    if (this._fbReady) startPresence();
+    startPresence();
     this._unsubFriendReqs = subscribeFriendRequests((reqs) => {
       this.rightPanel?.setBadge?.("friends", reqs.length > 0);
     });
-  }
-
-  async _initSystemsOnce() {
-    if (this._systems) return;
-
-    // Shared SVG filters for seals (call once).
-    mountSealFilters();
-
-    this._systems = {
-      momentum: new MomentumSystem(),
-      seals: new SealSystem(),
-      prestige: new PrestigeSystem(),
-      chronicle: new ChronicleSystem(),
-      rewardSelector: new RewardSelector(),
-    };
-
-    await this._systems.momentum.load();
-    await ChronicleSystem.checkPending();
-
-    eventBus.on("seal:awarded", ({ lang, stageKey }) => {
-      // Quiet, artifact-like acknowledgement.
-      showPrestigePopup(
-        "Stage Seal Awarded",
-        `${LABEL[lang] || lang} · ${stageKey}`,
-        renderSeal(stageKey, 64, true)
-      );
-    });
-
-    eventBus.on("prestige:awarded", ({ lang, rank, stage, reward }) => {
-      const rewardLine = reward?.desc ? `Rank ${rank} · ${reward.desc}` : `Rank ${rank}`;
-      showPrestigePopup(
-        "Prestige Unlocked",
-        `${LABEL[lang] || lang} · ${rewardLine}`,
-        renderSeal(stage, 64, true)
-      );
-      // Refresh local cached profile (theme/material changes).
-      loadProfile().then((p) => {
-        this.profile = p;
-        this._applyThemeFromProfile(p);
-      });
-    });
-
-    eventBus.on("profile:changed", (p) => {
-      this.profile = p;
-      this._applyThemeFromProfile(p);
-    });
-  }
-
-  _applyThemeFromProfile(profile) {
-    const theme = profile?.uiTheme || "default";
-    document.body.classList.toggle("theme-void", theme === "void");
   }
 
   /**
@@ -639,10 +494,7 @@ class VaultiaApp {
     const level  = xpToLevel(xp);
     const xpProg = xpProgressInLevel(xp);
     const xpPct  = Math.round(xpProg / XP_PER_LEVEL * 100);
-    const momentumScore = this.profile?.momentum?.score ?? 0;
-    const momentumPct = Math.round(
-      (Math.log10(1 + Math.max(0, momentumScore)) / Math.log10(1001)) * 100
-    );
+    const streak = prog?.streak || 0;
     const completed = (prog?.completed || []).length;
     const stageNames = ["Starter","Beginner","Explorer","Speaker","Scholar","Specialist","Archivist"];
     const stage = stageNames[prog?.stageUnlocked || 0] || "Starter";
@@ -673,7 +525,7 @@ class VaultiaApp {
         <span class="ws-stat-label">XP Total</span>
       </div>
       <div class="ws-stat-chip">
-        <span class="ws-stat-val" style="color:${momentumPct>55?'#fbbf24':'var(--text-muted)'};">${momentumPct}%</span>
+        <span class="ws-stat-val" style="color:${streak>0?'#fbbf24':'var(--text-muted)'};">${streak}</span>
         <span class="ws-stat-label">Momentum</span>
       </div>
     </div>
@@ -713,20 +565,20 @@ class VaultiaApp {
       <div class="ws-card-eyebrow">Quick Practice</div>
       <div class="ws-quick-list">
         <button class="ws-quick-item ws-quick-primary" data-action="lesson" style="border-color:${accent}30;background:${accent}0a;">
-          <div class="ws-quick-item-title" style="color:${accent};">Continue Lesson</div>
+          <div class="ws-quick-item-title" style="color:${accent};">→ Continue Lesson</div>
           <div class="ws-quick-item-sub">${nextSession ? nextSession.title : `${stage} · ${summary.currentStageUnitsDone}/${summary.currentStageUnitsTotal} units`}</div>
         </button>
         <button class="ws-quick-item" data-action="review">
-          <div class="ws-quick-item-title">Review Queue</div>
+          <div class="ws-quick-item-title">⟳ Review Queue</div>
           <div class="ws-quick-item-sub">${(prog?.reviewQueue||[]).length} items due</div>
         </button>
         <button class="ws-quick-item" data-action="phrases">
-          <div class="ws-quick-item-title">Phrase Library</div>
+          <div class="ws-quick-item-title">⊞ Phrase Library</div>
           <div class="ws-quick-item-sub">Browse expressions</div>
         </button>
         <button class="ws-quick-item" data-action="challenges">
-          <div class="ws-quick-item-title">Chronicle</div>
-          <div class="ws-quick-item-sub">Workspace upgrades and milestones</div>
+          <div class="ws-quick-item-title">★ Challenges</div>
+          <div class="ws-quick-item-sub">Daily & weekly goals</div>
         </button>
       </div>
     </div>
@@ -763,7 +615,7 @@ class VaultiaApp {
           { label:"Sessions",   val: summary.completedSessions,                                                     max: Math.max(summary.totalSessions, 1), color: accent },
           { label:"Accuracy",   val: prog?.accuracy != null ? Math.round(prog.accuracy*100) : null,                 max: 100, color:"#4ade80", suf:"%" },
           { label:"Vocabulary", val: (prog?.vocabSeen||[]).length || ((prog?.weakWords||[]).length ? (prog?.weakWords||[]).length : null), max: 200, color: accent },
-          { label:"Momentum",   val: momentumPct,                                                                    max: 100, color:"#fbbf24", suf:"%" },
+          { label:"Momentum",   val: Math.min(streak, 30),                                                          max: 30,  color:"#fbbf24" },
         ].map(s => `
           <div class="ws-stat-row">
             <div class="ws-stat-row-labels">
@@ -1037,7 +889,6 @@ class VaultiaApp {
     this._pushHistory(id);
     switch(id) {
       case "profile":      this._pageProfile(canvas); break;
-      case "edit-profile": this._pageEditProfile(canvas); break;
       case "friends":      this._pageFriends(canvas); break;
       case "leaderboards": this._pageLeaderboards(canvas); break;
       case "plaza":        this._pagePlaza(canvas); break;
@@ -1156,7 +1007,7 @@ class VaultiaApp {
     });
   }
 
-  async _onSessionDone({ stars, weakWords, xpEarned, accuracy, speedMs, hintsUsed }, session) {
+  async _onSessionDone({ stars, weakWords, xpEarned, accuracy }, session) {
     const prog     = this.currentProgress;
     const oldXp    = prog.xp || 0;
     const oldLevel = xpToLevel(oldXp);
@@ -1179,23 +1030,6 @@ class VaultiaApp {
     prog.reviewQueue = buildReviewQueue(prog);
     const langData = await this._fetchLangData(this.currentLang);
     if (langData) prog.stageUnlocked = this._computeStageUnlock(langData, prog);
-
-    // Stage/unit star bookkeeping (powers seals + prestige)
-    prog.unitStars = prog.unitStars || {};
-    const idx = this._sessionIndex?.[this.currentLang]?.get(session.id);
-    if (idx && typeof idx.stageId === "number" && idx.unitIndex) {
-      const stageKey = idx.stageKey || STAGES[idx.stageId]?.key;
-      const k = `${idx.stageId}_${idx.unitIndex}`;
-      prog.unitStars[k] = Math.max(prog.unitStars[k] || 0, stars || 0);
-      eventBus.emit("progress:stageProgress", {
-        langKey: this.currentLang,
-        stageKey,
-        stageId: idx.stageId,
-        unitIndex: idx.unitIndex,
-        unitId: idx.unitId,
-        unitStars: prog.unitStars,
-      });
-    }
     await saveProgress(this.currentLang, prog);
     this.allProgress[this.currentLang] = prog;
     this.currentProgress = prog;
@@ -1209,33 +1043,9 @@ class VaultiaApp {
     // Cinematic XP popup
     showXpPopup(xpEarned, stars, levelUp);
 
-    // System triggers (momentum + chronicle + familiar reactions)
-    eventBus.emit("progress:xpGained", {
-      langKey: this.currentLang,
-      oldXp,
-      newXp: prog.xp,
-      delta: xpEarned,
-    });
-    eventBus.emit("progress:sessionComplete", {
-      langKey: this.currentLang,
-      sessionId: session.id,
-      stars,
-      xpEarned,
-      accuracy,
-      speedMs,
-      hintsUsed,
-    });
-    if (typeof speedMs === "number" && speedMs <= 90_000) {
-      eventBus.emit("progress:sessionFast", { langKey: this.currentLang, speedMs });
-    }
-    if (typeof accuracy === "number" && accuracy >= 0.93) {
-      eventBus.emit("progress:sessionAccurate", { langKey: this.currentLang, accuracy });
-    }
-
     // Prestige popup on level-up
     if (levelUp) {
-      const icon = `<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 11-14h-7z"/></svg>`;
-      setTimeout(() => showPrestigePopup(`Level ${newLevel} Reached`, `Keep climbing the vault`, icon), 3200);
+      setTimeout(() => showPrestigePopup(`Level ${newLevel} Reached!`, `Keep climbing the vault`, "⚡"), 3200);
     }
 
     setTimeout(() => this._showWorkspace(), 350);
@@ -1261,7 +1071,7 @@ class VaultiaApp {
     <p class="section-subtitle">Your full curriculum for ${LABEL[this.currentLang]||this.currentLang}</p>
   </div>
   <div class="card" style="padding:40px;text-align:center;">
-    <div style="margin-bottom:16px;display:flex;justify-content:center;opacity:0.75;">${_uiIconSvg("books", 34, "rgba(255,255,255,0.55)")}</div>
+    <div style="font-size:2rem;margin-bottom:16px;">📚</div>
     <div style="color:var(--text-muted);">Select a language from the hub to see lessons.</div>
   </div>
 </div>`;
@@ -1432,7 +1242,7 @@ class VaultiaApp {
   ${queue.length > 0 ? `
   <div class="card" style="background:${accent}08;border-color:${accent}20;padding:20px 24px;">
     <div style="font-size:0.75rem;color:${accent};font-family:var(--font-mono);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">How Review Works</div>
-    <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.65;">Vaultia uses spaced repetition — items with lower accuracy or longer gaps since last review are prioritized. Each correct answer strengthens the memory trace and pushes the next review further into the future.</p>
+    <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.65;">Vaultria uses spaced repetition — items with lower accuracy or longer gaps since last review are prioritized. Each correct answer strengthens the memory trace and pushes the next review further into the future.</p>
   </div>` : ""}
 </div>`;
 
@@ -1452,12 +1262,12 @@ class VaultiaApp {
     const stage    = this.currentProgress?.stageUnlocked || 0;
     const isOpen   = stage >= 6;
     const vaultContent = [
-      { title:"Ancient Texts",      desc:"Classical literature and historical documents with line-by-line annotation.",           icon:_uiIconSvg("scroll", 26, "rgba(255,255,255,0.86)") },
-      { title:"Idioms & Proverbs",  desc:"Native expressions that don't translate directly — with origin stories.",               icon:_uiIconSvg("leaf", 26, "rgba(255,255,255,0.86)") },
-      { title:"Formal Writing",     desc:"Business letters, academic writing, and professional correspondence templates.",        icon:_uiIconSvg("pen", 26, "rgba(255,255,255,0.86)") },
-      { title:"Cultural Deep-Dives",desc:"Regional dialects, subcultures, and how language reflects society.",                   icon:_uiIconSvg("museum", 26, "rgba(255,255,255,0.86)") },
-      { title:"Master Grammar",     desc:"Advanced grammatical patterns used by fluent native speakers.",                         icon:_uiIconSvg("flask", 26, "rgba(255,255,255,0.86)") },
-      { title:"Poetry & Literature",desc:"Song lyrics, poetry, and prose — language in its most expressive form.",               icon:_uiIconSvg("mask", 26, "rgba(255,255,255,0.86)") },
+      { title:"Ancient Texts",      desc:"Classical literature and historical documents with line-by-line annotation.",           icon:"📜" },
+      { title:"Idioms & Proverbs",  desc:"Native expressions that don't translate directly — with origin stories.",               icon:"🌿" },
+      { title:"Formal Writing",     desc:"Business letters, academic writing, and professional correspondence templates.",        icon:"✒️" },
+      { title:"Cultural Deep-Dives",desc:"Regional dialects, subcultures, and how language reflects society.",                   icon:"🏛️" },
+      { title:"Master Grammar",     desc:"Advanced grammatical patterns used by fluent native speakers.",                         icon:"⚗️" },
+      { title:"Poetry & Literature",desc:"Song lyrics, poetry, and prose — language in its most expressive form.",               icon:"🎭" },
     ];
 
     canvas.innerHTML = `
@@ -1473,7 +1283,7 @@ class VaultiaApp {
   ${!isOpen ? `
   <div class="vault-lock-overlay card-elevated" style="position:relative;overflow:hidden;min-height:400px;">
     <div style="position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 12px,rgba(255,255,255,0.008) 12px,rgba(255,255,255,0.008) 24px);pointer-events:none;"></div>
-    <div class="vault-lock-icon" style="display:flex;align-items:center;justify-content:center;">${_uiIconSvg("lock", 46, "rgba(255,255,255,0.78)")}</div>
+    <div class="vault-lock-icon">🔒</div>
     <h3 class="vault-lock-title">The Vault is Sealed</h3>
     <p style="font-size:0.88rem;color:var(--text-muted);max-width:400px;text-align:center;line-height:1.65;">Complete all 7 stages to reach <strong style="color:${accent};">Archivist</strong> level and unlock master-tier content from your target culture.</p>
     <div class="progress-bar-container" style="width:280px;margin-top:16px;">
@@ -1484,7 +1294,7 @@ class VaultiaApp {
   <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;">
     ${vaultContent.map(v => `
       <div class="card" style="cursor:pointer;transition:all var(--t-base);" onmouseenter="this.style.borderColor='${accent}40'" onmouseleave="this.style.borderColor=''">
-        <div style="margin-bottom:12px;opacity:0.92;">${v.icon}</div>
+        <div style="font-size:1.8rem;margin-bottom:12px;">${v.icon}</div>
         <h4 style="font-size:0.95rem;font-weight:500;color:var(--text-primary);margin-bottom:6px;">${v.title}</h4>
         <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.55;">${v.desc}</p>
       </div>
@@ -1498,7 +1308,7 @@ class VaultiaApp {
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
       ${vaultContent.map(v => `
         <div class="card" style="opacity:0.4;filter:blur(0.5px);">
-          <div style="margin-bottom:10px;filter:grayscale(1);opacity:0.85;">${v.icon}</div>
+          <div style="font-size:1.5rem;margin-bottom:10px;filter:grayscale(1);">${v.icon}</div>
           <h4 style="font-size:0.88rem;font-weight:500;color:var(--text-secondary);">${v.title}</h4>
         </div>
       `).join("")}
@@ -1573,104 +1383,65 @@ class VaultiaApp {
 
   // ── Challenges ────────────────────────────────────────────────────
   _pageChallenges(canvas) {
-    const accent = ACCENT[this.currentLang];
-    const prog   = this.currentProgress || {};
-    const xp     = prog.xp || 0;
-    const level  = xpToLevel(xp);
-
-    const profile = this.profile || {};
-    const pending = profile.pendingMilestone || null;
-    const rewards = profile.rewards || {};
-    const unlocked = Object.keys(rewards).filter((k) => rewards[k]);
-
-    const nextMilestone = pending ? pending : (Math.floor(level / 5) + 1) * 5;
-    const lvStart = Math.floor(level / 5) * 5;
-    const pct = Math.round((Math.max(0, Math.min(level - lvStart, 5)) / 5) * 100);
-
-    const icon = (type) => {
-      const stroke = "rgba(255,255,255,0.72)";
-      const common = `fill="none" stroke="${stroke}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"`;
-      if (type === "soundscape") return `<svg width="18" height="18" viewBox="0 0 24 24" ${common}><path d="M3 12h2l2-6 4 12 3-8 2 2h3"/></svg>`;
-      if (type === "frame")     return `<svg width="18" height="18" viewBox="0 0 24 24" ${common}><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 15l2-2 2 2 4-4"/></svg>`;
-      if (type === "desk")      return `<svg width="18" height="18" viewBox="0 0 24 24" ${common}><path d="M4 10h16"/><path d="M6 10v10"/><path d="M18 10v10"/><path d="M9 14h6"/></svg>`;
-      if (type === "parallax")  return `<svg width="18" height="18" viewBox="0 0 24 24" ${common}><path d="M4 17l4-4 3 3 5-6 4 7"/><path d="M4 7h16"/></svg>`;
-      if (type === "cursor")    return `<svg width="18" height="18" viewBox="0 0 24 24" ${common}><path d="M4 4l7 17 2-6 6-2z"/></svg>`;
-      return `<svg width="18" height="18" viewBox="0 0 24 24" ${common}><path d="M12 3v18"/><path d="M3 12h18"/></svg>`;
-    };
-
-    const classify = (id) => {
-      if (id.startsWith("soundscapes_")) return { type: "soundscape", label: id.replace("soundscapes_", "Soundscape: ").replaceAll("_", " ") };
-      if (id.startsWith("frame_"))       return { type: "frame",      label: id.replace("frame_", "Frame: ").replaceAll("_", " ") };
-      if (id.startsWith("desk_"))        return { type: "desk",       label: id.replace("desk_", "Desk: ").replaceAll("_", " ") };
-      if (id.startsWith("parallax_"))    return { type: "parallax",   label: id.replace("parallax_", "Parallax: ").replaceAll("_", " ") };
-      if (id.startsWith("cursor_"))      return { type: "cursor",     label: id.replace("cursor_", "Cursor: ").replaceAll("_", " ") };
-      return { type: "item", label: id.replaceAll("_", " ") };
-    };
+    const accent  = ACCENT[this.currentLang];
+    const prog    = this.currentProgress || {};
+    const done    = (prog.completed || []).length;
+    const streak  = prog.streak || 0;
+    const xp      = prog.xp || 0;
+    const stars5  = Object.values(prog.stars || {}).filter(s => s >= 5).length;
+    const langData = this._langDataCache?.[this.currentLang];
+    const summary = this._summarizeCurriculum(langData, prog);
+    const stageGoal = Math.max(summary.currentStageUnitsTotal || 14, 1);
+    const challenges = [
+      { icon:"🔥", title:"Daily Momentum",        desc:"Complete 1 session today",          xp:50,  type:"Daily",    progress:Math.min(done>0?1:0,1), goal:1 },
+      { icon:"📖", title:"Vocabulary Builder",  desc:"Complete 10 sessions",              xp:100, type:"Weekly",   progress:Math.min(done,10),      goal:10 },
+      { icon:"⭐", title:"Perfect Session",     desc:"Earn 5 stars on any session",       xp:150, type:"Challenge",progress:Math.min(stars5,1),     goal:1 },
+      { icon:"⚔️", title:"Week Warrior",       desc:"Build momentum 7 days straight",           xp:300, type:"Monthly",  progress:Math.min(streak,7),     goal:7 },
+      { icon:"🔄", title:"Error Recovery",     desc:"Complete 5+ sessions",              xp:80,  type:"Weekly",   progress:Math.min(done,5),       goal:5 },
+      { icon:"🏆", title:"Century Club",       desc:"Reach 100 completed sessions",      xp:500, type:"Lifetime", progress:Math.min(done,100),     goal:100 },
+      { icon:"🌟", title:"Stage Clear",        desc:`Complete all ${stageGoal} units in your current stage`, xp:250, type:"Stage", progress:Math.min(summary.currentStageUnitsDone, stageGoal), goal:stageGoal },
+      { icon:"💎", title:"XP Collector",       desc:"Earn 1,000 total XP",               xp:200, type:"Lifetime", progress:Math.min(xp,1000),      goal:1000 },
+    ];
+    const typeColors = { Daily:accent, Weekly:"#a78bfa", Monthly:"#f472b6", Challenge:"#fbbf24", Lifetime:"#34d399", Stage:accent };
 
     canvas.innerHTML = `
 <div class="canvas-content page-enter">
   <div class="section-header">
     <div>
-      <h2 class="section-title">Chronicle</h2>
-      <p class="section-subtitle">Workspace upgrades appear every 5 levels. No penalties, no randomness.</p>
-    </div>
-    <div style="display:flex;gap:10px;align-items:center;">
-      <button class="btn btn-ghost" id="chronicle-open-profile" style="border-color:${accent}30;color:${accent};">Open Profile Desk</button>
-      ${pending ? `<button class="btn" id="chronicle-pending" style="background:${accent};border-color:${accent};color:#0b0b0c;">Choose Level ${pending} Reward</button>` : ""}
+      <h2 class="section-title">Challenges</h2>
+      <p class="section-subtitle">Complete challenges to earn bonus XP and unlock rewards</p>
     </div>
   </div>
-
-  <div class="card" style="padding:18px 18px 16px;margin-bottom:14px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-      <div style="font-size:0.78rem;color:var(--text-muted);font-family:var(--font-mono);">LEVEL ${level} - NEXT MILESTONE: ${nextMilestone}</div>
-      <div style="font-size:0.78rem;color:var(--text-muted);font-family:var(--font-mono);">${pct}%</div>
-    </div>
-    <div class="progress-bar-container" style="margin-bottom:0;">
-      <div class="progress-bar-fill" style="width:${pct}%;background:${accent};"></div>
-    </div>
-  </div>
-
-  <div class="card" style="padding:18px;margin-bottom:14px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-      <div style="font-size:0.92rem;font-weight:600;color:var(--text-primary);">Unlocked Workspace Upgrades</div>
-      <div style="font-size:0.75rem;color:var(--text-muted);">${unlocked.length} unlocked</div>
-    </div>
-    ${unlocked.length ? `
-      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
-        ${unlocked.slice(0, 10).map((id) => {
-          const meta = classify(id);
-          return `
-            <div class="card" style="padding:12px;background:var(--bg-glass);border-color:var(--border-subtle);">
-              <div style="display:flex;align-items:flex-start;gap:10px;">
-                <div style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;opacity:0.9;">${icon(meta.type)}</div>
-                <div>
-                  <div style="font-size:0.86rem;font-weight:600;color:var(--text-primary);">${meta.label}</div>
-                  <div style="font-size:0.75rem;color:var(--text-muted);text-transform:capitalize;">${meta.type}</div>
-                </div>
-              </div>
-            </div>`;
-        }).join("")}
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    ${challenges.map(c => `
+      <div class="card challenge-card" style="cursor:pointer;transition:transform var(--t-base),border-color var(--t-base);">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
+          <div style="font-size:1.6rem;flex-shrink:0;">${c.icon}</div>
+          <div style="flex:1;">
+            <div style="font-size:0.92rem;font-weight:500;color:var(--text-primary);margin-bottom:3px;">${c.title}</div>
+            <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.45;">${c.desc}</div>
+          </div>
+          <span style="padding:2px 9px;border-radius:999px;font-size:0.6rem;font-family:var(--font-mono);letter-spacing:0.08em;text-transform:uppercase;background:${(typeColors[c.type]||accent)}15;color:${typeColors[c.type]||accent};border:1px solid ${(typeColors[c.type]||accent)}30;flex-shrink:0;">${c.type}</span>
+        </div>
+        <div class="progress-bar-container" style="margin-bottom:8px;">
+          <div class="progress-bar-fill" style="width:${Math.round(c.progress/c.goal*100)}%;background:${typeColors[c.type]||accent};"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.68rem;color:var(--text-muted);font-family:var(--font-mono);">${c.progress}/${c.goal}</span>
+          <span style="font-size:0.72rem;font-family:var(--font-mono);color:${typeColors[c.type]||accent};">+${c.xp} XP</span>
+        </div>
       </div>
-    ` : `
-      <div style="padding:8px 0;color:var(--text-muted);font-size:0.85rem;">No upgrades unlocked yet. Reach level 10 for your first Chronicle choice.</div>
-    `}
+    `).join("")}
   </div>
+</div>`;
 
-  <div class="card" style="padding:18px;">
-    <div style="font-size:0.92rem;font-weight:600;color:var(--text-primary);margin-bottom:8px;">What This Is</div>
-    <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;max-width:70ch;">
-      Chronicle milestones are cosmetic and identity-based. They improve your workspace atmosphere without changing learning difficulty or locking you into streaks.
-    </div>
-  </div>
-</div>
-`;
-
-    canvas.querySelector("#chronicle-open-profile")?.addEventListener("click", () => this._onRightNav("profile"));
-    canvas.querySelector("#chronicle-pending")?.addEventListener("click", () => {
-      ChronicleSystem.checkPending();
+    canvas.querySelectorAll(".challenge-card").forEach(c => {
+      c.addEventListener("mouseenter", () => { c.style.transform="translateY(-2px)"; c.style.borderColor="var(--border-normal)"; });
+      c.addEventListener("mouseleave", () => { c.style.transform=""; c.style.borderColor=""; });
     });
   }
 
+  // ── Arena ─────────────────────────────────────────────────────────
   async _pageArena(canvas) {
     const me     = getUser();
     const accent = ACCENT[this.currentLang];
@@ -1686,7 +1457,7 @@ class VaultiaApp {
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px;">
     <div class="card-elevated" style="text-align:center;padding:28px 20px;">
-      <div style="margin-bottom:12px;display:flex;justify-content:center;opacity:0.9;">${_uiIconSvg("bolt", 34, accent)}</div>
+      <div style="font-size:2.2rem;margin-bottom:12px;">⚡</div>
       <h3 style="font-family:var(--font-display);font-size:1.3rem;font-weight:300;color:var(--text-primary);margin-bottom:8px;">Speed Translation</h3>
       <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:20px;line-height:1.55;">Race against yourself or wait for a live opponent. Translate 10 phrases as fast and accurately as possible.</p>
       <div style="display:flex;justify-content:center;gap:8px;margin-bottom:16px;">
@@ -1695,18 +1466,12 @@ class VaultiaApp {
         <span style="font-size:0.72rem;font-family:var(--font-mono);color:${accent};">Solo or 1v1</span>
       </div>
       <div style="display:flex;gap:8px;justify-content:center;">
-        <button class="btn btn-primary" id="arena-solo" style="display:inline-flex;align-items:center;gap:8px;">
-          ${_uiIconSvg("play", 16, "currentColor")}
-          Solo Run
-        </button>
-        <button class="btn btn-ghost" id="arena-1v1" style="border-color:${accent}40;color:${accent};display:inline-flex;align-items:center;gap:8px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5.5l4 4"/><path d="M12 8l7-7"/><path d="M7 17l-4 4"/><path d="M8 12l-7 7"/><path d="M16 12l-4 4"/><path d="M12 16l4 4"/></svg>
-          Find Match
-        </button>
+        <button class="btn btn-primary" id="arena-solo">▶ Solo Run</button>
+        <button class="btn btn-ghost" id="arena-1v1" style="border-color:${accent}40;color:${accent};">⚔ Find Match</button>
       </div>
     </div>
     <div class="card-elevated" style="text-align:center;padding:28px 20px;opacity:0.65;">
-      <div style="margin-bottom:12px;display:flex;justify-content:center;opacity:0.75;filter:grayscale(0.5);">${_uiIconSvg("mic", 34, "rgba(255,255,255,0.8)")}</div>
+      <div style="font-size:2.2rem;margin-bottom:12px;filter:grayscale(0.5);">🎙️</div>
       <h3 style="font-family:var(--font-display);font-size:1.3rem;font-weight:300;color:var(--text-primary);margin-bottom:8px;">Dictation Race</h3>
       <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:20px;line-height:1.55;">Listen and transcribe native audio. Compete for accuracy and speed across increasing difficulty.</p>
       <div style="margin-bottom:16px;font-size:0.72rem;font-family:var(--font-mono);color:var(--text-muted);">Launching Stage 3+</div>
@@ -1775,9 +1540,7 @@ class VaultiaApp {
         const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
         const xp = correct * 12;
         canvas.innerHTML = `<div class="canvas-content page-enter" style="text-align:center;padding:60px 40px;">
-          <div style="margin-bottom:16px;display:flex;justify-content:center;opacity:0.9;">
-            ${correct >= 8 ? _uiIconSvg("trophy", 52, accent) : correct >= 5 ? _uiIconSvg("bolt", 52, accent) : _uiIconSvg("books", 52, "rgba(255,255,255,0.75)")}
-          </div>
+          <div style="font-size:3rem;margin-bottom:16px;">${correct>=8?"🏆":correct>=5?"⭐":"💪"}</div>
           <h2 style="font-family:var(--font-display);font-size:2rem;font-weight:300;color:var(--text-primary);margin-bottom:8px;">Run Complete</h2>
           <div style="font-size:1.1rem;color:${accent};font-family:var(--font-mono);margin-bottom:24px;">${correct}/10 correct · ${elapsed}s · +${xp} XP</div>
           <button class="btn btn-primary" id="arena-play-again">Play Again</button>
@@ -1856,9 +1619,7 @@ class VaultiaApp {
 
     // Show waiting screen
     canvas.innerHTML = `<div class="canvas-content page-enter" style="text-align:center;padding:80px 40px;">
-        <div style="margin-bottom:20px;opacity:0.85;">
-          <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5.5l4 4"/><path d="M12 8l7-7"/><path d="M7 17l-4 4"/><path d="M8 12l-7 7"/><path d="M16 12l-4 4"/><path d="M12 16l4 4"/></svg>
-        </div>
+      <div style="font-size:3rem;margin-bottom:20px;">⚔</div>
       <h2 style="font-family:var(--font-display);font-size:1.8rem;font-weight:300;color:var(--text-primary);margin-bottom:12px;">Finding Opponent…</h2>
       <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:32px;">Waiting for another player in ${LABEL[lang]}…</p>
       <div id="arena-queue-spinner" style="width:40px;height:40px;border:3px solid var(--border-subtle);border-top-color:${accent};border-radius:50%;margin:0 auto 32px;animation:spin 1s linear infinite;"></div>
@@ -1917,9 +1678,7 @@ class VaultiaApp {
         const xp = isWin ? myScore * 18 : myScore * 10;
 
         canvas.innerHTML = `<div class="canvas-content page-enter" style="text-align:center;padding:60px 40px;">
-          <div style="margin-bottom:16px;display:flex;justify-content:center;opacity:0.9;">
-            ${isWin ? _uiIconSvg("trophy", 52, accent) : _uiIconSvg("books", 52, "rgba(255,255,255,0.72)")}
-          </div>
+          <div style="font-size:3rem;margin-bottom:16px;">${isWin ? "🏆" : "💪"}</div>
           <h2 style="font-family:var(--font-display);font-size:2rem;font-weight:300;color:var(--text-primary);margin-bottom:8px;">${isWin ? "Victory!" : "Defeat"}</h2>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:340px;margin:24px auto;">
             <div class="card" style="padding:16px;text-align:center;">
@@ -1950,7 +1709,7 @@ class VaultiaApp {
         // Submit completion
         completeMatch(matchId, me.uid);
         canvas.innerHTML = `<div class="canvas-content page-enter" style="text-align:center;padding:80px 40px;">
-          <div style="margin-bottom:16px;display:flex;justify-content:center;opacity:0.8;">${_uiIconSvg("chat", 34, "rgba(255,255,255,0.72)")}</div>
+          <div style="font-size:2rem;margin-bottom:16px;">⏳</div>
           <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:300;color:var(--text-primary);margin-bottom:8px;">Waiting for opponent…</h2>
           <p style="font-size:0.85rem;color:var(--text-muted);">You scored ${myCorrect}/10. Waiting for results…</p>
         </div>`;
@@ -2029,15 +1788,15 @@ class VaultiaApp {
     canvas.innerHTML = `
 <div class="canvas-content page-enter" style="max-width:620px;">
   <div style="margin-bottom:32px;">
-    <h2 class="section-title">Support Vaultia</h2>
+    <h2 class="section-title">Support Vaultria</h2>
     <p class="section-subtitle">Keeping language learning independent and ad-free</p>
   </div>
 
   <div class="card-elevated" style="padding:32px;margin-bottom:20px;border-color:${accent}25;">
-    <div style="margin-bottom:16px;display:flex;justify-content:center;opacity:0.85;">${_uiIconSvg("leaf", 34, accent)}</div>
+    <div style="font-size:2rem;margin-bottom:16px;">🌱</div>
     <h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:300;color:var(--text-primary);margin-bottom:14px;">Made with care</h3>
-    <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.75;margin-bottom:14px;">Vaultia is an independent project — no venture capital, no advertisers, no data brokers. Just a genuine attempt to make language learning feel meaningful, beautiful, and worth your time.</p>
-    <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.75;margin-bottom:20px;">If Vaultia has helped you, a small contribution on Ko-fi keeps the servers running, the content growing, and the team caffeinated.</p>
+    <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.75;margin-bottom:14px;">Vaultria is an independent project — no venture capital, no advertisers, no data brokers. Just a genuine attempt to make language learning feel meaningful, beautiful, and worth your time.</p>
+    <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.75;margin-bottom:20px;">If Vaultria has helped you, a small contribution on Ko-fi keeps the servers running, the content growing, and the team caffeinated.</p>
     <a href="${KOFI_URL}" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
       Support the Builder
@@ -2046,23 +1805,23 @@ class VaultiaApp {
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
     ${[
-      { icon:"ban",  title:"No Ads",         desc:"Your learning experience is never interrupted by advertising." },
-      { icon:"lock", title:"No Data Sales",  desc:"Your progress and usage is never sold to third parties." },
-      { icon:"key",  title:"Starter Trial",  desc:"A short free trial lets learners feel the climb before buying full access." },
-      { icon:"card", title:"Fair Unlock",    desc:"Plan around a simple one-tier unlock — roughly $5, $8, or $10 — instead of ad sludge." },
-      { icon:"chat", title:"Community First",desc:"Feature decisions are driven by learner feedback." },
+      { icon:"🚫", title:"No Ads",         desc:"Your learning experience is never interrupted by advertising." },
+      { icon:"🔒", title:"No Data Sales",  desc:"Your progress and usage is never sold to third parties." },
+      { icon:"🗝️", title:"Starter Trial", desc:"A short free trial lets learners feel the climb before buying full access." },
+      { icon:"💳", title:"Fair Unlock", desc:"Plan around a simple one-tier unlock — roughly $5, $8, or $10 — instead of ad sludge." },
+      { icon:"💬", title:"Community First",desc:"Feature decisions are driven by learner feedback." },
     ].map(f => `
       <div class="card" style="padding:18px;">
-        <div style="margin-bottom:8px;display:flex;align-items:center;justify-content:center;opacity:0.85;">${_uiIconSvg(f.icon, 24, "rgba(255,255,255,0.78)")}</div>
+        <div style="font-size:1.4rem;margin-bottom:8px;">${f.icon}</div>
         <div style="font-size:0.88rem;font-weight:500;color:var(--text-primary);margin-bottom:4px;">${f.title}</div>
         <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.5;">${f.desc}</div>
       </div>
     `).join("")}
   </div>
 
-    <div class="card" style="padding:20px 24px;text-align:center;">
+  <div class="card" style="padding:20px 24px;text-align:center;">
     <div style="font-size:0.75rem;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:8px;">Thank you for being here.</div>
-    <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:300;color:var(--text-secondary);">Every contribution helps keep Vaultia independent, useful, and ad-light.</div>
+    <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:300;color:var(--text-secondary);">Every contribution helps keep Vaultria independent, useful, and ad-light.</div>
   </div>
 </div>`;
   }
@@ -2074,9 +1833,6 @@ class VaultiaApp {
     const xp     = this.currentProgress?.xp || 0;
     const level  = xpToLevel(xp);
     const dev    = isDevUser();
-    const prof   = this.profile || {};
-    const momentum = Math.round(prof.momentum?.score ?? 0);
-    const titlePrefix = prof.identity?.titlePrefix ? `${prof.identity.titlePrefix} ` : "";
 
     canvas.innerHTML = `
 <div class="canvas-content page-enter">
@@ -2087,29 +1843,19 @@ class VaultiaApp {
 
     <!-- Avatar card -->
     <div class="card-elevated" style="text-align:center;padding:28px 20px;">
-      <div id="profile-avatar-wrap" style="width:72px;height:72px;margin:0 auto 16px;position:relative;overflow:visible;">
-        <div style="width:72px;height:72px;border-radius:50%;background:${accent}20;border:2px solid ${accent}40;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:600;color:${accent};font-family:var(--font-display);overflow:hidden;">
-          ${user?.photoURL
-            ? `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'" />`
-            : (user?.displayName || user?.email || "G")[0].toUpperCase()
-          }
-        </div>
+      <div style="width:72px;height:72px;border-radius:50%;background:${accent}20;border:2px solid ${accent}40;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:600;color:${accent};margin:0 auto 16px;font-family:var(--font-display);overflow:hidden;">
+        ${user?.photoURL
+          ? `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'" />`
+          : (user?.displayName || user?.email || "G")[0].toUpperCase()
+        }
       </div>
-      <div style="font-size:1.1rem;font-weight:500;color:var(--text-primary);margin-bottom:4px;">${titlePrefix}${user?.displayName || "Learner"}</div>
+      <div style="font-size:1.1rem;font-weight:500;color:var(--text-primary);margin-bottom:4px;">${user?.displayName || "Learner"}</div>
       <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:16px;word-break:break-all;">${user?.email || "Guest session"}</div>
-      <div id="profile-seals-row" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;"></div>
       <div style="display:flex;flex-direction:column;gap:6px;align-items:center;">
         ${dev ? `<span class="ws-tag" style="color:#a08fff;border-color:rgba(139,124,255,0.3);background:rgba(139,124,255,0.1);">Developer</span>` : ""}
         ${!user?._isLocal && !user?._isGuest ? `<span class="ws-tag" style="color:#4db8ff;border-color:rgba(77,184,255,0.25);background:rgba(77,184,255,0.1);">Cloud Sync</span>` : `<span class="ws-tag" style="color:#fbbf24;border-color:rgba(251,191,36,0.25);background:rgba(251,191,36,0.08);">Local Save</span>`}
       </div>
-      <div style="margin-top:16px;display:flex;flex-direction:column;align-items:center;gap:10px;">
-        <div id="profile-familiar-slot"></div>
-        <label style="display:flex;align-items:center;gap:8px;font-size:0.78rem;color:var(--text-muted);cursor:pointer;user-select:none;">
-          <input id="toggle-familiar" type="checkbox" ${prof.familiar?.enabled === false ? "" : "checked"} />
-          Show Familiar
-        </label>
-      </div>
-      <button class="btn btn-sm btn-ghost" id="go-to-edit-profile" style="margin-top:12px;font-size:0.75rem;">Edit Profile</button>
+      <button class="btn btn-sm btn-ghost" id="go-to-settings" style="margin-top:12px;font-size:0.75rem;">Edit Profile</button>
     </div>
 
     <!-- Stats -->
@@ -2132,23 +1878,12 @@ class VaultiaApp {
           <span class="profile-stat-label">Lessons</span>
         </div>
         <div>
-          <span class="profile-stat-value">${momentum}</span>
+          <span class="profile-stat-value">${this.currentProgress?.streak||0}</span>
           <span class="profile-stat-label">Momentum</span>
         </div>
         <div>
           <span class="profile-stat-value">${level}</span>
           <span class="profile-stat-label">Level</span>
-        </div>
-      </div>
-
-      <div class="card-elevated" style="padding:18px 18px 16px 18px;">
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px;">
-          <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:500;color:var(--text-primary);">Archivist Desk</div>
-          <button id="desk-material-btn" class="btn btn-sm btn-ghost" style="font-size:0.72rem;">Material</button>
-        </div>
-        <div id="profile-desk-mount" style="display:flex;justify-content:center;overflow:auto;padding-bottom:8px;"></div>
-        <div style="margin-top:10px;font-size:0.72rem;color:var(--text-muted);">
-          Drag artifacts to reposition. Right-click to inspect.
         </div>
       </div>
 
@@ -2171,7 +1906,7 @@ class VaultiaApp {
   </div>
 </div>`;
 
-    canvas.querySelector("#go-to-edit-profile")?.addEventListener("click", () => this._onRightNav("edit-profile"));
+    canvas.querySelector("#go-to-settings")?.addEventListener("click", () => this._navigate("settings"));
     canvas.querySelector("#dev-add-xp")?.addEventListener("click", async () => {
       this.currentProgress.xp = (this.currentProgress.xp || 0) + 200;
       await saveProgress(this.currentLang, this.currentProgress);
@@ -2185,6 +1920,7 @@ class VaultiaApp {
       this.currentProgress = defaultProgress(this.currentLang);
       this.currentProgress.xp = 0;
       this.currentProgress.level = 1;
+      this.currentProgress.streak = 0;
       this.currentProgress.completed = [];
       this.currentProgress.stars = {};
       this.currentProgress.stageUnlocked = 0;
@@ -2200,287 +1936,9 @@ class VaultiaApp {
       syncProgressToProfile(this.currentLang, this.currentProgress);
       // Also reset Firestore user doc fields
       const db = getDb(); const me = getUser();
-      if (db && me) db.collection("users").doc(me.uid).update({ level: 1, xp: 0 }).catch(() => {});
+      if (db && me) db.collection("users").doc(me.uid).update({ level: 1, xp: 0, streak: 0 }).catch(() => {});
       showToast(`Progress reset for ${LABEL[this.currentLang] || this.currentLang}`, "success");
       this._pageProfile(canvas);
-    });
-
-    this._mountProfileWorkstation(canvas).catch(() => {});
-  }
-
-  async _mountProfileWorkstation(canvas) {
-    // Avatar decorators (ring + frame)
-    const avatarWrap = canvas.querySelector("#profile-avatar-wrap");
-    if (avatarWrap) {
-      this._profileRing?.destroy?.();
-      this._profileRing = new MomentumRing(avatarWrap);
-      FrameRenderer.applyFromFirestore(avatarWrap, 72);
-    }
-
-    // Seals row (current language)
-    const sealsRow = canvas.querySelector("#profile-seals-row");
-    if (sealsRow) {
-      const prof = await loadProfile();
-      this.profile = prof;
-      const seals = prof?.seals?.[this.currentLang] || [];
-      const limited = seals.slice(-6);
-      sealsRow.innerHTML = limited.map((s) => `<div style="opacity:0.9;">${renderSeal(s, 30, true)}</div>`).join("");
-    }
-
-    // Familiar
-    const famSlot = canvas.querySelector("#profile-familiar-slot");
-    if (famSlot) {
-      this._profileFam?.destroy?.();
-      famSlot.innerHTML = "";
-      this._profileFam = await Familiar.fromFirestore(famSlot);
-    }
-
-    // Familiar toggle
-    canvas.querySelector("#toggle-familiar")?.addEventListener("change", async (e) => {
-      const enabled = !!e.target.checked;
-      const prof = await updateProfile((p) => {
-        p.familiar = p.familiar || {};
-        p.familiar.enabled = enabled;
-        return p;
-      });
-      this.profile = prof;
-      this._pageProfile(canvas);
-    });
-
-    // Desk mount
-    const deskMount = canvas.querySelector("#profile-desk-mount");
-    if (deskMount) {
-      this._profileDesk?.destroy?.();
-      deskMount.innerHTML = "";
-      this._profileDesk = await ProfileDesk.mount(deskMount);
-    }
-
-    // Desk material menu
-    canvas.querySelector("#desk-material-btn")?.addEventListener("click", async (e) => {
-      e.preventDefault();
-      const prof = await loadProfile();
-      const rewards = prof?.rewards || {};
-      const current = prof?.desk?.material || "walnut";
-
-      const materials = [
-        { id: "walnut", label: "Polished Walnut", unlocked: true },
-        { id: "marble", label: "White Marble", unlocked: !!rewards.desk_marble },
-        { id: "carbon", label: "Carbon Fiber", unlocked: !!rewards.desk_carbon },
-        { id: "tatami", label: "Traditional Tatami", unlocked: !!rewards.desk_tatami },
-      ].filter((m) => m.unlocked);
-
-      const panel = document.createElement("div");
-      panel.style.cssText = `
-        position:fixed;left:${e.clientX + 10}px;top:${e.clientY + 10}px;z-index:300;
-        background:var(--bg-surface);border:1px solid var(--border-normal);
-        border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.6);
-        padding:10px;min-width:220px;`;
-      panel.innerHTML = `
-        <div style="font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:8px;">Desk Material</div>
-        ${materials.map((m) => `
-          <button data-mat="${m.id}" style="width:100%;text-align:left;padding:8px 10px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--text-secondary);display:flex;justify-content:space-between;align-items:center;">
-            <span>${m.label}</span>
-            <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">${m.id === current ? "Active" : ""}</span>
-          </button>
-        `).join("")}
-      `;
-
-      const dismiss = (ev) => {
-        if (!panel.contains(ev.target)) {
-          panel.remove();
-          document.removeEventListener("mousedown", dismiss);
-        }
-      };
-
-      panel.querySelectorAll("button[data-mat]").forEach((btn) => {
-        btn.addEventListener("mouseenter", () => { btn.style.background = "var(--bg-hover)"; btn.style.borderColor = "var(--border-subtle)"; });
-        btn.addEventListener("mouseleave", () => { btn.style.background = ""; btn.style.borderColor = "transparent"; });
-        btn.addEventListener("click", async () => {
-          const mat = btn.dataset.mat;
-          await updateProfile((p) => {
-            p.desk = p.desk || {};
-            p.desk.material = mat;
-            return p;
-          });
-          panel.remove();
-          document.removeEventListener("mousedown", dismiss);
-          this._pageProfile(canvas);
-        });
-      });
-
-      document.body.appendChild(panel);
-      setTimeout(() => document.addEventListener("mousedown", dismiss), 10);
-    });
-  }
-
-  // ── Edit Profile ──────────────────────────────────────────────────
-  async _pageEditProfile(canvas) {
-    const user   = getUser();
-    const accent = ACCENT[this.currentLang] || "#8b7cff";
-
-    // Load bio from Firestore
-    let bioText = "";
-    try {
-      const db = getDb();
-      if (db && user && !user._isGuest && !user._isLocal) {
-        const doc = await db.collection("users").doc(user.uid).get();
-        bioText = doc?.data()?.bio || "";
-      }
-    } catch (_) {}
-
-    const initials = (user?.displayName || user?.email || "?")[0].toUpperCase();
-    const isCloud  = !user?._isLocal && !user?._isGuest;
-
-    canvas.innerHTML = `
-<div class="canvas-content page-enter" style="max-width:480px;">
-  <div class="section-header">
-    <h2 class="section-title">Edit Profile</h2>
-    <p class="section-subtitle" style="display:block;">Update your display name, photo, and bio</p>
-  </div>
-
-  <!-- Avatar -->
-  <div class="card-elevated" style="padding:28px 24px;display:flex;flex-direction:column;align-items:center;gap:20px;margin-bottom:16px;">
-    <div style="position:relative;">
-      <div id="pfp-preview" style="width:96px;height:96px;border-radius:50%;background:${accent}20;border:2px solid ${accent}40;display:flex;align-items:center;justify-content:center;font-size:2.4rem;font-weight:600;color:${accent};overflow:hidden;font-family:var(--font-display);">
-        ${user?.photoURL
-          ? `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'" />`
-          : initials}
-      </div>
-      <label for="pfp-input" style="position:absolute;bottom:2px;right:2px;width:28px;height:28px;border-radius:50%;background:var(--bg-surface);border:1px solid var(--border-normal);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.75rem;" title="Change photo">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
-      </label>
-      <input id="pfp-input" type="file" accept="image/*" style="display:none;" />
-    </div>
-    ${!isCloud ? `<div style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);text-align:center;">Photo sync requires a cloud account</div>` : ""}
-  </div>
-
-  <!-- Fields -->
-  <div class="card-elevated" style="padding:20px 24px;display:flex;flex-direction:column;gap:16px;margin-bottom:16px;">
-    <div>
-      <label style="display:block;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:6px;">Display Name</label>
-      <input id="display-name-input" class="input" value="${user?.displayName || ""}" placeholder="Your name" style="width:100%;font-size:0.9rem;" />
-    </div>
-    <div>
-      <label style="display:block;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:6px;">Email</label>
-      <div class="input" style="width:100%;font-size:0.85rem;color:var(--text-secondary);cursor:default;background:var(--bg-glass);">${user?.email || "Guest session"}</div>
-    </div>
-    <div>
-      <label style="display:block;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:6px;">Bio</label>
-      <textarea id="bio-input" class="input" placeholder="Write a short bio…" style="width:100%;font-size:0.85rem;resize:vertical;min-height:80px;max-height:160px;">${bioText}</textarea>
-    </div>
-  </div>
-
-  <div style="display:flex;gap:10px;justify-content:flex-end;">
-    <button id="cancel-edit-profile" class="btn btn-ghost">Cancel</button>
-    <button id="save-profile-btn" class="btn btn-primary">Save Changes</button>
-  </div>
-</div>`;
-
-    // Cancel
-    canvas.querySelector("#cancel-edit-profile")?.addEventListener("click", () => this._onRightNav("profile"));
-
-    // Inject spin keyframe once
-    if (!document.getElementById("pfp-spin-style")) {
-      const st = document.createElement("style");
-      st.id = "pfp-spin-style";
-      st.textContent = "@keyframes pfpSpin{to{transform:rotate(360deg)}}";
-      document.head.appendChild(st);
-    }
-
-    // Lazy-load NSFW.js + TF.js and cache the model on window
-    const _loadNSFWModel = async () => {
-      if (window._nsfwModel) return window._nsfwModel;
-      const loadScript = src => new Promise((res, rej) => {
-        const s = document.createElement("script");
-        s.src = src; s.onload = res; s.onerror = rej;
-        document.head.appendChild(s);
-      });
-      if (!window.tf)     await loadScript("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.20.0/dist/tf.min.js");
-      if (!window.nsfwjs) await loadScript("https://cdn.jsdelivr.net/npm/nsfwjs@2.4.0/dist/nsfwjs.min.js");
-      window._nsfwModel = await window.nsfwjs.load("https://cdn.jsdelivr.net/npm/nsfwjs@2.4.0/quant_nsfw_mobilenet/");
-      return window._nsfwModel;
-    };
-
-    // Photo upload
-    canvas.querySelector("#pfp-input")?.addEventListener("change", async (e) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      const preview = canvas.querySelector("#pfp-preview");
-
-      // Show checking state
-      if (preview) preview.innerHTML = `
-        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;height:100%;font-size:0.65rem;color:var(--text-muted);font-family:var(--font-mono);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="animation:pfpSpin 1s linear infinite;flex-shrink:0;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
-          Checking…
-        </div>`;
-
-      const img = new Image();
-      const objectURL = URL.createObjectURL(file);
-      img.onload = async () => {
-        URL.revokeObjectURL(objectURL);
-
-        // ── Content moderation ──────────────────────────────────────
-        try {
-          const model = await _loadNSFWModel();
-          const predictions = await model.classify(img);
-          const scores = Object.fromEntries(predictions.map(p => [p.className, p.probability]));
-          const flagged = (scores.Porn || 0) + (scores.Hentai || 0) + (scores.Sexy || 0);
-          if (flagged > 0.45) {
-            if (preview) preview.innerHTML = initials; // restore avatar
-            e.target.value = "";
-            showToast("Image doesn't meet community guidelines (PG-13). Please choose a different photo.", "error", 5000);
-            return;
-          }
-        } catch (modErr) {
-          console.warn("[PFP] Content moderation unavailable:", modErr.message);
-          // Fail open — don't block upload if model can't load
-        }
-
-        // ── Process & save ──────────────────────────────────────────
-        const min = Math.min(img.width, img.height);
-        const sx = (img.width - min) / 2, sy = (img.height - min) / 2;
-
-        // High-quality version stored in Firestore (used for display everywhere)
-        // We do NOT write base64 to Firebase Auth photoURL — it has a character limit
-        const hiCvs = document.createElement("canvas");
-        hiCvs.width = 256; hiCvs.height = 256;
-        hiCvs.getContext("2d").drawImage(img, sx, sy, min, min, 0, 0, 256, 256);
-        const hiResURL = hiCvs.toDataURL("image/jpeg", 0.85);
-
-        if (preview) preview.innerHTML = `<img src="${hiResURL}" style="width:100%;height:100%;object-fit:cover;" />`;
-
-        try {
-          const db = getDb(); const me = getUser();
-          if (db && me) await db.collection("users").doc(me.uid).update({ avatar_url: hiResURL });
-          setAvatarUrl(hiResURL);
-          eventBus.emit("auth:changed", { user: getUser(), isGuest: false });
-          showToast("Photo updated!", "success");
-        } catch (saveErr) {
-          console.error("[PFP] Save failed:", saveErr);
-          showToast("Failed to save photo. Please try again.", "error");
-        }
-      };
-      img.src = objectURL;
-    });
-
-    // Save
-    canvas.querySelector("#save-profile-btn")?.addEventListener("click", async () => {
-      const name = canvas.querySelector("#display-name-input")?.value?.trim();
-      const bio  = canvas.querySelector("#bio-input")?.value?.trim() || "";
-      if (!name) { showToast("Enter a display name", "error"); return; }
-      const btn = canvas.querySelector("#save-profile-btn");
-      btn.disabled = true; btn.textContent = "Saving…";
-      const res = await updateProfile({ displayName: name });
-      const db = getDb(); const me = getUser();
-      if (db && me) await db.collection("users").doc(me.uid).update({ bio }).catch(() => {});
-      btn.disabled = false; btn.textContent = "Save Changes";
-      if (res.ok) {
-        eventBus.emit("auth:changed", { user: getUser(), isGuest: false });
-        showToast("Profile updated!", "success");
-        setTimeout(() => this._onRightNav("profile"), 800);
-      } else {
-        showToast(res.error || "Failed to save", "error");
-      }
     });
   }
 
@@ -2519,13 +1977,13 @@ class VaultiaApp {
         const name  = u.username || u.email?.split("@")[0] || "Learner";
         const init  = name[0]?.toUpperCase() || "?";
         const ua    = ACCENT[u.currentLanguage] || accent || "#8b7cff";
-        const medal = rank;
+        const medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : rank;
         const mc    = rank === 1 ? "#fbbf24" : rank === 2 ? "#94a3b8" : rank === 3 ? "#cd7c2f" : "var(--text-muted)";
         return `<div class="lb-row" data-uid="${u.uid}" style="padding:13px 20px;border-bottom:1px solid var(--border-subtle);display:grid;grid-template-columns:42px 1fr 80px 70px 90px 90px;gap:8px;align-items:center;background:${isMe ? (ua)+"0d" : "transparent"};transition:background 0.15s;">
           <div style="font-size:${rank<=3?"1.05rem":"0.84rem"};font-weight:600;color:${mc};font-family:var(--font-mono);">${medal}</div>
           <div style="display:flex;align-items:center;gap:9px;cursor:pointer;" class="lb-name">
             <div style="position:relative;flex-shrink:0;">
-              <div style="width:28px;height:28px;border-radius:50%;background:${ua}20;border:1px solid ${ua}40;display:flex;align-items:center;justify-content:center;font-size:0.74rem;font-weight:600;color:${ua};overflow:hidden;">${(u.avatar_url||u.photoURL)?`<img src="${u.avatar_url||u.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>`:init}</div>
+              <div style="width:28px;height:28px;border-radius:50%;background:${ua}20;border:1px solid ${ua}40;display:flex;align-items:center;justify-content:center;font-size:0.74rem;font-weight:600;color:${ua};">${init}</div>
               ${isUserOnline(u) ? `<div style="position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;background:#4ade80;border:1px solid var(--bg-surface);"></div>` : ""}
             </div>
             <div>
@@ -2534,7 +1992,7 @@ class VaultiaApp {
             </div>
           </div>
           <div style="font-family:var(--font-mono);font-size:0.87rem;color:${ua};">${xpVal.toLocaleString()}</div>
-          <div style="font-size:0.82rem;color:var(--text-secondary);">${mPct}%</div>
+          <div style="font-size:0.82rem;color:var(--text-secondary);">${u.streak||0}d ascent</div>
           <div style="font-size:0.7rem;font-family:var(--font-mono);color:var(--text-muted);">${STAGES[u.stageUnlocked||0]||"Starter"}</div>
           ${!isMe && me && !isGuest?.() ? `<button class="btn btn-sm btn-ghost lb-add-friend" data-uid="${u.uid}" style="font-size:0.7rem;padding:4px 8px;">+ Friend</button>` : `<div></div>`}
         </div>`;
@@ -2691,7 +2149,7 @@ class VaultiaApp {
             ${[
               {v:xp.toLocaleString(), l:"XP"},
               {v:"Lv."+level, l:"Level"},
-              {v:mPct+"%", l:"Momentum"},
+              {v:(u.streak||0)+"d", l:"Momentum"},
               {v:stage, l:"Stage"},
             ].map(s=>`<div style="background:var(--bg-hover);border-radius:8px;padding:10px 6px;text-align:center;">
               <div style="font-size:0.88rem;font-weight:600;font-family:var(--font-mono);color:var(--text-primary);">${s.v}</div>
@@ -2717,7 +2175,7 @@ class VaultiaApp {
       if (status === "pending_received") {
         btn.textContent = "Accepting…"; btn.disabled = true;
         const res = await acceptFriendRequest(uid);
-        if (res.ok) { showToast("Friends!", "success"); close(); }
+        if (res.ok) { showToast("Friends! 🎉", "success"); close(); }
         else showToast("Failed: " + res.error, "error");
       } else {
         btn.textContent = "Sending…"; btn.disabled = true;
@@ -2763,7 +2221,7 @@ class VaultiaApp {
           const fa = ACCENT[p.currentLanguage] || accent;
           const n  = p.username || "Learner";
           return `<div class="card" style="display:flex;align-items:center;gap:12px;padding:14px;margin-bottom:8px;">
-            <div style="width:36px;height:36px;border-radius:50%;background:${fa}20;border:1px solid ${fa}35;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:${fa};flex-shrink:0;overflow:hidden;">${(p.avatar_url||p.photoURL)?`<img src="${p.avatar_url||p.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>`:n[0].toUpperCase()}</div>
+            <div style="width:36px;height:36px;border-radius:50%;background:${fa}20;border:1px solid ${fa}35;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:${fa};flex-shrink:0;">${n[0].toUpperCase()}</div>
             <div style="flex:1;min-width:0;">
               <div style="font-size:0.9rem;font-weight:500;color:var(--text-primary);">${n}</div>
               <div style="font-size:0.72rem;color:var(--text-muted);">wants to be friends</div>
@@ -2781,7 +2239,7 @@ class VaultiaApp {
           const n  = p.username || "Learner";
           return `<div class="card friend-row" data-uid="${p.uid}" style="display:flex;align-items:center;gap:12px;padding:14px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s;">
             <div style="position:relative;flex-shrink:0;">
-              <div style="width:36px;height:36px;border-radius:50%;background:${fa}20;border:1px solid ${fa}35;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:${fa};overflow:hidden;">${(p.avatar_url||p.photoURL)?`<img src="${p.avatar_url||p.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>`:n[0].toUpperCase()}</div>
+              <div style="width:36px;height:36px;border-radius:50%;background:${fa}20;border:1px solid ${fa}35;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:${fa};">${n[0].toUpperCase()}</div>
               ${isUserOnline(p) ? `<div style="position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;background:#4ade80;border:2px solid var(--bg-surface);"></div>` : ""}
             </div>
             <div style="flex:1;min-width:0;">
@@ -2790,7 +2248,7 @@ class VaultiaApp {
             </div>
             <div style="text-align:right;">
               <div style="font-size:0.82rem;font-family:var(--font-mono);color:${fa};">${(p.xp||0).toLocaleString()} XP</div>
-              <div style="font-size:0.68rem;color:var(--text-muted);">${mPct}%</div>
+              <div style="font-size:0.68rem;color:var(--text-muted);">${p.streak||0}d ascent</div>
             </div>
             <button class="btn btn-sm btn-ghost remove-friend" data-uid="${p.uid}" title="Remove friend" style="flex-shrink:0;opacity:0.5;">✕</button>
           </div>`;
@@ -2801,7 +2259,7 @@ class VaultiaApp {
       list.querySelectorAll(".accept-req").forEach(btn => btn.addEventListener("click", async () => {
         btn.disabled = true; btn.textContent = "…";
         const res = await acceptFriendRequest(btn.dataset.uid);
-        if (res.ok) { showToast("Friends!","success"); renderFriends(); }
+        if (res.ok) { showToast("Friends! 🎉","success"); renderFriends(); }
         else showToast(res.error||"Failed","error");
       }));
       list.querySelectorAll(".decline-req").forEach(btn => btn.addEventListener("click", async () => {
@@ -2835,12 +2293,12 @@ class VaultiaApp {
         const n  = u.username || "Learner";
         return `<div class="card" style="display:flex;align-items:center;gap:10px;padding:12px;margin-bottom:6px;">
           <div style="position:relative;flex-shrink:0;">
-            <div style="width:32px;height:32px;border-radius:50%;background:${ua}20;border:1px solid ${ua}35;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:600;color:${ua};overflow:hidden;">${(u.avatar_url||u.photoURL)?`<img src="${u.avatar_url||u.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>`:n[0].toUpperCase()}</div>
+            <div style="width:32px;height:32px;border-radius:50%;background:${ua}20;border:1px solid ${ua}35;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:600;color:${ua};">${n[0].toUpperCase()}</div>
             ${isUserOnline(u) ? `<div style="position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;background:#4ade80;border:1px solid var(--bg-surface);"></div>` : ""}
           </div>
           <div style="flex:1;min-width:0;">
             <div style="font-size:0.88rem;font-weight:500;color:var(--text-primary);">${n}${isUserOnline(u)?` <span style="font-size:0.62rem;color:#4ade80;">● online</span>`:""}</div>
-            <div style="font-size:0.7rem;color:var(--text-muted);">${(u.xp||0).toLocaleString()} XP · ${mPct}%</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);">${(u.xp||0).toLocaleString()} XP · ${u.streak||0}d ascent</div>
           </div>
           <button class="btn btn-sm btn-primary add-friend-btn" data-uid="${u.uid}">+ Add</button>
         </div>`;
@@ -2921,9 +2379,7 @@ class VaultiaApp {
             <span style="font-size:0.85rem;font-weight:500;color:var(--text-primary);">${p.username||"Learner"}</span>
             ${p.uid !== me?.uid && me && !isGuest?.() ? `<button class="btn btn-sm btn-ghost plaza-add-friend" data-uid="${p.uid}" style="font-size:0.65rem;padding:2px 7px;">+ Friend</button>` : ""}
             <span style="font-size:0.72rem;color:var(--text-muted);margin-left:auto;">${timeAgo(p.createdAt)}</span>
-            <span style="font-size:0.68rem;padding:2px 7px;border-radius:4px;background:${cat.color}18;color:${cat.color};font-family:var(--font-mono);display:inline-flex;align-items:center;gap:6px;">
-              ${_plazaIconSvg(cat.icon, cat.color)} ${cat.label}
-            </span>
+            <span style="font-size:0.68rem;padding:2px 7px;border-radius:4px;background:${cat.color}18;color:${cat.color};font-family:var(--font-mono);">${cat.icon} ${cat.label}</span>
             <span style="font-size:0.68rem;padding:2px 7px;border-radius:4px;background:${pa}12;color:${pa};font-family:var(--font-mono);">${LABEL[p.lang]||p.lang||""}</span>
           </div>
           <div style="font-size:0.9rem;color:var(--text-primary);line-height:1.6;margin-bottom:10px;cursor:pointer;" class="plaza-open" data-post-id="${p.id}">${p.question}</div>
@@ -2934,11 +2390,8 @@ class VaultiaApp {
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="${liked?"currentColor":"none"}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                 ${p.likeCount||0}
               </button>
-              <span style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);display:inline-flex;align-items:center;gap:6px;">
-                ${_uiIconSvg("chat", 14, "currentColor")}
-                ${p.replyCount||0}
-              </span>
-              ${isMyPost ? `<button class="plaza-delete-post btn btn-sm btn-ghost" data-post-id="${p.id}" aria-label="Delete post" title="Delete" style="color:var(--text-muted);display:inline-flex;align-items:center;justify-content:center;">${_uiIconSvg("trash", 14, "currentColor")}</button>` : ""}
+              <span style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);">💬 ${p.replyCount||0}</span>
+              ${isMyPost ? `<button class="plaza-delete-post btn btn-sm btn-ghost" data-post-id="${p.id}" style="color:var(--text-muted);font-size:0.7rem;">🗑</button>` : ""}
               <button class="btn btn-sm btn-ghost plaza-open" data-post-id="${p.id}">View →</button>
             </div>
           </div>
@@ -2949,7 +2402,7 @@ class VaultiaApp {
         e.stopPropagation();
         if (!me || isGuest?.()) { showToast("Sign in to like posts","info"); return; }
         const r = await toggleLike(btn.dataset.postId);
-        if (r.ok) showToast(r.liked ? "Liked" : "Unliked","info",1500);
+        if (r.ok) showToast(r.liked ? "❤️ Liked" : "Unliked","info",1500);
       }));
 
       list.querySelectorAll(".plaza-delete-post").forEach(btn => btn.addEventListener("click", async e => {
@@ -2957,7 +2410,7 @@ class VaultiaApp {
         if (!confirm("Delete this post and all its replies?")) return;
         btn.textContent = "…"; btn.disabled = true;
         const res = await deletePlazaPost(btn.dataset.postId);
-        if (!res.ok) { showToast(res.error || "Failed to delete", "error"); btn.innerHTML = _uiIconSvg("trash", 14, "currentColor"); btn.disabled = false; }
+        if (!res.ok) { showToast(res.error || "Failed to delete", "error"); btn.textContent = "🗑"; btn.disabled = false; }
         // Real-time subscribePlaza will remove it from the list automatically
       }));
 
@@ -2999,7 +2452,7 @@ class VaultiaApp {
         <div style="background:var(--bg-surface);border:1px solid var(--border-normal);border-radius:14px;width:100%;max-width:580px;max-height:82vh;overflow:hidden;display:flex;flex-direction:column;">
           <div style="padding:16px 20px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;gap:10px;">
             <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:400;color:var(--text-primary);flex:1;">Discussion</h3>
-            ${isMyPost ? `<button id="delete-post-btn" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:0.75rem;font-family:var(--font-mono);padding:4px 8px;border-radius:4px;transition:color 0.15s;display:inline-flex;align-items:center;gap:8px;" title="Delete post" aria-label="Delete post">${_uiIconSvg("trash", 14, "currentColor")} Delete</button>` : ""}
+            ${isMyPost ? `<button id="delete-post-btn" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:0.75rem;font-family:var(--font-mono);padding:4px 8px;border-radius:4px;transition:color 0.15s;" title="Delete post">🗑 Delete</button>` : ""}
             <button id="close-modal" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:1.3rem;line-height:1;">×</button>
           </div>
           <div style="overflow-y:auto;flex:1;padding:16px 20px;">
@@ -3043,7 +2496,7 @@ class VaultiaApp {
                 <span style="font-size:0.78rem;font-weight:500;color:var(--text-secondary);">${r.username||"Learner"}</span>
                 ${r.uid !== me?.uid && me && !isGuest?.() ? `<span class="plaza-friend-tag" data-uid="${r.uid}" style="font-size:0.62rem;padding:1px 6px;cursor:pointer;color:var(--text-muted);border:1px solid var(--border-subtle);border-radius:4px;">+ Friend</span>` : ""}
                 <span style="font-size:0.68rem;color:var(--text-muted);margin-left:auto;">${timeAgo2(r.createdAt)}</span>
-                ${isMyReply ? `<button class="delete-reply-btn" data-reply-id="${r.id}" style="background:none;border:none;cursor:pointer;color:var(--text-muted);padding:0 4px;display:inline-flex;align-items:center;justify-content:center;" title="Delete reply" aria-label="Delete reply">${_uiIconSvg("trash", 14, "currentColor")}</button>` : ""}
+                ${isMyReply ? `<button class="delete-reply-btn" data-reply-id="${r.id}" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:0.68rem;font-family:var(--font-mono);padding:0 4px;" title="Delete reply">🗑</button>` : ""}
               </div>
               <div style="font-size:0.88rem;color:var(--text-primary);line-height:1.55;">${r.body}</div>
             </div>
@@ -3153,7 +2606,7 @@ class VaultiaApp {
             <div>
               <label style="font-size:0.65rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:6px;">Category</label>
               <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                ${PLAZA_CATEGORIES.map(c => `<button class="select-pill np-cat${c.id==="question"?" active":""}" data-c="${c.id}" style="color:${c.color};display:inline-flex;align-items:center;gap:6px;">${_plazaIconSvg(c.icon, c.color)} ${c.label}</button>`).join("")}
+                ${PLAZA_CATEGORIES.map(c => `<button class="select-pill np-cat${c.id==="question"?" active":""}" data-c="${c.id}" style="color:${c.color};">${c.icon} ${c.label}</button>`).join("")}
               </div>
             </div>
             <div>
@@ -3200,7 +2653,7 @@ class VaultiaApp {
         if (review.blocked) { err.style.display="block"; err.textContent = review.reason || "That content violates our community guidelines."; modal.querySelector("#np-submit").disabled=false; modal.querySelector("#np-submit").textContent="Publish Post"; return; }
         const { clean: cleanQ } = review;
         const res = await createPlazaPost({ question: cleanQ, lang: selLang, tags, category: selCategory });
-        if (res.ok) { modal.remove(); showToast("Plaza post published.","success"); }
+        if (res.ok) { modal.remove(); showToast("Plaza post published! 🎉","success"); }
         else {
           const msg = (res.error || "").toLowerCase().includes("permission")
             ? "Firestore rules not deployed yet. Go to Firebase Console → Firestore → Rules and publish the rules from firestore.rules."
@@ -3258,6 +2711,16 @@ class VaultiaApp {
     const user = getUser();
     const prefs = JSON.parse(localStorage.getItem("vaultia_prefs") || "{}");
 
+    // Load bio from Firestore
+    let bioText = "";
+    try {
+      const db = getDb();
+      if (db && user) {
+        const doc = await db.collection("users").doc(user.uid).get();
+        bioText = doc?.data()?.bio || "";
+      }
+    } catch (_) {}
+
     const defaults = {
       daily_reminder:    true,
       streak_alerts:     true,
@@ -3275,6 +2738,26 @@ class VaultiaApp {
 <div class="canvas-content page-enter" style="max-width:560px;">
   <div class="section-header">
     <h2 class="section-title">Settings</h2>
+  </div>
+
+  <!-- Profile section -->
+  <div class="settings-section">
+    <div class="settings-section-title">Profile</div>
+    <div class="card-elevated" style="padding:20px;display:flex;align-items:center;gap:16px;">
+      <div style="position:relative;flex-shrink:0;">
+        <div id="pfp-preview" style="width:56px;height:56px;border-radius:50%;background:var(--accent-primary,#8b7cff)20;border:2px solid var(--accent-primary,#8b7cff)40;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:600;color:var(--accent-primary,#8b7cff);overflow:hidden;">
+          ${user?.photoURL ? `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;" />` : (user?.displayName||user?.email||"G")[0].toUpperCase()}
+        </div>
+        <label for="pfp-input" style="position:absolute;bottom:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:var(--bg-panel);border:1px solid var(--border-normal);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.6rem;" title="Change photo">✏️</label>
+        <input id="pfp-input" type="file" accept="image/*" style="display:none;" />
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+        <input id="display-name-input" class="input" value="${user?.displayName||""}" placeholder="Display name" style="font-size:0.9rem;" />
+        <div style="font-size:0.75rem;color:var(--text-muted);">${user?.email||"Guest"}</div>
+      </div>
+      <button id="save-profile-btn" class="btn btn-sm btn-primary">Save</button>
+    </div>
+    <textarea id="bio-input" class="input" placeholder="Write a short bio..." style="font-size:0.85rem;resize:vertical;min-height:60px;max-height:120px;margin-top:12px;width:100%;box-sizing:border-box;">${bioText}</textarea>
   </div>
 
   ${[
@@ -3339,6 +2822,62 @@ class VaultiaApp {
         }
         showToast(`${val ? "Enabled" : "Disabled"}: ${t.closest(".settings-row").querySelector(".settings-row-label").textContent}`, "info", 1500);
       });
+    });
+
+    // Profile pic upload — tiny thumbnail for Firebase Auth, higher-res in Firestore
+    canvas.querySelector("#pfp-input")?.addEventListener("change", async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const img = new Image();
+      const objectURL = URL.createObjectURL(file);
+      img.onload = async () => {
+        URL.revokeObjectURL(objectURL);
+        const min = Math.min(img.width, img.height);
+        const sx = (img.width - min) / 2, sy = (img.height - min) / 2;
+
+        // Tiny version for Firebase Auth photoURL (limit ~2048 chars)
+        const thumbCvs = document.createElement("canvas");
+        thumbCvs.width = 48; thumbCvs.height = 48;
+        thumbCvs.getContext("2d").drawImage(img, sx, sy, min, min, 0, 0, 48, 48);
+        const thumbURL = thumbCvs.toDataURL("image/jpeg", 0.35);
+
+        // Higher-res version stored in Firestore user doc
+        const hiCvs = document.createElement("canvas");
+        hiCvs.width = 128; hiCvs.height = 128;
+        hiCvs.getContext("2d").drawImage(img, sx, sy, min, min, 0, 0, 128, 128);
+        const hiResURL = hiCvs.toDataURL("image/jpeg", 0.65);
+
+        const preview = canvas.querySelector("#pfp-preview");
+        if (preview) preview.innerHTML = `<img src="${hiResURL}" style="width:100%;height:100%;object-fit:cover;" />`;
+
+        const res = await updateProfile({ photoURL: thumbURL });
+        if (res.ok) {
+          // Store higher-res avatar in Firestore
+          const db = getDb();
+          const me = getUser();
+          if (db && me) db.collection("users").doc(me.uid).update({ avatar_url: hiResURL }).catch(() => {});
+          showToast("Profile photo updated!", "success");
+        } else {
+          showToast(res.error || "Failed to update photo", "error");
+        }
+      };
+      img.src = objectURL;
+    });
+
+    // Save display name
+    canvas.querySelector("#save-profile-btn")?.addEventListener("click", async () => {
+      const name = canvas.querySelector("#display-name-input")?.value?.trim();
+      const bio  = canvas.querySelector("#bio-input")?.value?.trim() || "";
+      if (!name) { showToast("Enter a display name", "error"); return; }
+      const btn = canvas.querySelector("#save-profile-btn");
+      btn.disabled = true; btn.textContent = "Saving…";
+      const res = await updateProfile({ displayName: name });
+      // Save bio to Firestore
+      const db = getDb(); const me = getUser();
+      if (db && me) await db.collection("users").doc(me.uid).update({ bio }).catch(() => {});
+      btn.disabled = false; btn.textContent = "Save";
+      if (res.ok) showToast("Profile updated!", "success");
+      else showToast(res.error || "Failed to save", "error");
     });
 
     canvas.querySelector("#delete-account-btn")?.addEventListener("click", () => {
@@ -3440,34 +2979,8 @@ class VaultiaApp {
     try {
       const d = await (await fetch(`./data/${lang}.json`)).json();
       this._langDataCache[lang] = d;
-      this._indexLangData(lang, d);
       return d;
     } catch { return null; }
-  }
-
-  _indexLangData(langKey, langData) {
-    try {
-      const map = new Map();
-      const stages = langData?.stages || [];
-      for (const stage of stages) {
-        const stageId = stage?.id;
-        const stageKey = stage?.key;
-        const units = stage?.units || [];
-        for (let ui = 0; ui < units.length; ui++) {
-          const unit = units[ui];
-          const unitId = unit?.id;
-          const unitIndex = ui + 1;
-          const sessions = unit?.sessions || [];
-          for (const sess of sessions) {
-            if (!sess?.id) continue;
-            map.set(sess.id, { stageKey, stageId, unitIndex, unitId });
-          }
-        }
-      }
-      this._sessionIndex[langKey] = map;
-    } catch {
-      this._sessionIndex[langKey] = new Map();
-    }
   }
 
   _registerGlobalEvents() {
@@ -3478,14 +2991,14 @@ class VaultiaApp {
     eventBus.on("nav:showAuth",        () => this._showAuth());
     eventBus.on("nav:support",         () => { const c=document.getElementById("center-canvas"); if(c) this._pageSupport(c); });
     eventBus.on("tts:missing-audio",   payload => {
-      console.warn("[Vaultia] static audio missing:", payload);
+      console.warn("[Vaultria] static audio missing:", payload);
     });
     eventBus.on("tts:missing-pack", payload => {
-      console.warn("[Vaultia] audio pack issue:", payload);
+      console.warn("[Vaultria] audio pack issue:", payload);
     });
   }
 }
 
-const app = new VaultiaApp();
+const app = new VaultriaApp();
 _appInstance = app; // Set global for presence helper
 app.boot();

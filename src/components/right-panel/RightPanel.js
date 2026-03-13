@@ -7,8 +7,6 @@ import { eventBus } from "../../utils/eventBus.js";
 import { getUser, isGuest, isDevUser, signOut } from "../../auth/authService.js";
 import { xpToLevel, xpProgressInLevel, xpToNextLevel, formatDate } from "../../utils/textUtils.js";
 import { XP_PER_LEVEL } from "../../utils/constants.js";
-import { MomentumRing } from "../../systems/momentum/MomentumRing.js";
-import { FrameRenderer } from "../../systems/identity/FrameRenderer.js";
 
 const RIGHT_ITEMS = [
   {
@@ -51,7 +49,6 @@ export class RightPanel {
     this.activeId   = null;
     this.progress   = null;
     this._badges    = {};
-    this._ring      = null;
 
     this.render();
     this._bindEvents();
@@ -61,7 +58,6 @@ export class RightPanel {
       this.progress = prog;
       this._renderUserSummary();
     });
-    eventBus.on("momentum:updated", () => this._applyAvatarDecor());
   }
 
   render() {
@@ -131,18 +127,11 @@ export class RightPanel {
     return `
       <div style="padding: var(--sp-md); display:flex; flex-direction:column; gap: var(--sp-sm);">
         <div style="display:flex; align-items:center; gap: var(--sp-sm);">
-          <div class="avatar-wrap" style="width:40px;height:40px;position:relative;overflow:visible;">
-            <div class="avatar avatar-sm" style="
-              width:40px;height:40px;
-              background: var(--accent-dim);
-              display:flex;align-items:center;justify-content:center;
-              font-size:0.8rem;color:var(--accent-primary);font-weight:600;
-              overflow:hidden;
-            ">${(user._avatarUrl || user.photoURL)
-              ? `<img src="${user._avatarUrl || user.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='${(user.displayName || user.email || "G")[0].toUpperCase()}'" />`
-              : (user.displayName || user.email || "G")[0].toUpperCase()
-            }</div>
-          </div>
+          <div class="avatar avatar-sm" style="
+            background: var(--accent-dim);
+            display:flex;align-items:center;justify-content:center;
+            font-size:0.8rem;color:var(--accent-primary);font-weight:600;
+          ">${(user.displayName || user.email || "G")[0].toUpperCase()}</div>
           <div style="flex:1;min-width:0;">
             <div class="truncate" style="font-size:0.875rem;font-weight:500;">${user.displayName || user.email || "Guest"}</div>
             <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:2px;">
@@ -170,22 +159,6 @@ export class RightPanel {
   _renderUserSummary() {
     const el = this.container.querySelector("#right-user-summary");
     if (el) el.innerHTML = this._userSummaryHTML();
-    this._applyAvatarDecor();
-  }
-
-  _applyAvatarDecor() {
-    const wrap = this.container.querySelector(".avatar-wrap");
-    if (!wrap) return;
-
-    // Momentum ring
-    if (this._ring) {
-      this._ring.destroy();
-      this._ring = null;
-    }
-    this._ring = new MomentumRing(wrap);
-
-    // Avatar frame (loads from profile store via applyFromFirestore)
-    FrameRenderer.applyFromFirestore(wrap, 40);
   }
 
   _bindEvents() {

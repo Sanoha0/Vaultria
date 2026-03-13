@@ -18,9 +18,9 @@ export function defaultProgress(langKey) {
     language:        langKey,
     xp:              0,
     level:           1,
+    streak:          0,
     completed:       [],    // array of completed session IDs
     stars:           {},    // { sessionId: 1-5 }
-    unitStars:       {},    // { `${stageId}_${unitIndex}`: 1-5 }
     weakWords:       [],    // WeakWordDB entries
     reviewQueue:     [],    // items due for review
     placement:       null,  // placement test result
@@ -85,6 +85,7 @@ export async function saveProgress(langKey, progressData) {
       // Update top-level user doc summary fields
       await db.collection("users").doc(user.uid).update({
         xp:               progressData.xp || 0,
+        streak:           progressData.streak || 0,
         lessonsCompleted: (progressData.completed || []).length,
         currentLanguage:  langKey,
       }).catch(() => {});

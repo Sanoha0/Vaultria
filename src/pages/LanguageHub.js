@@ -202,20 +202,11 @@ export class LanguageHub {
 
   _render() {
     const stageNames = ["Starter","Beginner","Explorer","Speaker","Scholar","Specialist","Archivist"];
-    this.container.style.cssText = "width:100%;height:100vh;overflow:hidden;position:relative;background:#050810;";
+    this.container.style.cssText = "width:100%;height:100vh;overflow:hidden;position:relative;background:#08040a;";
     this.container.innerHTML = `
 <style>
-.hub-root{width:100%;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;font-family:'Cormorant Garamond','Georgia',serif;background:radial-gradient(ellipse at 50% 110%,#0d0b1f 0%,#07060f 45%,#030308 100%);}
+.hub-root{width:100%;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;font-family:'Cormorant Garamond','Georgia',serif;}
 .hub-root::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");background-size:200px 200px;opacity:0.35;}
-.hub-orb{position:absolute;border-radius:50%;pointer-events:none;z-index:0;}
-.hub-orb1{width:700px;height:700px;top:-180px;left:-200px;background:radial-gradient(circle,rgba(110,80,200,0.13) 0%,transparent 70%);filter:blur(60px);animation:orbDrift1 20s ease-in-out infinite;}
-.hub-orb2{width:600px;height:600px;bottom:-150px;right:-160px;background:radial-gradient(circle,rgba(60,110,210,0.12) 0%,transparent 70%);filter:blur(60px);animation:orbDrift2 25s ease-in-out infinite;}
-.hub-orb3{width:450px;height:450px;top:30%;left:55%;background:radial-gradient(circle,rgba(90,60,160,0.09) 0%,transparent 70%);filter:blur(50px);animation:orbDrift3 30s ease-in-out infinite;}
-.hub-stars{position:absolute;inset:0;z-index:0;pointer-events:none;}
-@keyframes orbDrift1{0%,100%{transform:translate(0,0);}33%{transform:translate(45px,-35px);}66%{transform:translate(-25px,20px);}}
-@keyframes orbDrift2{0%,100%{transform:translate(0,0);}33%{transform:translate(-40px,30px);}66%{transform:translate(30px,-20px);}}
-@keyframes orbDrift3{0%,100%{transform:translate(-50%,-50%);}33%{transform:translate(calc(-50% + 30px),calc(-50% - 25px));}66%{transform:translate(calc(-50% - 20px),calc(-50% + 35px));}}
-@keyframes starTwinkle{0%,100%{opacity:0.4;}50%{opacity:1;}}
 .hub-header{text-align:center;margin-bottom:44px;position:relative;z-index:2;}
 .hub-wordmark{font-size:clamp(1.4rem,3vw,2rem);font-weight:300;letter-spacing:0.24em;color:rgba(255,245,235,0.88);text-transform:uppercase;margin-bottom:8px;}
 .hub-subtitle{font-size:0.72rem;letter-spacing:0.18em;color:rgba(255,240,220,0.32);text-transform:uppercase;font-family:'DM Mono','Courier New',monospace;}
@@ -252,26 +243,6 @@ export class LanguageHub {
 .hub-footer{margin-top:36px;position:relative;z-index:2;text-align:center;font-family:'DM Mono','Courier New',monospace;font-size:0.65rem;letter-spacing:0.1em;color:rgba(255,255,255,0.15);}
 </style>
 <div class="hub-root">
-  <div class="hub-orb hub-orb1"></div>
-  <div class="hub-orb hub-orb2"></div>
-  <div class="hub-orb hub-orb3"></div>
-  <svg class="hub-stars" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="120" cy="80" r="1" fill="rgba(255,255,255,0.5)" style="animation:starTwinkle 4.2s ease-in-out infinite;"/>
-    <circle cx="280" cy="45" r="0.8" fill="rgba(255,255,255,0.4)" style="animation:starTwinkle 5.8s ease-in-out 1s infinite;"/>
-    <circle cx="450" cy="120" r="1.2" fill="rgba(200,210,255,0.55)" style="animation:starTwinkle 3.9s ease-in-out 0.5s infinite;"/>
-    <circle cx="650" cy="60" r="0.9" fill="rgba(255,255,255,0.45)" style="animation:starTwinkle 6.1s ease-in-out 2s infinite;"/>
-    <circle cx="820" cy="35" r="1" fill="rgba(220,220,255,0.5)" style="animation:starTwinkle 4.7s ease-in-out 1.5s infinite;"/>
-    <circle cx="1000" cy="90" r="0.7" fill="rgba(255,255,255,0.38)" style="animation:starTwinkle 5.3s ease-in-out 0.8s infinite;"/>
-    <circle cx="1180" cy="55" r="1.1" fill="rgba(200,215,255,0.5)" style="animation:starTwinkle 4s ease-in-out 2.5s infinite;"/>
-    <circle cx="1340" cy="100" r="0.8" fill="rgba(255,255,255,0.42)" style="animation:starTwinkle 6.5s ease-in-out 0.3s infinite;"/>
-    <circle cx="60" cy="200" r="0.7" fill="rgba(255,255,255,0.32)" style="animation:starTwinkle 5s ease-in-out 3s infinite;"/>
-    <circle cx="380" cy="160" r="1" fill="rgba(210,210,255,0.45)" style="animation:starTwinkle 4.4s ease-in-out 1.2s infinite;"/>
-    <circle cx="700" cy="180" r="0.8" fill="rgba(255,255,255,0.38)" style="animation:starTwinkle 3.7s ease-in-out 2.2s infinite;"/>
-    <circle cx="950" cy="150" r="1.2" fill="rgba(200,220,255,0.5)" style="animation:starTwinkle 5.6s ease-in-out 0.6s infinite;"/>
-    <circle cx="1260" cy="170" r="0.9" fill="rgba(255,255,255,0.4)" style="animation:starTwinkle 4.9s ease-in-out 1.8s infinite;"/>
-    <circle cx="200" cy="750" r="0.8" fill="rgba(255,255,255,0.3)" style="animation:starTwinkle 5.2s ease-in-out 2.8s infinite;"/>
-    <circle cx="1100" cy="800" r="1" fill="rgba(210,215,255,0.35)" style="animation:starTwinkle 4.6s ease-in-out 1.4s infinite;"/>
-  </svg>
   <div class="hub-header">
     <div class="hub-wordmark">Vaultria</div>
     <div class="hub-subtitle">Select your language world</div>

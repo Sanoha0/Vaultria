@@ -569,7 +569,7 @@ export class SessionEngine {
     `;
 
     this.container.querySelector("#btn-done")?.addEventListener("click", () => {
-      this.onComplete?.({ stars, weakWords: this.weakWords, xpEarned, accuracy, speedMs, hintsUsed: this.hintsUsed });
+      this.onComplete?.({ stars, weakWords: this.weakWords, xpEarned, accuracy });
     });
   }
 }
