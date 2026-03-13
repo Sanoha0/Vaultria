@@ -24,6 +24,11 @@ export const isGuest      = ()  => _isGuest;
 export const isLocalUser  = ()  => _isLocalUser;
 export const isDevUser    = ()  => _currentUser && DEV_EMAILS.includes(_currentUser.email);
 
+// Attach avatar URL directly to the current user object (avoids Firebase Auth char limit)
+export function setAvatarUrl(url) {
+  if (_currentUser) _currentUser._avatarUrl = url;
+}
+
 // ─── Error messages ────────────────────────────────────────────────
 export function friendlyAuthError(err) {
   const code = err?.code || "";
@@ -153,13 +158,22 @@ export async function deleteAccount(password) {
 // ─── Auth state listener ───────────────────────────────────────────
 export function listenAuthState(callback) {
   if (isFirebaseReady && fbAuth) {
-    fbAuth.onAuthStateChanged((user) => {
+    fbAuth.onAuthStateChanged(async (user) => {
       if (user) {
         _currentUser = user;
         _isGuest     = false;
         _isLocalUser = false;
-        callback({ user, isGuest: false });
-        eventBus.emit("auth:changed", { user, isGuest: false });
+        // Load avatar_url from Firestore and attach to user object
+        if (db) {
+          try {
+            const snap = await db.collection("users").doc(user.uid).get();
+            if (snap.exists && snap.data().avatar_url) {
+              _currentUser._avatarUrl = snap.data().avatar_url;
+            }
+          } catch (_) {}
+        }
+        callback({ user: _currentUser, isGuest: false });
+        eventBus.emit("auth:changed", { user: _currentUser, isGuest: false });
       } else {
         _onSignedOut();
         callback({ user: null, isGuest: false });
@@ -231,7 +245,7 @@ async function _ensureUserDocument(user) {
       provider_ids:  (user.providerData || []).map((p) => p.providerId),
       xp:            0,
       level:         1,
-      streak:        0,
+      momentum:      { score: 0, lastActivityAt: Date.now() },
       createdAt:     new Date().toISOString(),
       lastLoginAt:   new Date().toISOString(),
     });

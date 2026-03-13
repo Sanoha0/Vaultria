@@ -679,7 +679,7 @@
 .activity-dot--xp       { background: var(--accent-primary); }
 .activity-dot--unlock   { background: var(--success); }
 .activity-dot--complete { background: #a78bfa; }
-.activity-dot--streak   { background: #fbbf24; }
+.activity-dot--momentum { background: #4ade80; }
 
 .activity-text { font-size: 0.8rem; color: var(--text-secondary); flex: 1; line-height: 1.4; }
 .activity-text strong { color: var(--text-primary); font-weight: 500; }
@@ -752,7 +752,7 @@
 .challenge-type--speed       { background: rgba(251,191,36,0.12);  color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
 .challenge-type--dictation   { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.2); }
 .challenge-type--translation { background: rgba(77,184,255,0.12);  color: #4db8ff; border: 1px solid rgba(77,184,255,0.2); }
-.challenge-type--streak      { background: rgba(74,222,128,0.12);  color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
+.challenge-type--momentum    { background: rgba(74,222,128,0.12);  color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
 
 .challenge-title { font-size: 0.95rem; font-weight: 500; color: var(--text-primary); letter-spacing: 0.01em; }
 .challenge-desc  { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55; }
@@ -854,7 +854,7 @@
 .leaderboard-name { font-size: 0.9rem; color: var(--text-primary); font-weight: 500; }
 .leaderboard-lang { font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono); }
 .leaderboard-xp   { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-primary); font-weight: 500; margin-left: auto; }
-.leaderboard-streak { font-family: var(--font-mono); font-size: 0.72rem; color: #fbbf24; margin-left: var(--sp-sm); }
+.leaderboard-momentum { font-family: var(--font-mono); font-size: 0.72rem; color: #4ade80; margin-left: var(--sp-sm); }
 
 /* ── Plaza / Social ──────────────────────────────────────────────── */
 .plaza-post {
@@ -1068,11 +1068,7 @@
   to   { opacity: 1; }
 }
 
-/* ── Streak display ──────────────────────────────────────────────── */
-.streak-display {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-family: var(--font-mono); font-size: 0.82rem; color: #fbbf24;
-}
+/* (Momentum replaces day-count mechanics; legacy display removed.) */
 
 /* ── Empty state ─────────────────────────────────────────────────── */
 .empty-state {

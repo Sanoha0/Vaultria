@@ -67,6 +67,12 @@ function _merge(base, extra) {
   out.familiar = { ...base.familiar, ...(extra.familiar || {}) };
   out.identity = { ...base.identity, ...(extra.identity || {}) };
   out.rewards = { ...base.rewards, ...(extra.rewards || {}) };
+  // Guard scalar/array fields — remote undefined must not overwrite local defaults
+  out.claimedMilestones = extra?.claimedMilestones ?? base.claimedMilestones ?? [];
+  out.pendingMilestone  = (extra != null && 'pendingMilestone' in extra)
+    ? (extra.pendingMilestone ?? null)
+    : (base.pendingMilestone ?? null);
+  out.uiTheme = extra?.uiTheme ?? base.uiTheme ?? "default";
   return out;
 }
 
@@ -142,17 +148,18 @@ export async function updateProfile(mutator) {
   const canCloud = !!(isFirebaseReady && db && u && !u._isLocal && !u._isGuest && !isGuest());
   if (canCloud) {
     const patch = {
-      momentum: next.momentum,
-      seals: next.seals,
-      prestige: next.prestige,
-      desk: next.desk,
-      familiar: next.familiar,
-      identity: next.identity,
-      rewards: next.rewards,
-      claimedMilestones: next.claimedMilestones,
-      pendingMilestone: next.pendingMilestone,
-      uiTheme: next.uiTheme,
+      momentum: next.momentum ?? null,
+      seals: next.seals ?? {},
+      prestige: next.prestige ?? {},
+      desk: next.desk ?? {},
+      familiar: next.familiar ?? {},
+      identity: next.identity ?? {},
+      rewards: next.rewards ?? {},
+      claimedMilestones: next.claimedMilestones ?? [],
+      pendingMilestone: next.pendingMilestone ?? null,
+      uiTheme: next.uiTheme ?? "default",
     };
+    console.debug("[ProfileStore] Firestore patch claimedMilestones:", patch.claimedMilestones);
     db.collection("users").doc(u.uid).set(patch, { merge: true }).catch(() => {});
   }
 

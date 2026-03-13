@@ -15,21 +15,50 @@ const LANG_CODES = {
   spanish: "es",
 };
 
+const WEB_SPEECH_LANG = {
+  japanese: "ja-JP",
+  korean: "ko-KR",
+  spanish: "es-ES",
+};
+
+const JA_KONNICHIWA = "\u3053\u3093\u306b\u3061\u306f"; // こんにちは
+const JA_KONNICHIWA_ALT = "\u3053\u3093\u306b\u3061\u308f"; // こんにちわ
+const JA_KATA_KONNICHIWA = "\u30b3\u30f3\u30cb\u30c1\u30ef"; // コンニチワ
+
 const PRONUNCIATION_OVERRIDES = {
-  japanese: {},
+  japanese: {
+    // Avoid TTS normalization that reads こんにちは as 今日は ("kyou wa").
+    // We keep the manifest key as こんにちは but resolve audio using this override.
+    "こんにちは": "コンニチワ",
+  },
   korean: {},
   spanish: {},
 };
+
+// Static file overrides for known-problem phrases (local wavs shipped with the app).
+// These override the manifest mapping when present.
+const STATIC_PATH_OVERRIDES = {
+  // Use a dedicated file for "konnichiwa" to avoid misread audio packs.
+  "ja::こんにちは": "audio/ja/konnichiwa.wav",
+  "ja::コンニチワ": "audio/ja/konnichiwa.wav",
+};
+
+// Bump this if browsers cache old .wav files after you replace them on disk.
+const AUDIO_CACHE_BUST = "2026-03-13-2";
 
 let _manifest = null;
 let _manifestLoad = null;
 let _currentAudio = null;
 let _currentKey = null;
 let _shadowTimeout = null;
+let _playEpoch = 0;
+let _currentUtterance = null;
 const _preloaded = new Set();
 
 function _toAbsoluteAssetUrl(relativePath) {
-  return new URL(relativePath, ROOT_URL).href;
+  const url = new URL(relativePath, ROOT_URL);
+  url.searchParams.set("v", AUDIO_CACHE_BUST);
+  return url.href;
 }
 
 async function _getManifest() {
@@ -71,10 +100,18 @@ _getManifest();
 export async function speak(text, langKey, opts = {}) {
   if (!text || !langKey) return null;
 
+  const playEpoch = ++_playEpoch;
   const langCode = LANG_CODES[langKey];
   if (!langCode) {
     console.warn(`[TTS] unknown langKey: ${langKey}`);
     return null;
+  }
+
+  // By default, prefer static wav packs. Web Speech is only a fallback.
+  if (opts.preferWeb === true) {
+    const webText = PRONUNCIATION_OVERRIDES[langKey]?.[text] ?? text;
+    const ok = await _speakWeb(webText, langKey, playEpoch, opts);
+    if (ok) return null;
   }
 
   const ttsText =
@@ -87,7 +124,7 @@ export async function speak(text, langKey, opts = {}) {
   );
 
   const resolved = await _resolveStaticAudio(ttsText, langCode);
-  if (!resolved) return null;
+  if (!resolved || _isStalePlayback(playEpoch)) return null;
 
   const { key, url, relativePath } = resolved;
 
@@ -103,7 +140,8 @@ export async function speak(text, langKey, opts = {}) {
   audio.playbackRate = opts.slow ? 0.82 : 1.0;
 
   const ready = await _readyAudio(audio, relativePath, key);
-  if (!ready) {
+  if (!ready || _isStalePlayback(playEpoch)) {
+    _discardPendingAudio(audio);
     eventBus.emit("tts:missing-audio", {
       text,
       langKey,
@@ -130,6 +168,12 @@ export async function speak(text, langKey, opts = {}) {
   console.log(`[TTS] play start → "${text}"`);
 
   try {
+    if (_isStalePlayback(playEpoch)) {
+      _discardPendingAudio(audio);
+      if (_currentAudio === audio) _currentAudio = null;
+      if (_currentKey === key) _currentKey = null;
+      return null;
+    }
     await audio.play();
   } catch (err) {
     console.warn(`[TTS] play failed → ${err.message}`);
@@ -147,17 +191,19 @@ export async function speak(text, langKey, opts = {}) {
   }
 
   if (opts.shadowing) {
-    _scheduleShadowRepeat({ text, key, url, relativePath });
+    _scheduleShadowRepeat({ text, key, url, relativePath, playEpoch });
   }
 
   return audio;
 }
 
 export function stop() {
+  _playEpoch++;
   if (_shadowTimeout) {
     clearTimeout(_shadowTimeout);
     _shadowTimeout = null;
   }
+  _stopWebSpeech();
   _stopAudio();
 }
 
@@ -223,10 +269,28 @@ export function startItemTimer(item, langKey) {
 async function _resolveStaticAudio(ttsText, langCode) {
   const manifest = await _getManifest();
   const key = `${langCode}::${ttsText}`;
+
+  const overridden = STATIC_PATH_OVERRIDES[key];
+  if (overridden) {
+    console.log(`[TTS] static override → key="${key}" file="${overridden}"`);
+    return { key, relativePath: overridden, url: _toAbsoluteAssetUrl(overridden) };
+  }
+
   const relativePath = manifest[key];
 
   if (!relativePath) {
     console.warn(`[TTS] static miss → key="${key}"`);
+    if (langCode === "ja" && ttsText === "コンニチワ") {
+      const fallbackKey = `${langCode}::こんにちは`;
+      const fallbackPath = manifest[fallbackKey];
+      if (fallbackPath) {
+        return {
+          key: fallbackKey,
+          relativePath: fallbackPath,
+          url: _toAbsoluteAssetUrl(fallbackPath),
+        };
+      }
+    }
     eventBus.emit("tts:missing-audio", {
       text: ttsText,
       langCode,
@@ -312,17 +376,20 @@ function _stopAudio() {
   }
 }
 
-function _scheduleShadowRepeat({ text, key, url, relativePath }) {
+function _scheduleShadowRepeat({ text, key, url, relativePath, playEpoch }) {
   _shadowTimeout = setTimeout(async () => {
     _shadowTimeout = null;
-    if (_currentAudio) return;
+    if (_currentAudio || _isStalePlayback(playEpoch)) return;
 
     const audio = new Audio(url);
     audio.preload = "auto";
     audio.playbackRate = 0.92;
 
     const ready = await _readyAudio(audio, relativePath, key);
-    if (!ready || _currentAudio) return;
+    if (!ready || _currentAudio || _isStalePlayback(playEpoch)) {
+      _discardPendingAudio(audio);
+      return;
+    }
 
     _currentAudio = audio;
     _currentKey = key;
@@ -347,4 +414,79 @@ function _scheduleShadowRepeat({ text, key, url, relativePath }) {
       { once: true }
     );
   }, 1600);
+}
+
+function _isStalePlayback(playEpoch) {
+  return playEpoch !== _playEpoch;
+}
+
+function _discardPendingAudio(audio) {
+  if (!audio) return;
+  try {
+    audio.pause();
+    audio.removeAttribute("src");
+    audio.load();
+  } catch {}
+}
+
+function _stopWebSpeech() {
+  try {
+    if (typeof window !== "undefined" && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+  } catch {}
+  _currentUtterance = null;
+}
+
+function _speakWeb(text, langKey, playEpoch, opts) {
+  try {
+    if (typeof window === "undefined") return Promise.resolve(false);
+    const synth = window.speechSynthesis;
+    const Utter = window.SpeechSynthesisUtterance;
+    if (!synth || !Utter) return Promise.resolve(false);
+
+    const lang = WEB_SPEECH_LANG[langKey] || "ja-JP";
+    _stopWebSpeech();
+
+    return new Promise((resolve) => {
+      let settled = false;
+      const done = (ok) => {
+        if (settled) return;
+        settled = true;
+        resolve(ok);
+      };
+
+      const u = new Utter(text);
+      _currentUtterance = u;
+      u.lang = lang;
+      u.rate = opts.slow ? 0.82 : 1.0;
+      u.pitch = 1.0;
+      u.volume = 1.0;
+      u.onend = () => done(true);
+      u.onerror = () => done(false);
+
+      if (_isStalePlayback(playEpoch)) {
+        done(false);
+        return;
+      }
+
+      try {
+        synth.speak(u);
+      } catch {
+        done(false);
+        return;
+      }
+
+      setTimeout(() => {
+        if (_isStalePlayback(playEpoch)) {
+          _stopWebSpeech();
+          done(false);
+          return;
+        }
+        done(true);
+      }, 8000);
+    });
+  } catch {
+    return Promise.resolve(false);
+  }
 }

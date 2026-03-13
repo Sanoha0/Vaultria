@@ -16,6 +16,7 @@ import { getRtdb, getAuth } from "../firebase/instance.js";
 let _presenceRef = null;
 let _onlineListeners = new Set(); // Callbacks for presence updates
 let _initialized = false;
+let _warnedNoRtdb = false;
 
 function _rtdb() {
   return getRtdb();
@@ -40,7 +41,13 @@ export async function initializePresence() {
   try {
     const auth = _auth();
     const rtdb = _rtdb();
-    if (!auth?.currentUser || !rtdb) return;
+    if (!auth?.currentUser || !rtdb) {
+      if (!_warnedNoRtdb) {
+        _warnedNoRtdb = true;
+        console.info("[Presence] RTDB presence disabled (set localStorage vaultia_rtdb_presence=1 to enable).");
+      }
+      return;
+    }
 
     const uid = auth.currentUser.uid;
     const username = auth.currentUser.displayName || auth.currentUser.email?.split("@")[0] || "Learner";
