@@ -15,6 +15,12 @@ const LANG_CODES = {
   spanish: "es",
 };
 
+const WEB_SPEECH_LANG = {
+  japanese: "ja-JP",
+  korean: "ko-KR",
+  spanish: "es-ES",
+};
+
 const PRONUNCIATION_OVERRIDES = {
   japanese: {
     // Avoid TTS normalization that reads こんにちは as 今日は ("kyou wa").
@@ -34,6 +40,7 @@ let _currentAudio = null;
 let _currentKey = null;
 let _shadowTimeout = null;
 let _playEpoch = 0;
+let _currentUtterance = null;
 const _preloaded = new Set();
 
 function _toAbsoluteAssetUrl(relativePath) {
@@ -86,6 +93,12 @@ export async function speak(text, langKey, opts = {}) {
   if (!langCode) {
     console.warn(`[TTS] unknown langKey: ${langKey}`);
     return null;
+  }
+
+  if (langKey === "japanese" && text === "こんにちは") {
+    const webText = PRONUNCIATION_OVERRIDES[langKey]?.[text] ?? text;
+    const ok = await _speakWeb(webText, langKey, playEpoch, opts);
+    if (ok) return null;
   }
 
   const ttsText =
@@ -177,6 +190,7 @@ export function stop() {
     clearTimeout(_shadowTimeout);
     _shadowTimeout = null;
   }
+  _stopWebSpeech();
   _stopAudio();
 }
 
@@ -393,4 +407,66 @@ function _discardPendingAudio(audio) {
     audio.removeAttribute("src");
     audio.load();
   } catch {}
+}
+
+function _stopWebSpeech() {
+  try {
+    if (typeof window !== "undefined" && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+  } catch {}
+  _currentUtterance = null;
+}
+
+function _speakWeb(text, langKey, playEpoch, opts) {
+  try {
+    if (typeof window === "undefined") return Promise.resolve(false);
+    const synth = window.speechSynthesis;
+    const Utter = window.SpeechSynthesisUtterance;
+    if (!synth || !Utter) return Promise.resolve(false);
+
+    const lang = WEB_SPEECH_LANG[langKey] || "ja-JP";
+    _stopWebSpeech();
+
+    return new Promise((resolve) => {
+      let settled = false;
+      const done = (ok) => {
+        if (settled) return;
+        settled = true;
+        resolve(ok);
+      };
+
+      const u = new Utter(text);
+      _currentUtterance = u;
+      u.lang = lang;
+      u.rate = opts.slow ? 0.82 : 1.0;
+      u.pitch = 1.0;
+      u.volume = 1.0;
+      u.onend = () => done(true);
+      u.onerror = () => done(false);
+
+      if (_isStalePlayback(playEpoch)) {
+        done(false);
+        return;
+      }
+
+      try {
+        synth.speak(u);
+      } catch {
+        done(false);
+        return;
+      }
+
+      setTimeout(() => {
+        if (_isStalePlayback(playEpoch)) {
+          _stopWebSpeech();
+          done(false);
+          return;
+        }
+        done(true);
+      }, 8000);
+    });
+  } catch {
+    return Promise.resolve(false);
+  }
 }
