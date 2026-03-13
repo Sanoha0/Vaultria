@@ -1,5 +1,5 @@
 /**
- * Vaultria — REWARD_DEFS
+ * Vaultia — REWARD_DEFS
  * Curated Chronicle milestone rewards, presented every 5 levels.
  * All rewards enhance the workspace environment, never gameplay.
  */

@@ -95,7 +95,6 @@
 .fam-anim-look-right { animation: fam-look-right 1.6s ease-in-out both; }
 .fam-anim-ear-twitch { animation: fam-ear 1.2s ease-in-out both; }
 .fam-anim-bob { animation: fam-bob 1.0s ease-in-out both; }
-.fam-anim-bounce-once { animation: fam-bounce 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .fam-anim-slow-blink { animation: fam-blink 1.4s ease-in-out both; }
 .fam-anim-tail-wag { animation: fam-tail 1.4s ease-in-out both; }
 .fam-anim-alert-stand { animation: fam-alert 1.3s ease-in-out both; }
@@ -119,11 +118,6 @@
 @keyframes fam-bob {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-1.2px); }
-}
-@keyframes fam-bounce {
-  0% { transform: translateY(0); }
-  60% { transform: translateY(-2px); }
-  100% { transform: translateY(0); }
 }
 @keyframes fam-blink {
   0%, 100% { opacity: 1; }
@@ -166,4 +160,3 @@ body.theme-void {
   --text-secondary: rgba(255, 255, 255, 0.56);
   --text-muted:     rgba(255, 255, 255, 0.30);
 }
-

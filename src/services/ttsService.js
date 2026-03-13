@@ -35,8 +35,16 @@ const PRONUNCIATION_OVERRIDES = {
   spanish: {},
 };
 
+// Static file overrides for known-problem phrases (local wavs shipped with the app).
+// These override the manifest mapping when present.
+const STATIC_PATH_OVERRIDES = {
+  // Use a dedicated file for "konnichiwa" to avoid misread audio packs.
+  "ja::こんにちは": "audio/ja/konnichiwa.wav",
+  "ja::コンニチワ": "audio/ja/konnichiwa.wav",
+};
+
 // Bump this if browsers cache old .wav files after you replace them on disk.
-const AUDIO_CACHE_BUST = "2026-03-13-1";
+const AUDIO_CACHE_BUST = "2026-03-13-2";
 
 let _manifest = null;
 let _manifestLoad = null;
@@ -99,7 +107,8 @@ export async function speak(text, langKey, opts = {}) {
     return null;
   }
 
-  if (langKey === "japanese" && text === "こんにちは") {
+  // By default, prefer static wav packs. Web Speech is only a fallback.
+  if (opts.preferWeb === true) {
     const webText = PRONUNCIATION_OVERRIDES[langKey]?.[text] ?? text;
     const ok = await _speakWeb(webText, langKey, playEpoch, opts);
     if (ok) return null;
@@ -260,6 +269,13 @@ export function startItemTimer(item, langKey) {
 async function _resolveStaticAudio(ttsText, langCode) {
   const manifest = await _getManifest();
   const key = `${langCode}::${ttsText}`;
+
+  const overridden = STATIC_PATH_OVERRIDES[key];
+  if (overridden) {
+    console.log(`[TTS] static override → key="${key}" file="${overridden}"`);
+    return { key, relativePath: overridden, url: _toAbsoluteAssetUrl(overridden) };
+  }
+
   const relativePath = manifest[key];
 
   if (!relativePath) {
