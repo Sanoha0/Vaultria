@@ -889,6 +889,7 @@ class VaultriaApp {
     this._pushHistory(id);
     switch(id) {
       case "profile":      this._pageProfile(canvas); break;
+      case "edit-profile": this._pageEditProfile(canvas); break;
       case "friends":      this._pageFriends(canvas); break;
       case "leaderboards": this._pageLeaderboards(canvas); break;
       case "plaza":        this._pagePlaza(canvas); break;
@@ -1855,7 +1856,7 @@ class VaultriaApp {
         ${dev ? `<span class="ws-tag" style="color:#a08fff;border-color:rgba(139,124,255,0.3);background:rgba(139,124,255,0.1);">Developer</span>` : ""}
         ${!user?._isLocal && !user?._isGuest ? `<span class="ws-tag" style="color:#4db8ff;border-color:rgba(77,184,255,0.25);background:rgba(77,184,255,0.1);">Cloud Sync</span>` : `<span class="ws-tag" style="color:#fbbf24;border-color:rgba(251,191,36,0.25);background:rgba(251,191,36,0.08);">Local Save</span>`}
       </div>
-      <button class="btn btn-sm btn-ghost" id="go-to-settings" style="margin-top:12px;font-size:0.75rem;">Edit Profile</button>
+      <button class="btn btn-sm btn-ghost" id="go-to-edit-profile" style="margin-top:12px;font-size:0.75rem;">Edit Profile</button>
     </div>
 
     <!-- Stats -->
@@ -1906,7 +1907,7 @@ class VaultriaApp {
   </div>
 </div>`;
 
-    canvas.querySelector("#go-to-settings")?.addEventListener("click", () => this._navigate("settings"));
+    canvas.querySelector("#go-to-edit-profile")?.addEventListener("click", () => this._onRightNav("edit-profile"));
     canvas.querySelector("#dev-add-xp")?.addEventListener("click", async () => {
       this.currentProgress.xp = (this.currentProgress.xp || 0) + 200;
       await saveProgress(this.currentLang, this.currentProgress);
@@ -1939,6 +1940,128 @@ class VaultriaApp {
       if (db && me) db.collection("users").doc(me.uid).update({ level: 1, xp: 0, streak: 0 }).catch(() => {});
       showToast(`Progress reset for ${LABEL[this.currentLang] || this.currentLang}`, "success");
       this._pageProfile(canvas);
+    });
+  }
+
+  // ── Edit Profile ──────────────────────────────────────────────────
+  async _pageEditProfile(canvas) {
+    const user   = getUser();
+    const accent = ACCENT[this.currentLang] || "#8b7cff";
+
+    // Load bio from Firestore
+    let bioText = "";
+    try {
+      const db = getDb();
+      if (db && user && !user._isGuest && !user._isLocal) {
+        const doc = await db.collection("users").doc(user.uid).get();
+        bioText = doc?.data()?.bio || "";
+      }
+    } catch (_) {}
+
+    const initials = (user?.displayName || user?.email || "?")[0].toUpperCase();
+    const isCloud  = !user?._isLocal && !user?._isGuest;
+
+    canvas.innerHTML = `
+<div class="canvas-content page-enter" style="max-width:480px;">
+  <div class="section-header">
+    <h2 class="section-title">Edit Profile</h2>
+    <p class="section-subtitle" style="display:block;">Update your display name, photo, and bio</p>
+  </div>
+
+  <!-- Avatar -->
+  <div class="card-elevated" style="padding:28px 24px;display:flex;flex-direction:column;align-items:center;gap:20px;margin-bottom:16px;">
+    <div style="position:relative;">
+      <div id="pfp-preview" style="width:96px;height:96px;border-radius:50%;background:${accent}20;border:2px solid ${accent}40;display:flex;align-items:center;justify-content:center;font-size:2.4rem;font-weight:600;color:${accent};overflow:hidden;font-family:var(--font-display);">
+        ${user?.photoURL
+          ? `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'" />`
+          : initials}
+      </div>
+      <label for="pfp-input" style="position:absolute;bottom:2px;right:2px;width:28px;height:28px;border-radius:50%;background:var(--bg-surface);border:1px solid var(--border-normal);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.75rem;" title="Change photo">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+      </label>
+      <input id="pfp-input" type="file" accept="image/*" style="display:none;" />
+    </div>
+    ${!isCloud ? `<div style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);text-align:center;">Photo sync requires a cloud account</div>` : ""}
+  </div>
+
+  <!-- Fields -->
+  <div class="card-elevated" style="padding:20px 24px;display:flex;flex-direction:column;gap:16px;margin-bottom:16px;">
+    <div>
+      <label style="display:block;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:6px;">Display Name</label>
+      <input id="display-name-input" class="input" value="${user?.displayName || ""}" placeholder="Your name" style="width:100%;font-size:0.9rem;" />
+    </div>
+    <div>
+      <label style="display:block;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:6px;">Email</label>
+      <div class="input" style="width:100%;font-size:0.85rem;color:var(--text-secondary);cursor:default;background:var(--bg-glass);">${user?.email || "Guest session"}</div>
+    </div>
+    <div>
+      <label style="display:block;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:6px;">Bio</label>
+      <textarea id="bio-input" class="input" placeholder="Write a short bio…" style="width:100%;font-size:0.85rem;resize:vertical;min-height:80px;max-height:160px;">${bioText}</textarea>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:10px;justify-content:flex-end;">
+    <button id="cancel-edit-profile" class="btn btn-ghost">Cancel</button>
+    <button id="save-profile-btn" class="btn btn-primary">Save Changes</button>
+  </div>
+</div>`;
+
+    // Cancel
+    canvas.querySelector("#cancel-edit-profile")?.addEventListener("click", () => this._onRightNav("profile"));
+
+    // Photo upload
+    canvas.querySelector("#pfp-input")?.addEventListener("change", async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const img = new Image();
+      const objectURL = URL.createObjectURL(file);
+      img.onload = async () => {
+        URL.revokeObjectURL(objectURL);
+        const min = Math.min(img.width, img.height);
+        const sx = (img.width - min) / 2, sy = (img.height - min) / 2;
+
+        const thumbCvs = document.createElement("canvas");
+        thumbCvs.width = 48; thumbCvs.height = 48;
+        thumbCvs.getContext("2d").drawImage(img, sx, sy, min, min, 0, 0, 48, 48);
+        const thumbURL = thumbCvs.toDataURL("image/jpeg", 0.35);
+
+        const hiCvs = document.createElement("canvas");
+        hiCvs.width = 128; hiCvs.height = 128;
+        hiCvs.getContext("2d").drawImage(img, sx, sy, min, min, 0, 0, 128, 128);
+        const hiResURL = hiCvs.toDataURL("image/jpeg", 0.65);
+
+        const preview = canvas.querySelector("#pfp-preview");
+        if (preview) preview.innerHTML = `<img src="${hiResURL}" style="width:100%;height:100%;object-fit:cover;" />`;
+
+        const res = await updateProfile({ photoURL: thumbURL });
+        if (res.ok) {
+          const db = getDb(); const me = getUser();
+          if (db && me) db.collection("users").doc(me.uid).update({ avatar_url: hiResURL }).catch(() => {});
+          showToast("Photo updated!", "success");
+        } else {
+          showToast(res.error || "Failed to update photo", "error");
+        }
+      };
+      img.src = objectURL;
+    });
+
+    // Save
+    canvas.querySelector("#save-profile-btn")?.addEventListener("click", async () => {
+      const name = canvas.querySelector("#display-name-input")?.value?.trim();
+      const bio  = canvas.querySelector("#bio-input")?.value?.trim() || "";
+      if (!name) { showToast("Enter a display name", "error"); return; }
+      const btn = canvas.querySelector("#save-profile-btn");
+      btn.disabled = true; btn.textContent = "Saving…";
+      const res = await updateProfile({ displayName: name });
+      const db = getDb(); const me = getUser();
+      if (db && me) await db.collection("users").doc(me.uid).update({ bio }).catch(() => {});
+      btn.disabled = false; btn.textContent = "Save Changes";
+      if (res.ok) {
+        showToast("Profile updated!", "success");
+        setTimeout(() => this._onRightNav("profile"), 800);
+      } else {
+        showToast(res.error || "Failed to save", "error");
+      }
     });
   }
 
@@ -2711,16 +2834,6 @@ class VaultriaApp {
     const user = getUser();
     const prefs = JSON.parse(localStorage.getItem("vaultia_prefs") || "{}");
 
-    // Load bio from Firestore
-    let bioText = "";
-    try {
-      const db = getDb();
-      if (db && user) {
-        const doc = await db.collection("users").doc(user.uid).get();
-        bioText = doc?.data()?.bio || "";
-      }
-    } catch (_) {}
-
     const defaults = {
       daily_reminder:    true,
       streak_alerts:     true,
@@ -2738,26 +2851,6 @@ class VaultriaApp {
 <div class="canvas-content page-enter" style="max-width:560px;">
   <div class="section-header">
     <h2 class="section-title">Settings</h2>
-  </div>
-
-  <!-- Profile section -->
-  <div class="settings-section">
-    <div class="settings-section-title">Profile</div>
-    <div class="card-elevated" style="padding:20px;display:flex;align-items:center;gap:16px;">
-      <div style="position:relative;flex-shrink:0;">
-        <div id="pfp-preview" style="width:56px;height:56px;border-radius:50%;background:var(--accent-primary,#8b7cff)20;border:2px solid var(--accent-primary,#8b7cff)40;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:600;color:var(--accent-primary,#8b7cff);overflow:hidden;">
-          ${user?.photoURL ? `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;" />` : (user?.displayName||user?.email||"G")[0].toUpperCase()}
-        </div>
-        <label for="pfp-input" style="position:absolute;bottom:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:var(--bg-panel);border:1px solid var(--border-normal);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.6rem;" title="Change photo">✏️</label>
-        <input id="pfp-input" type="file" accept="image/*" style="display:none;" />
-      </div>
-      <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
-        <input id="display-name-input" class="input" value="${user?.displayName||""}" placeholder="Display name" style="font-size:0.9rem;" />
-        <div style="font-size:0.75rem;color:var(--text-muted);">${user?.email||"Guest"}</div>
-      </div>
-      <button id="save-profile-btn" class="btn btn-sm btn-primary">Save</button>
-    </div>
-    <textarea id="bio-input" class="input" placeholder="Write a short bio..." style="font-size:0.85rem;resize:vertical;min-height:60px;max-height:120px;margin-top:12px;width:100%;box-sizing:border-box;">${bioText}</textarea>
   </div>
 
   ${[
@@ -2822,62 +2915,6 @@ class VaultriaApp {
         }
         showToast(`${val ? "Enabled" : "Disabled"}: ${t.closest(".settings-row").querySelector(".settings-row-label").textContent}`, "info", 1500);
       });
-    });
-
-    // Profile pic upload — tiny thumbnail for Firebase Auth, higher-res in Firestore
-    canvas.querySelector("#pfp-input")?.addEventListener("change", async (e) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      const img = new Image();
-      const objectURL = URL.createObjectURL(file);
-      img.onload = async () => {
-        URL.revokeObjectURL(objectURL);
-        const min = Math.min(img.width, img.height);
-        const sx = (img.width - min) / 2, sy = (img.height - min) / 2;
-
-        // Tiny version for Firebase Auth photoURL (limit ~2048 chars)
-        const thumbCvs = document.createElement("canvas");
-        thumbCvs.width = 48; thumbCvs.height = 48;
-        thumbCvs.getContext("2d").drawImage(img, sx, sy, min, min, 0, 0, 48, 48);
-        const thumbURL = thumbCvs.toDataURL("image/jpeg", 0.35);
-
-        // Higher-res version stored in Firestore user doc
-        const hiCvs = document.createElement("canvas");
-        hiCvs.width = 128; hiCvs.height = 128;
-        hiCvs.getContext("2d").drawImage(img, sx, sy, min, min, 0, 0, 128, 128);
-        const hiResURL = hiCvs.toDataURL("image/jpeg", 0.65);
-
-        const preview = canvas.querySelector("#pfp-preview");
-        if (preview) preview.innerHTML = `<img src="${hiResURL}" style="width:100%;height:100%;object-fit:cover;" />`;
-
-        const res = await updateProfile({ photoURL: thumbURL });
-        if (res.ok) {
-          // Store higher-res avatar in Firestore
-          const db = getDb();
-          const me = getUser();
-          if (db && me) db.collection("users").doc(me.uid).update({ avatar_url: hiResURL }).catch(() => {});
-          showToast("Profile photo updated!", "success");
-        } else {
-          showToast(res.error || "Failed to update photo", "error");
-        }
-      };
-      img.src = objectURL;
-    });
-
-    // Save display name
-    canvas.querySelector("#save-profile-btn")?.addEventListener("click", async () => {
-      const name = canvas.querySelector("#display-name-input")?.value?.trim();
-      const bio  = canvas.querySelector("#bio-input")?.value?.trim() || "";
-      if (!name) { showToast("Enter a display name", "error"); return; }
-      const btn = canvas.querySelector("#save-profile-btn");
-      btn.disabled = true; btn.textContent = "Saving…";
-      const res = await updateProfile({ displayName: name });
-      // Save bio to Firestore
-      const db = getDb(); const me = getUser();
-      if (db && me) await db.collection("users").doc(me.uid).update({ bio }).catch(() => {});
-      btn.disabled = false; btn.textContent = "Save";
-      if (res.ok) showToast("Profile updated!", "success");
-      else showToast(res.error || "Failed to save", "error");
     });
 
     canvas.querySelector("#delete-account-btn")?.addEventListener("click", () => {
