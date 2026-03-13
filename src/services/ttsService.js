@@ -21,6 +21,10 @@ const WEB_SPEECH_LANG = {
   spanish: "es-ES",
 };
 
+const JA_KONNICHIWA = "\u3053\u3093\u306b\u3061\u306f"; // こんにちは
+const JA_KONNICHIWA_ALT = "\u3053\u3093\u306b\u3061\u308f"; // こんにちわ
+const JA_KATA_KONNICHIWA = "\u30b3\u30f3\u30cb\u30c1\u30ef"; // コンニチワ
+
 const PRONUNCIATION_OVERRIDES = {
   japanese: {
     // Avoid TTS normalization that reads こんにちは as 今日は ("kyou wa").
@@ -32,7 +36,7 @@ const PRONUNCIATION_OVERRIDES = {
 };
 
 // Bump this if browsers cache old .wav files after you replace them on disk.
-const AUDIO_CACHE_BUST = "2026-03-12-1";
+const AUDIO_CACHE_BUST = "2026-03-13-1";
 
 let _manifest = null;
 let _manifestLoad = null;
