@@ -12,8 +12,7 @@ import { DESK_MATERIALS, ARTIFACT_CATALOG, CELL_SIZE, GRID_COLS, GRID_ROWS } fro
 import { ArtifactGrid }   from "./ArtifactGrid.js";
 import { renderSeal }     from "../seals/SealRenderer.js";
 import { eventBus }       from "../../utils/eventBus.js";
-import { getDb }          from "../../firebase/instance.js";
-import { getUser }        from "../../auth/authService.js";
+import { loadProfile, updateProfile } from "../../services/profileStore.js";
 
 export class ProfileDesk {
   constructor(container, { material = "walnut", artifacts = [] } = {}) {
@@ -29,20 +28,17 @@ export class ProfileDesk {
 
   // ── Static factory: load from Firestore then mount ────────────────
   static async mount(container) {
-    const user = getUser(); const db = getDb();
     let material  = "walnut";
     let artifacts = [];
 
-    if (user && db) {
-      try {
-        const snap = await db.collection("users").doc(user.uid).get();
-        const desk = snap.data()?.desk;
-        if (desk) {
-          material  = desk.material   ?? "walnut";
-          artifacts = desk.artifacts  ?? [];
-        }
-      } catch (_) {}
-    }
+    try {
+      const prof = await loadProfile();
+      const desk = prof?.desk;
+      if (desk) {
+        material = desk.material ?? "walnut";
+        artifacts = desk.artifacts ?? [];
+      }
+    } catch (_) {}
     return new ProfileDesk(container, { material, artifacts });
   }
 
@@ -113,7 +109,7 @@ export class ProfileDesk {
           background:rgba(255,255,255,0.06);border-radius:10px;
           border:1px solid rgba(255,255,255,0.1);
         ">
-          <span style="font-size:1.6rem;">${_iconFor(def.icon)}</span>
+          <span style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;opacity:0.9;">${_iconFor(def.icon)}</span>
           <span style="font-size:0.6rem;color:rgba(255,255,255,0.4);
                        text-align:center;padding:0 4px;">${def.label}</span>
         </div>`;
@@ -154,11 +150,11 @@ export class ProfileDesk {
 
   // ── Persist layout ────────────────────────────────────────────────
   async _persistLayout(layout) {
-    const user = getUser(); const db = getDb();
-    if (!user || !db) return;
-    db.collection("users").doc(user.uid).update({
-      "desk.artifacts": layout,
-    }).catch(() => {});
+    await updateProfile((p) => {
+      p.desk = p.desk || {};
+      p.desk.artifacts = layout;
+      return p;
+    });
   }
 
   destroy() {
@@ -169,6 +165,24 @@ export class ProfileDesk {
 }
 
 function _iconFor(type) {
-  const MAP = { arena:"🏟", scroll:"📜", people:"👥", pen:"✒", waves:"🌊" };
-  return MAP[type] ?? "📦";
+  const stroke = "rgba(255,255,255,0.75)";
+  const common = `fill="none" stroke="${stroke}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"`;
+
+  if (type === "arena") {
+    return `<svg width="22" height="22" viewBox="0 0 24 24" ${common}><path d="M4 20V10"/><path d="M20 20V10"/><path d="M4 10l8-6 8 6"/><path d="M8 20v-6h8v6"/></svg>`;
+  }
+  if (type === "scroll") {
+    return `<svg width="22" height="22" viewBox="0 0 24 24" ${common}><path d="M7 4h10v14a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3"/><path d="M7 8h6"/><path d="M7 12h6"/></svg>`;
+  }
+  if (type === "people") {
+    return `<svg width="22" height="22" viewBox="0 0 24 24" ${common}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3"/><path d="M22 21v-2a3 3 0 0 0-2.2-2.9"/><path d="M16.5 3.5a3 3 0 0 1 0 6"/></svg>`;
+  }
+  if (type === "pen") {
+    return `<svg width="22" height="22" viewBox="0 0 24 24" ${common}><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/></svg>`;
+  }
+  if (type === "waves") {
+    return `<svg width="22" height="22" viewBox="0 0 24 24" ${common}><path d="M3 12c1.5-1 3.5-1 5 0s3.5 1 5 0 3.5-1 5 0 3.5 1 5 0"/><path d="M3 16c1.5-1 3.5-1 5 0s3.5 1 5 0 3.5-1 5 0 3.5 1 5 0"/></svg>`;
+  }
+
+  return `<svg width="22" height="22" viewBox="0 0 24 24" ${common}><path d="M12 3v18"/><path d="M3 12h18"/></svg>`;
 }

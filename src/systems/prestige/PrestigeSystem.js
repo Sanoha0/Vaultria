@@ -5,9 +5,8 @@
  */
 
 import { eventBus } from "../../utils/eventBus.js";
-import { getDb }    from "../../firebase/instance.js";
-import { getUser }  from "../../auth/authService.js";
 import { STAGES }   from "../../utils/constants.js";
+import { loadProfile, updateProfile } from "../../services/profileStore.js";
 
 export const PRESTIGE_REWARDS = {
   1: { type: "title",   value: "Scholar",          desc: "Stage card upgrades to gold" },
@@ -22,63 +21,70 @@ export const PRESTIGE_REWARDS = {
 
 export class PrestigeSystem {
   constructor() {
-    eventBus.on("progress:unitStarUpdate", ({ lang, stageId, unitId, stars }) => {
-      if (stars === 5) this._checkPrestige(lang, stageId);
+    eventBus.on("progress:stageProgress", ({ langKey, stageKey, stageId, unitStars }) => {
+      // Debounce naturally via profile completedStages check.
+      this._checkPrestige(langKey, stageKey, stageId, unitStars);
     });
   }
 
-  async _checkPrestige(lang, stageId) {
-    const user = getUser(); const db = getDb();
-    if (!user || !db) return;
-
-    const progSnap = await db.collection("users").doc(user.uid)
-                             .collection("progress").doc(lang)
-                             .get().catch(() => null);
-    if (!progSnap) return;
-    const data = progSnap.data();
-    if (!data) return;
-
-    const stage = STAGES.find(s => s.id === stageId);
+  async _checkPrestige(langKey, stageKey, stageId, unitStars) {
+    const stage = STAGES.find((s) => s.key === stageKey) || STAGES.find((s) => s.id === stageId);
     if (!stage) return;
 
     const allPerfect = Array.from({ length: stage.unitsCount }, (_, i) =>
-      (data.unitStars?.[`${stageId}_${i + 1}`] ?? 0) >= 5
+      (unitStars?.[`${stage.id}_${i + 1}`] ?? 0) >= 5
     ).every(Boolean);
     if (!allPerfect) return;
 
-    const userSnap = await db.collection("users").doc(user.uid).get().catch(() => null);
-    if (!userSnap) return;
-    const currentRank = userSnap.data()?.prestige?.[lang]?.rank ?? 0;
-    const newRank     = currentRank + 1;
+    const prof = await loadProfile();
+    const bucket = prof?.prestige?.[langKey] ?? { rank: 0, completedStages: [] };
+    const completed = new Set(bucket.completedStages || []);
+    if (completed.has(stage.key)) return;
 
-    await db.collection("users").doc(user.uid).update({
-      [`prestige.${lang}`]: { rank: newRank, earnedAt: new Date().toISOString() },
-    }).catch(() => {});
+    const newRank = (bucket.rank || 0) + 1;
+    const reward = PRESTIGE_REWARDS[newRank] || null;
 
-    const reward = PRESTIGE_REWARDS[newRank];
-    if (reward) await this._applyReward(reward, user, db);
+    await updateProfile((p) => {
+      const prev = p.prestige?.[langKey] || { rank: 0, completedStages: [] };
+      const nextCompleted = [...new Set([...(prev.completedStages || []), stage.key])];
+      p.prestige[langKey] = { ...prev, rank: newRank, completedStages: nextCompleted, earnedAt: new Date().toISOString() };
+      if (reward) this._applyRewardLocal(p, reward);
+      return p;
+    });
 
-    eventBus.emit("prestige:awarded", { lang, rank: newRank, stage: stage.key, reward });
+    eventBus.emit("prestige:awarded", { lang: langKey, rank: newRank, stage: stage.key, reward });
   }
 
-  async _applyReward(reward, user, db) {
+  _applyRewardLocal(profile, reward) {
     if (reward.type === "familiar") {
-      const tier = parseInt(reward.value.split(":")[1]);
-      await db.collection("users").doc(user.uid)
-              .update({ "familiar.materialTier": tier }).catch(() => {});
-    } else if (reward.type === "frame") {
-      await db.collection("users").doc(user.uid)
-              .update({ "identity.frameId": reward.value }).catch(() => {});
-    } else if (reward.type === "desk") {
-      await db.collection("users").doc(user.uid)
-              .update({ [`rewards.desk_${reward.value}`]: true }).catch(() => {});
+      const tier = parseInt(String(reward.value).split(":")[1] || "0", 10);
+      profile.familiar = profile.familiar || {};
+      profile.familiar.materialTier = tier;
+      return;
+    }
+    if (reward.type === "frame") {
+      profile.identity = profile.identity || {};
+      profile.identity.frameId = reward.value;
+      return;
+    }
+    if (reward.type === "desk") {
+      profile.rewards = profile.rewards || {};
+      profile.rewards[`desk_${reward.value}`] = true;
+      return;
+    }
+    if (reward.type === "theme") {
+      profile.uiTheme = reward.value;
+      return;
+    }
+    if (reward.type === "title") {
+      profile.identity = profile.identity || {};
+      profile.identity.titlePrefix = reward.value;
+      return;
     }
   }
 
   static async getPrestigeRank(lang) {
-    const user = getUser(); const db = getDb();
-    if (!user || !db) return 0;
-    const snap = await db.collection("users").doc(user.uid).get().catch(() => null);
-    return snap?.data()?.prestige?.[lang]?.rank ?? 0;
+    const prof = await loadProfile();
+    return prof?.prestige?.[lang]?.rank ?? 0;
   }
 }

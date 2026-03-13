@@ -5,8 +5,7 @@
  */
 
 import { eventBus } from "../../utils/eventBus.js";
-import { getDb }    from "../../firebase/instance.js";
-import { getUser }  from "../../auth/authService.js";
+import { loadProfile, updateProfile } from "../../services/profileStore.js";
 
 const GRACE_MS  = 48 * 3_600_000;      // 48 h — no decay window
 const DECAY_MS  = 7  * 24 * 3_600_000; // 7 days — full decay window after grace
@@ -28,20 +27,10 @@ export class MomentumSystem {
 
   // ── Load persisted state from Firestore ───────────────────────────
   async load() {
-    const user = getUser(); const db = getDb();
-    if (!user || !db) return;
-    try {
-      const snap = await db.collection("users").doc(user.uid).get();
-      const m = snap.data()?.momentum;
-      if (m) {
-        this._peak           = m.score          ?? 0;
-        this._lastActivityAt = m.lastActivityAt ?? Date.now();
-      } else {
-        this._lastActivityAt = Date.now();
-      }
-    } catch (_) {
-      this._lastActivityAt = Date.now();
-    }
+    const p = await loadProfile();
+    const m = p?.momentum;
+    this._peak = m?.score ?? 0;
+    this._lastActivityAt = m?.lastActivityAt ?? Date.now();
     this._emit();
   }
 
@@ -77,11 +66,9 @@ export class MomentumSystem {
   }
 
   async _persist() {
-    const user = getUser(); const db = getDb();
-    if (!user || !db) return;
-    db.collection("users").doc(user.uid).update({
-      "momentum.score":          this._peak,
-      "momentum.lastActivityAt": this._lastActivityAt,
-    }).catch(() => {});
+    await updateProfile((p) => {
+      p.momentum = { score: this._peak, lastActivityAt: this._lastActivityAt };
+      return p;
+    });
   }
 }

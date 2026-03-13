@@ -32,13 +32,10 @@ export class FrameRenderer {
 
   // ── Load from Firestore and apply ─────────────────────────────────
   static async applyFromFirestore(container, size = 40) {
-    const { getUser }  = await import("../../auth/authService.js");
-    const { getDb }    = await import("../../firebase/instance.js");
-    const user = getUser(); const db = getDb();
-    if (!user || !db) return;
     try {
-      const snap    = await db.collection("users").doc(user.uid).get();
-      const frameId = snap.data()?.identity?.frameId ?? "default";
+      const { loadProfile } = await import("../../services/profileStore.js");
+      const prof = await loadProfile();
+      const frameId = prof?.identity?.frameId ?? "default";
       FrameRenderer.apply(container, frameId, size);
     } catch (_) {}
   }

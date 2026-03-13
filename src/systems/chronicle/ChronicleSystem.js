@@ -4,48 +4,49 @@
  */
 
 import { eventBus }          from "../../utils/eventBus.js";
-import { getDb }             from "../../firebase/instance.js";
-import { getUser }           from "../../auth/authService.js";
 import { xpToLevel }         from "../../utils/textUtils.js";
 import { REWARD_EVERY_N_LEVELS } from "../../utils/constants.js";
 import { CHRONICLE_REWARDS } from "./REWARD_DEFS.js";
+import { loadProfile, updateProfile } from "../../services/profileStore.js";
 
 export class ChronicleSystem {
   constructor() {
-    eventBus.on("progress:xpGained", ({ newXp }) => {
-      const level = xpToLevel(newXp);
-      if (level % REWARD_EVERY_N_LEVELS === 0) this._checkMilestone(level);
+    eventBus.on("progress:xpGained", ({ oldXp, newXp }) => {
+      const oldLevel = xpToLevel(oldXp ?? 0);
+      const newLevel = xpToLevel(newXp ?? 0);
+      if (newLevel <= oldLevel) return;
+      for (let lv = oldLevel + 1; lv <= newLevel; lv++) {
+        if (lv % REWARD_EVERY_N_LEVELS === 0) this._checkMilestone(lv);
+      }
     });
   }
 
   async _checkMilestone(level) {
     if (!CHRONICLE_REWARDS[level]) return;
-    const user = getUser(); const db = getDb();
-    if (!user || !db) return;
+    const prof = await loadProfile();
 
-    const snap = await db.collection("users").doc(user.uid).get().catch(() => null);
-    if (!snap) return;
-    const claimed = snap.data()?.claimedMilestones ?? [];
+    const claimed = prof?.claimedMilestones ?? [];
     if (claimed.includes(level)) return;
+    if (prof?.pendingMilestone) return;
 
     // Mark as pending — the RewardSelector will handle display
-    await db.collection("users").doc(user.uid).update({
-      pendingMilestone: level,
-    }).catch(() => {});
+    await updateProfile((p) => {
+      p.pendingMilestone = level;
+      return p;
+    });
 
     eventBus.emit("chronicle:milestoneReady", { level, ...CHRONICLE_REWARDS[level] });
   }
 
   // ── Called after user picks a reward ─────────────────────────────
   static async claimReward(level, rewardId) {
-    const user = getUser(); const db = getDb();
-    if (!user || !db) return { ok: false };
-
-    await db.collection("users").doc(user.uid).update({
-      [`rewards.${rewardId}`]:   true,
-      pendingMilestone:          null,
-      claimedMilestones:         window.firebase.firestore.FieldValue.arrayUnion(level),
-    }).catch(() => {});
+    await updateProfile((p) => {
+      p.rewards = p.rewards || {};
+      p.rewards[rewardId] = true;
+      p.pendingMilestone = null;
+      p.claimedMilestones = [...new Set([...(p.claimedMilestones || []), level])];
+      return p;
+    });
 
     eventBus.emit("chronicle:rewardClaimed", { level, rewardId });
     return { ok: true };
@@ -53,12 +54,8 @@ export class ChronicleSystem {
 
   // ── Check for pending milestone on app startup ────────────────────
   static async checkPending() {
-    const user = getUser(); const db = getDb();
-    if (!user || !db) return;
-
-    const snap = await db.collection("users").doc(user.uid).get().catch(() => null);
-    if (!snap) return;
-    const level = snap.data()?.pendingMilestone;
+    const prof = await loadProfile();
+    const level = prof?.pendingMilestone;
     if (level && CHRONICLE_REWARDS[level]) {
       eventBus.emit("chronicle:milestoneReady", { level, ...CHRONICLE_REWARDS[level] });
     }

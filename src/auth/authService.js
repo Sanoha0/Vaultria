@@ -245,7 +245,7 @@ async function _ensureUserDocument(user) {
       provider_ids:  (user.providerData || []).map((p) => p.providerId),
       xp:            0,
       level:         1,
-      streak:        0,
+      momentum:      { score: 0, lastActivityAt: Date.now() },
       createdAt:     new Date().toISOString(),
       lastLoginAt:   new Date().toISOString(),
     });

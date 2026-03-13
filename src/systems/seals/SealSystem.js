@@ -4,47 +4,41 @@
  */
 
 import { eventBus } from "../../utils/eventBus.js";
-import { getDb }    from "../../firebase/instance.js";
-import { getUser }  from "../../auth/authService.js";
 import { STAGES }   from "../../utils/constants.js";
+import { loadProfile, updateProfile } from "../../services/profileStore.js";
 
 export class SealSystem {
   constructor() {
-    eventBus.on("progress:unitComplete", ({ lang, stageKey, unitStarsMap }) => {
-      this._checkSealUnlock(lang, stageKey, unitStarsMap);
+    eventBus.on("progress:stageProgress", ({ langKey, stageKey, unitStars }) => {
+      this._checkSealUnlock(langKey, stageKey, unitStars);
     });
   }
 
-  async _checkSealUnlock(lang, stageKey, unitStarsMap) {
+  async _checkSealUnlock(langKey, stageKey, unitStars) {
     const stage = STAGES.find(s => s.key === stageKey);
     if (!stage) return;
 
     // All 14 units must have ≥1 star
     const allDone = Array.from({ length: stage.unitsCount }, (_, i) =>
-      (unitStarsMap?.[`${stage.id}_${i + 1}`] ?? 0) >= 1
+      (unitStars?.[`${stage.id}_${i + 1}`] ?? 0) >= 1
     ).every(Boolean);
     if (!allDone) return;
 
-    const user = getUser(); const db = getDb();
-    if (!user || !db) return;
-
-    const snap = await db.collection("users").doc(user.uid).get().catch(() => null);
-    if (!snap) return;
-    const existingSeals = snap.data()?.seals?.[lang] ?? [];
+    const prof = await loadProfile();
+    const existingSeals = prof?.seals?.[langKey] ?? [];
     if (existingSeals.includes(stageKey)) return;
 
-    await db.collection("users").doc(user.uid).update({
-      [`seals.${lang}`]: window.firebase.firestore.FieldValue.arrayUnion(stageKey),
-    }).catch(() => {});
+    await updateProfile((p) => {
+      p.seals[langKey] = [...new Set([...(p.seals[langKey] || []), stageKey])];
+      return p;
+    });
 
-    eventBus.emit("seal:awarded",       { lang, stageKey });
-    eventBus.emit("ui:sealAwardModal",  { lang, stageKey });
+    eventBus.emit("seal:awarded", { lang: langKey, stageKey });
+    eventBus.emit("ui:sealAwardModal", { lang: langKey, stageKey });
   }
 
   static async loadSeals(lang) {
-    const user = getUser(); const db = getDb();
-    if (!user || !db) return [];
-    const snap = await db.collection("users").doc(user.uid).get().catch(() => null);
-    return snap?.data()?.seals?.[lang] ?? [];
+    const prof = await loadProfile();
+    return prof?.seals?.[lang] ?? [];
   }
 }

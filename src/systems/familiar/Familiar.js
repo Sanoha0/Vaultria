@@ -10,8 +10,7 @@
 
 import { SPECIES, MATERIAL_TIERS } from "./FAMILIAR_DEFS.js";
 import { FamiliarAnimator }         from "./FamiliarAnimator.js";
-import { getDb }                    from "../../firebase/instance.js";
-import { getUser }                  from "../../auth/authService.js";
+import { loadProfile }              from "../../services/profileStore.js";
 
 export class Familiar {
   constructor(container, opts = {}) {
@@ -78,21 +77,13 @@ export class Familiar {
 
   // ── Load config from Firestore and mount ──────────────────────────
   static async fromFirestore(container) {
-    const user = getUser(); const db = getDb();
-    let species = "fox"; let tier = 0; let enabled = true;
-    if (user && db) {
-      try {
-        const snap = await db.collection("users").doc(user.uid).get();
-        const fam  = snap.data()?.familiar;
-        if (fam) {
-          species = fam.species      ?? "fox";
-          tier    = fam.materialTier ?? 0;
-          enabled = fam.enabled      !== false;
-        }
-      } catch (_) {}
-    }
-    if (!enabled) return null;
-    return new Familiar(container, { species, materialTier: tier });
+    const prof = await loadProfile();
+    const fam = prof?.familiar || {};
+    if (fam.enabled === false) return null;
+    return new Familiar(container, {
+      species: fam.species ?? "fox",
+      materialTier: fam.materialTier ?? 0,
+    });
   }
 
   // ── Find closest defined tier (tiers are 0,1,3,5,8 — not sequential) ──

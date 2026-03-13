@@ -16,8 +16,20 @@ import { LanguageHub }         from "./pages/LanguageHub.js";
 import { SessionEngine }       from "./components/center-canvas/SessionEngine.js";
 import { speak as ttsSpeak }  from "./services/ttsService.js";
 import { xpToLevel, xpProgressInLevel } from "./utils/textUtils.js";
+import { loadProfile, updateProfile } from "./services/profileStore.js";
+
+import { MomentumSystem } from "./systems/momentum/MomentumSystem.js";
+import { SealSystem }     from "./systems/seals/SealSystem.js";
+import { PrestigeSystem } from "./systems/prestige/PrestigeSystem.js";
+import { ChronicleSystem } from "./systems/chronicle/ChronicleSystem.js";
+import { RewardSelector }  from "./systems/chronicle/RewardSelector.js";
+import { ProfileDesk }    from "./systems/desk/ProfileDesk.js";
+import { Familiar }       from "./systems/familiar/Familiar.js";
+import { MomentumRing }   from "./systems/momentum/MomentumRing.js";
+import { FrameRenderer }  from "./systems/identity/FrameRenderer.js";
+import { mountSealFilters, renderSeal } from "./systems/seals/SealRenderer.js";
 import { joinQueue, leaveQueue, subscribeQueue, subscribeMatch, submitAnswer, completeMatch } from "./services/arenaService.js";
-import { XP_PER_LEVEL, KOFI_URL } from "./utils/constants.js";
+import { XP_PER_LEVEL, KOFI_URL, STAGES } from "./utils/constants.js";
 import {
   startPresence, endPresence, watchUserPresence, checkUserPresence, checkMultiplePresences, isUserOnlineRealtime,
   syncProgressToProfile,
@@ -213,6 +225,14 @@ class VaultriaApp {
     this._navFuture      = [];
     this._presenceCache  = {}; // Real-time presence data { uid -> { online, lastSeen, username } }
     this._presenceSubs   = new Map(); // Unsubscribe functions for presence listeners
+    this._sessionIndex   = {}; // { langKey: Map(sessionId -> { stageKey, stageId, unitIndex, unitId }) }
+
+    // Workstation reward/identity systems
+    this.profile         = null;
+    this._systems        = null;
+    this._profileDesk    = null;
+    this._profileFam     = null;
+    this._profileRing    = null;
     this._registerGlobalEvents();
   }
 
@@ -237,7 +257,7 @@ class VaultriaApp {
       if (user) this._onAuthenticated(user);
       else      this._showAuth();
     });
-    if (!this._fbReady) { this._showAuth(); return; }
+    if (!this._fbReady) { this._showAuth(); }
     setTimeout(() => { if (!authResolved) this._showAuth(); }, 3000);
   }
 
@@ -256,13 +276,67 @@ class VaultriaApp {
 
   async _onAuthenticated(user) {
     this.allProgress = await loadAllProgress();
+    this.profile = await loadProfile();
+    this._applyThemeFromProfile(this.profile);
+    await this._initSystemsOnce();
     this._buildShell();
     this._showHub();
     // Initialize real-time presence system (replaces old heartbeat)
-    startPresence();
+    if (this._fbReady) startPresence();
     this._unsubFriendReqs = subscribeFriendRequests((reqs) => {
       this.rightPanel?.setBadge?.("friends", reqs.length > 0);
     });
+  }
+
+  async _initSystemsOnce() {
+    if (this._systems) return;
+
+    // Shared SVG filters for seals (call once).
+    mountSealFilters();
+
+    this._systems = {
+      momentum: new MomentumSystem(),
+      seals: new SealSystem(),
+      prestige: new PrestigeSystem(),
+      chronicle: new ChronicleSystem(),
+      rewardSelector: new RewardSelector(),
+    };
+
+    await this._systems.momentum.load();
+    await ChronicleSystem.checkPending();
+
+    eventBus.on("seal:awarded", ({ lang, stageKey }) => {
+      // Quiet, artifact-like acknowledgement.
+      showPrestigePopup(
+        "Stage Seal Awarded",
+        `${LABEL[lang] || lang} · ${stageKey}`,
+        renderSeal(stageKey, 64, true)
+      );
+    });
+
+    eventBus.on("prestige:awarded", ({ lang, rank, stage, reward }) => {
+      const rewardLine = reward?.desc ? `Rank ${rank} · ${reward.desc}` : `Rank ${rank}`;
+      showPrestigePopup(
+        "Prestige Unlocked",
+        `${LABEL[lang] || lang} · ${rewardLine}`,
+        renderSeal(stage, 64, true)
+      );
+      // Refresh local cached profile (theme/material changes).
+      loadProfile().then((p) => {
+        this.profile = p;
+        this._applyThemeFromProfile(p);
+      });
+    });
+
+    eventBus.on("profile:changed", (p) => {
+      this.profile = p;
+      this._applyThemeFromProfile(p);
+    });
+  }
+
+  _applyThemeFromProfile(profile) {
+    const theme = profile?.uiTheme || "default";
+    document.body.classList.toggle("theme-void", theme === "void");
   }
 
   /**
@@ -1008,7 +1082,7 @@ class VaultriaApp {
     });
   }
 
-  async _onSessionDone({ stars, weakWords, xpEarned, accuracy }, session) {
+  async _onSessionDone({ stars, weakWords, xpEarned, accuracy, speedMs, hintsUsed }, session) {
     const prog     = this.currentProgress;
     const oldXp    = prog.xp || 0;
     const oldLevel = xpToLevel(oldXp);
@@ -1031,6 +1105,23 @@ class VaultriaApp {
     prog.reviewQueue = buildReviewQueue(prog);
     const langData = await this._fetchLangData(this.currentLang);
     if (langData) prog.stageUnlocked = this._computeStageUnlock(langData, prog);
+
+    // Stage/unit star bookkeeping (powers seals + prestige)
+    prog.unitStars = prog.unitStars || {};
+    const idx = this._sessionIndex?.[this.currentLang]?.get(session.id);
+    if (idx && typeof idx.stageId === "number" && idx.unitIndex) {
+      const stageKey = idx.stageKey || STAGES[idx.stageId]?.key;
+      const k = `${idx.stageId}_${idx.unitIndex}`;
+      prog.unitStars[k] = Math.max(prog.unitStars[k] || 0, stars || 0);
+      eventBus.emit("progress:stageProgress", {
+        langKey: this.currentLang,
+        stageKey,
+        stageId: idx.stageId,
+        unitIndex: idx.unitIndex,
+        unitId: idx.unitId,
+        unitStars: prog.unitStars,
+      });
+    }
     await saveProgress(this.currentLang, prog);
     this.allProgress[this.currentLang] = prog;
     this.currentProgress = prog;
@@ -1044,9 +1135,33 @@ class VaultriaApp {
     // Cinematic XP popup
     showXpPopup(xpEarned, stars, levelUp);
 
+    // System triggers (momentum + chronicle + familiar reactions)
+    eventBus.emit("progress:xpGained", {
+      langKey: this.currentLang,
+      oldXp,
+      newXp: prog.xp,
+      delta: xpEarned,
+    });
+    eventBus.emit("progress:sessionComplete", {
+      langKey: this.currentLang,
+      sessionId: session.id,
+      stars,
+      xpEarned,
+      accuracy,
+      speedMs,
+      hintsUsed,
+    });
+    if (typeof speedMs === "number" && speedMs <= 90_000) {
+      eventBus.emit("progress:sessionFast", { langKey: this.currentLang, speedMs });
+    }
+    if (typeof accuracy === "number" && accuracy >= 0.93) {
+      eventBus.emit("progress:sessionAccurate", { langKey: this.currentLang, accuracy });
+    }
+
     // Prestige popup on level-up
     if (levelUp) {
-      setTimeout(() => showPrestigePopup(`Level ${newLevel} Reached!`, `Keep climbing the vault`, "⚡"), 3200);
+      const icon = `<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 11-14h-7z"/></svg>`;
+      setTimeout(() => showPrestigePopup(`Level ${newLevel} Reached`, `Keep climbing the vault`, icon), 3200);
     }
 
     setTimeout(() => this._showWorkspace(), 350);
@@ -1834,6 +1949,9 @@ class VaultriaApp {
     const xp     = this.currentProgress?.xp || 0;
     const level  = xpToLevel(xp);
     const dev    = isDevUser();
+    const prof   = this.profile || {};
+    const momentum = Math.round(prof.momentum?.score ?? 0);
+    const titlePrefix = prof.identity?.titlePrefix ? `${prof.identity.titlePrefix} ` : "";
 
     canvas.innerHTML = `
 <div class="canvas-content page-enter">
@@ -1844,17 +1962,27 @@ class VaultriaApp {
 
     <!-- Avatar card -->
     <div class="card-elevated" style="text-align:center;padding:28px 20px;">
-      <div style="width:72px;height:72px;border-radius:50%;background:${accent}20;border:2px solid ${accent}40;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:600;color:${accent};margin:0 auto 16px;font-family:var(--font-display);overflow:hidden;">
-        ${user?.photoURL
-          ? `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'" />`
-          : (user?.displayName || user?.email || "G")[0].toUpperCase()
-        }
+      <div id="profile-avatar-wrap" style="width:72px;height:72px;margin:0 auto 16px;position:relative;overflow:visible;">
+        <div style="width:72px;height:72px;border-radius:50%;background:${accent}20;border:2px solid ${accent}40;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:600;color:${accent};font-family:var(--font-display);overflow:hidden;">
+          ${user?.photoURL
+            ? `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'" />`
+            : (user?.displayName || user?.email || "G")[0].toUpperCase()
+          }
+        </div>
       </div>
-      <div style="font-size:1.1rem;font-weight:500;color:var(--text-primary);margin-bottom:4px;">${user?.displayName || "Learner"}</div>
+      <div style="font-size:1.1rem;font-weight:500;color:var(--text-primary);margin-bottom:4px;">${titlePrefix}${user?.displayName || "Learner"}</div>
       <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:16px;word-break:break-all;">${user?.email || "Guest session"}</div>
+      <div id="profile-seals-row" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;"></div>
       <div style="display:flex;flex-direction:column;gap:6px;align-items:center;">
         ${dev ? `<span class="ws-tag" style="color:#a08fff;border-color:rgba(139,124,255,0.3);background:rgba(139,124,255,0.1);">Developer</span>` : ""}
         ${!user?._isLocal && !user?._isGuest ? `<span class="ws-tag" style="color:#4db8ff;border-color:rgba(77,184,255,0.25);background:rgba(77,184,255,0.1);">Cloud Sync</span>` : `<span class="ws-tag" style="color:#fbbf24;border-color:rgba(251,191,36,0.25);background:rgba(251,191,36,0.08);">Local Save</span>`}
+      </div>
+      <div style="margin-top:16px;display:flex;flex-direction:column;align-items:center;gap:10px;">
+        <div id="profile-familiar-slot"></div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:0.78rem;color:var(--text-muted);cursor:pointer;user-select:none;">
+          <input id="toggle-familiar" type="checkbox" ${prof.familiar?.enabled === false ? "" : "checked"} />
+          Show Familiar
+        </label>
       </div>
       <button class="btn btn-sm btn-ghost" id="go-to-edit-profile" style="margin-top:12px;font-size:0.75rem;">Edit Profile</button>
     </div>
@@ -1879,12 +2007,23 @@ class VaultriaApp {
           <span class="profile-stat-label">Lessons</span>
         </div>
         <div>
-          <span class="profile-stat-value">${this.currentProgress?.streak||0}</span>
+          <span class="profile-stat-value">${momentum}</span>
           <span class="profile-stat-label">Momentum</span>
         </div>
         <div>
           <span class="profile-stat-value">${level}</span>
           <span class="profile-stat-label">Level</span>
+        </div>
+      </div>
+
+      <div class="card-elevated" style="padding:18px 18px 16px 18px;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px;">
+          <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:500;color:var(--text-primary);">Archivist Desk</div>
+          <button id="desk-material-btn" class="btn btn-sm btn-ghost" style="font-size:0.72rem;">Material</button>
+        </div>
+        <div id="profile-desk-mount" style="display:flex;justify-content:center;overflow:auto;padding-bottom:8px;"></div>
+        <div style="margin-top:10px;font-size:0.72rem;color:var(--text-muted);">
+          Drag artifacts to reposition. Right-click to inspect.
         </div>
       </div>
 
@@ -1921,7 +2060,6 @@ class VaultriaApp {
       this.currentProgress = defaultProgress(this.currentLang);
       this.currentProgress.xp = 0;
       this.currentProgress.level = 1;
-      this.currentProgress.streak = 0;
       this.currentProgress.completed = [];
       this.currentProgress.stars = {};
       this.currentProgress.stageUnlocked = 0;
@@ -1937,9 +2075,116 @@ class VaultriaApp {
       syncProgressToProfile(this.currentLang, this.currentProgress);
       // Also reset Firestore user doc fields
       const db = getDb(); const me = getUser();
-      if (db && me) db.collection("users").doc(me.uid).update({ level: 1, xp: 0, streak: 0 }).catch(() => {});
+      if (db && me) db.collection("users").doc(me.uid).update({ level: 1, xp: 0 }).catch(() => {});
       showToast(`Progress reset for ${LABEL[this.currentLang] || this.currentLang}`, "success");
       this._pageProfile(canvas);
+    });
+
+    this._mountProfileWorkstation(canvas).catch(() => {});
+  }
+
+  async _mountProfileWorkstation(canvas) {
+    // Avatar decorators (ring + frame)
+    const avatarWrap = canvas.querySelector("#profile-avatar-wrap");
+    if (avatarWrap) {
+      this._profileRing?.destroy?.();
+      this._profileRing = new MomentumRing(avatarWrap);
+      FrameRenderer.applyFromFirestore(avatarWrap, 72);
+    }
+
+    // Seals row (current language)
+    const sealsRow = canvas.querySelector("#profile-seals-row");
+    if (sealsRow) {
+      const prof = await loadProfile();
+      this.profile = prof;
+      const seals = prof?.seals?.[this.currentLang] || [];
+      const limited = seals.slice(-6);
+      sealsRow.innerHTML = limited.map((s) => `<div style="opacity:0.9;">${renderSeal(s, 30, true)}</div>`).join("");
+    }
+
+    // Familiar
+    const famSlot = canvas.querySelector("#profile-familiar-slot");
+    if (famSlot) {
+      this._profileFam?.destroy?.();
+      famSlot.innerHTML = "";
+      this._profileFam = await Familiar.fromFirestore(famSlot);
+    }
+
+    // Familiar toggle
+    canvas.querySelector("#toggle-familiar")?.addEventListener("change", async (e) => {
+      const enabled = !!e.target.checked;
+      const prof = await updateProfile((p) => {
+        p.familiar = p.familiar || {};
+        p.familiar.enabled = enabled;
+        return p;
+      });
+      this.profile = prof;
+      this._pageProfile(canvas);
+    });
+
+    // Desk mount
+    const deskMount = canvas.querySelector("#profile-desk-mount");
+    if (deskMount) {
+      this._profileDesk?.destroy?.();
+      deskMount.innerHTML = "";
+      this._profileDesk = await ProfileDesk.mount(deskMount);
+    }
+
+    // Desk material menu
+    canvas.querySelector("#desk-material-btn")?.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const prof = await loadProfile();
+      const rewards = prof?.rewards || {};
+      const current = prof?.desk?.material || "walnut";
+
+      const materials = [
+        { id: "walnut", label: "Polished Walnut", unlocked: true },
+        { id: "marble", label: "White Marble", unlocked: !!rewards.desk_marble },
+        { id: "carbon", label: "Carbon Fiber", unlocked: !!rewards.desk_carbon },
+        { id: "tatami", label: "Traditional Tatami", unlocked: !!rewards.desk_tatami },
+      ].filter((m) => m.unlocked);
+
+      const panel = document.createElement("div");
+      panel.style.cssText = `
+        position:fixed;left:${e.clientX + 10}px;top:${e.clientY + 10}px;z-index:300;
+        background:var(--bg-surface);border:1px solid var(--border-normal);
+        border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.6);
+        padding:10px;min-width:220px;`;
+      panel.innerHTML = `
+        <div style="font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:8px;">Desk Material</div>
+        ${materials.map((m) => `
+          <button data-mat="${m.id}" style="width:100%;text-align:left;padding:8px 10px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--text-secondary);display:flex;justify-content:space-between;align-items:center;">
+            <span>${m.label}</span>
+            <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">${m.id === current ? "Active" : ""}</span>
+          </button>
+        `).join("")}
+      `;
+
+      const dismiss = (ev) => {
+        if (!panel.contains(ev.target)) {
+          panel.remove();
+          document.removeEventListener("mousedown", dismiss);
+        }
+      };
+
+      panel.querySelectorAll("button[data-mat]").forEach((btn) => {
+        btn.addEventListener("mouseenter", () => { btn.style.background = "var(--bg-hover)"; btn.style.borderColor = "var(--border-subtle)"; });
+        btn.addEventListener("mouseleave", () => { btn.style.background = ""; btn.style.borderColor = "transparent"; });
+        btn.addEventListener("click", async () => {
+          const mat = btn.dataset.mat;
+          await updateProfile((p) => {
+            p.desk = p.desk || {};
+            p.desk.material = mat;
+            return p;
+          });
+          panel.remove();
+          document.removeEventListener("mousedown", dismiss);
+          this._pageProfile(canvas);
+        });
+      });
+
+      document.body.appendChild(panel);
+      setTimeout(() => document.addEventListener("mousedown", dismiss), 10);
     });
   }
 
@@ -3065,8 +3310,34 @@ class VaultriaApp {
     try {
       const d = await (await fetch(`./data/${lang}.json`)).json();
       this._langDataCache[lang] = d;
+      this._indexLangData(lang, d);
       return d;
     } catch { return null; }
+  }
+
+  _indexLangData(langKey, langData) {
+    try {
+      const map = new Map();
+      const stages = langData?.stages || [];
+      for (const stage of stages) {
+        const stageId = stage?.id;
+        const stageKey = stage?.key;
+        const units = stage?.units || [];
+        for (let ui = 0; ui < units.length; ui++) {
+          const unit = units[ui];
+          const unitId = unit?.id;
+          const unitIndex = ui + 1;
+          const sessions = unit?.sessions || [];
+          for (const sess of sessions) {
+            if (!sess?.id) continue;
+            map.set(sess.id, { stageKey, stageId, unitIndex, unitId });
+          }
+        }
+      }
+      this._sessionIndex[langKey] = map;
+    } catch {
+      this._sessionIndex[langKey] = new Map();
+    }
   }
 
   _registerGlobalEvents() {
