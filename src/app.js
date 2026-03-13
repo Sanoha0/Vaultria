@@ -2037,6 +2037,7 @@ class VaultriaApp {
         if (res.ok) {
           const db = getDb(); const me = getUser();
           if (db && me) db.collection("users").doc(me.uid).update({ avatar_url: hiResURL }).catch(() => {});
+          eventBus.emit("auth:changed", { user: getUser(), isGuest: false });
           showToast("Photo updated!", "success");
         } else {
           showToast(res.error || "Failed to update photo", "error");
@@ -2057,6 +2058,7 @@ class VaultriaApp {
       if (db && me) await db.collection("users").doc(me.uid).update({ bio }).catch(() => {});
       btn.disabled = false; btn.textContent = "Save Changes";
       if (res.ok) {
+        eventBus.emit("auth:changed", { user: getUser(), isGuest: false });
         showToast("Profile updated!", "success");
         setTimeout(() => this._onRightNav("profile"), 800);
       } else {
