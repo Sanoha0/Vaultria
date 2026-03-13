@@ -13,15 +13,9 @@ export let fbStorage = null;
 export let rtdb      = null; // Firebase Realtime Database for presence
 export let isFirebaseReady = false;
 
-// RTDB presence is optional. On some deployments (GitHub Pages, locked RTDB rules, etc.)
-// initializing RTDB spams console warnings. Enable explicitly via localStorage.
-function _enableRtdbPresence() {
-  try {
-    return localStorage.getItem("vaultia_rtdb_presence") === "1";
-  } catch {
-    return false;
-  }
-}
+// RTDB presence is enabled whenever databaseURL is configured in FIREBASE_CONFIG.
+// It was previously opt-in via localStorage, but since databaseURL is set we
+// initialize it unconditionally so presence works without manual flags.
 
 /**
  * Attempts to initialize Firebase.
@@ -40,9 +34,10 @@ export async function initFirebase() {
     db        = window.firebase.firestore();
     fbStorage = window.firebase.storage();
     rtdb      = null;
-    if (_enableRtdbPresence() && FIREBASE_CONFIG?.databaseURL) {
-      // Realtime Database for presence (optional).
+    if (FIREBASE_CONFIG?.databaseURL) {
+      // Realtime Database for presence — enabled when databaseURL is configured.
       rtdb = window.firebase.database();
+      console.log("[Vaultia] RTDB presence enabled ✓");
     }
 
     await fbAuth.setPersistence(window.firebase.auth.Auth.Persistence.LOCAL);

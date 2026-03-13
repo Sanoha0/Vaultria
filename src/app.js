@@ -2096,7 +2096,8 @@ class VaultiaApp {
         </div>
       </div>
       <div style="font-size:1.1rem;font-weight:500;color:var(--text-primary);margin-bottom:4px;">${titlePrefix}${user?.displayName || "Learner"}</div>
-      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:16px;word-break:break-all;">${user?.email || "Guest session"}</div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;word-break:break-all;">${user?.email || "Guest session"}</div>
+      <div id="profile-bio-slot" style="margin-bottom:12px;padding:0 8px;"></div>
       <div id="profile-seals-row" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;"></div>
       <div style="display:flex;flex-direction:column;gap:6px;align-items:center;">
         ${dev ? `<span class="ws-tag" style="color:#a08fff;border-color:rgba(139,124,255,0.3);background:rgba(139,124,255,0.1);">Developer</span>` : ""}
@@ -2225,6 +2226,22 @@ class VaultiaApp {
       const seals = prof?.seals?.[this.currentLang] || [];
       const limited = seals.slice(-6);
       sealsRow.innerHTML = limited.map((s) => `<div style="opacity:0.9;">${renderSeal(s, 30, true)}</div>`).join("");
+    }
+
+    // Bio (async from Firestore — fills slot after page paints)
+    const bioSlot = canvas.querySelector("#profile-bio-slot");
+    if (bioSlot) {
+      const _db = getDb(); const _me = getUser();
+      if (_db && _me && !_me._isLocal && !_me._isGuest) {
+        _db.collection("users").doc(_me.uid).get().then(snap => {
+          const bio = snap?.data()?.bio || "";
+          console.debug("[Profile] bio loaded:", bio ? bio.slice(0, 60) + "…" : "(empty)");
+          if (bio) {
+            const safe = bio.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+            bioSlot.innerHTML = `<div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.55;white-space:pre-wrap;text-align:center;">${safe}</div>`;
+          }
+        }).catch(() => {});
+      }
     }
 
     // Familiar
@@ -2521,6 +2538,8 @@ class VaultiaApp {
         const ua    = ACCENT[u.currentLanguage] || accent || "#8b7cff";
         const medal = rank;
         const mc    = rank === 1 ? "#fbbf24" : rank === 2 ? "#94a3b8" : rank === 3 ? "#cd7c2f" : "var(--text-muted)";
+        const mPct  = Math.round(u.momentum?.score ?? 0);
+        console.debug("[Leaderboard] row uid:", u.uid, "mPct:", mPct, "avatar_url:", u.avatar_url);
         return `<div class="lb-row" data-uid="${u.uid}" style="padding:13px 20px;border-bottom:1px solid var(--border-subtle);display:grid;grid-template-columns:42px 1fr 80px 70px 90px 90px;gap:8px;align-items:center;background:${isMe ? (ua)+"0d" : "transparent"};transition:background 0.15s;">
           <div style="font-size:${rank<=3?"1.05rem":"0.84rem"};font-weight:600;color:${mc};font-family:var(--font-mono);">${medal}</div>
           <div style="display:flex;align-items:center;gap:9px;cursor:pointer;" class="lb-name">
@@ -2778,7 +2797,9 @@ class VaultiaApp {
         html += accepted.map(f => {
           const p  = f.profile;
           const fa = ACCENT[p.currentLanguage] || accent;
-          const n  = p.username || "Learner";
+          const n    = p.username || "Learner";
+          const mPct = Math.round(p.momentum?.score ?? 0);
+          console.debug("[Friends] uid:", p.uid, "name:", n, "avatar_url:", p.avatar_url, "mPct:", mPct, "online:", isUserOnline(p));
           return `<div class="card friend-row" data-uid="${p.uid}" style="display:flex;align-items:center;gap:12px;padding:14px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s;">
             <div style="position:relative;flex-shrink:0;">
               <div style="width:36px;height:36px;border-radius:50%;background:${fa}20;border:1px solid ${fa}35;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:${fa};overflow:hidden;">${(p.avatar_url||p.photoURL)?`<img src="${p.avatar_url||p.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>`:n[0].toUpperCase()}</div>
