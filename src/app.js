@@ -4,7 +4,7 @@
  */
 
 import { initFirebase, getDb }  from "./firebase/instance.js";
-import { listenAuthState, getUser, isDevUser, isGuest } from "./auth/authService.js";
+import { listenAuthState, getUser, isDevUser, isGuest, setAvatarUrl } from "./auth/authService.js";
 import { loadAllProgress, saveProgress, loadProgress, defaultProgress } from "./services/progressService.js";
 import { buildReviewQueue }    from "./services/tutorEngine.js";
 import { eventBus }            from "./utils/eventBus.js";
@@ -2009,38 +2009,85 @@ class VaultriaApp {
     // Cancel
     canvas.querySelector("#cancel-edit-profile")?.addEventListener("click", () => this._onRightNav("profile"));
 
+    // Inject spin keyframe once
+    if (!document.getElementById("pfp-spin-style")) {
+      const st = document.createElement("style");
+      st.id = "pfp-spin-style";
+      st.textContent = "@keyframes pfpSpin{to{transform:rotate(360deg)}}";
+      document.head.appendChild(st);
+    }
+
+    // Lazy-load NSFW.js + TF.js and cache the model on window
+    const _loadNSFWModel = async () => {
+      if (window._nsfwModel) return window._nsfwModel;
+      const loadScript = src => new Promise((res, rej) => {
+        const s = document.createElement("script");
+        s.src = src; s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+      if (!window.tf)     await loadScript("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.20.0/dist/tf.min.js");
+      if (!window.nsfwjs) await loadScript("https://cdn.jsdelivr.net/npm/nsfwjs@2.4.0/dist/nsfwjs.min.js");
+      window._nsfwModel = await window.nsfwjs.load("https://cdn.jsdelivr.net/npm/nsfwjs@2.4.0/quant_nsfw_mobilenet/");
+      return window._nsfwModel;
+    };
+
     // Photo upload
     canvas.querySelector("#pfp-input")?.addEventListener("change", async (e) => {
       const file = e.target.files?.[0];
       if (!file) return;
+      const preview = canvas.querySelector("#pfp-preview");
+
+      // Show checking state
+      if (preview) preview.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;height:100%;font-size:0.65rem;color:var(--text-muted);font-family:var(--font-mono);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="animation:pfpSpin 1s linear infinite;flex-shrink:0;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+          Checking…
+        </div>`;
+
       const img = new Image();
       const objectURL = URL.createObjectURL(file);
       img.onload = async () => {
         URL.revokeObjectURL(objectURL);
+
+        // ── Content moderation ──────────────────────────────────────
+        try {
+          const model = await _loadNSFWModel();
+          const predictions = await model.classify(img);
+          const scores = Object.fromEntries(predictions.map(p => [p.className, p.probability]));
+          const flagged = (scores.Porn || 0) + (scores.Hentai || 0) + (scores.Sexy || 0);
+          if (flagged > 0.45) {
+            if (preview) preview.innerHTML = initials; // restore avatar
+            e.target.value = "";
+            showToast("Image doesn't meet community guidelines (PG-13). Please choose a different photo.", "error", 5000);
+            return;
+          }
+        } catch (modErr) {
+          console.warn("[PFP] Content moderation unavailable:", modErr.message);
+          // Fail open — don't block upload if model can't load
+        }
+
+        // ── Process & save ──────────────────────────────────────────
         const min = Math.min(img.width, img.height);
         const sx = (img.width - min) / 2, sy = (img.height - min) / 2;
 
-        const thumbCvs = document.createElement("canvas");
-        thumbCvs.width = 48; thumbCvs.height = 48;
-        thumbCvs.getContext("2d").drawImage(img, sx, sy, min, min, 0, 0, 48, 48);
-        const thumbURL = thumbCvs.toDataURL("image/jpeg", 0.35);
-
+        // High-quality version stored in Firestore (used for display everywhere)
+        // We do NOT write base64 to Firebase Auth photoURL — it has a character limit
         const hiCvs = document.createElement("canvas");
-        hiCvs.width = 128; hiCvs.height = 128;
-        hiCvs.getContext("2d").drawImage(img, sx, sy, min, min, 0, 0, 128, 128);
-        const hiResURL = hiCvs.toDataURL("image/jpeg", 0.65);
+        hiCvs.width = 256; hiCvs.height = 256;
+        hiCvs.getContext("2d").drawImage(img, sx, sy, min, min, 0, 0, 256, 256);
+        const hiResURL = hiCvs.toDataURL("image/jpeg", 0.85);
 
-        const preview = canvas.querySelector("#pfp-preview");
         if (preview) preview.innerHTML = `<img src="${hiResURL}" style="width:100%;height:100%;object-fit:cover;" />`;
 
-        const res = await updateProfile({ photoURL: thumbURL });
-        if (res.ok) {
+        try {
           const db = getDb(); const me = getUser();
-          if (db && me) db.collection("users").doc(me.uid).update({ avatar_url: hiResURL }).catch(() => {});
+          if (db && me) await db.collection("users").doc(me.uid).update({ avatar_url: hiResURL });
+          setAvatarUrl(hiResURL);
           eventBus.emit("auth:changed", { user: getUser(), isGuest: false });
           showToast("Photo updated!", "success");
-        } else {
-          showToast(res.error || "Failed to update photo", "error");
+        } catch (saveErr) {
+          console.error("[PFP] Save failed:", saveErr);
+          showToast("Failed to save photo. Please try again.", "error");
         }
       };
       img.src = objectURL;

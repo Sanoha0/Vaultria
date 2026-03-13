@@ -132,8 +132,8 @@ export class RightPanel {
             display:flex;align-items:center;justify-content:center;
             font-size:0.8rem;color:var(--accent-primary);font-weight:600;
             overflow:hidden;
-          ">${user.photoURL
-            ? `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='${(user.displayName || user.email || "G")[0].toUpperCase()}'" />`
+          ">${(user._avatarUrl || user.photoURL)
+            ? `<img src="${user._avatarUrl || user.photoURL}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='${(user.displayName || user.email || "G")[0].toUpperCase()}'" />`
             : (user.displayName || user.email || "G")[0].toUpperCase()
           }</div>
           <div style="flex:1;min-width:0;">
