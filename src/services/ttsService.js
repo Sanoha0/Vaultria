@@ -16,10 +16,17 @@ const LANG_CODES = {
 };
 
 const PRONUNCIATION_OVERRIDES = {
-  japanese: {},
+  japanese: {
+    // Avoid TTS normalization that reads こんにちは as 今日は ("kyou wa").
+    // We keep the manifest key as こんにちは but resolve audio using this override.
+    "こんにちは": "コンニチワ",
+  },
   korean: {},
   spanish: {},
 };
+
+// Bump this if browsers cache old .wav files after you replace them on disk.
+const AUDIO_CACHE_BUST = "2026-03-12-1";
 
 let _manifest = null;
 let _manifestLoad = null;
@@ -30,7 +37,9 @@ let _playEpoch = 0;
 const _preloaded = new Set();
 
 function _toAbsoluteAssetUrl(relativePath) {
-  return new URL(relativePath, ROOT_URL).href;
+  const url = new URL(relativePath, ROOT_URL);
+  url.searchParams.set("v", AUDIO_CACHE_BUST);
+  return url.href;
 }
 
 async function _getManifest() {
@@ -237,6 +246,17 @@ async function _resolveStaticAudio(ttsText, langCode) {
 
   if (!relativePath) {
     console.warn(`[TTS] static miss → key="${key}"`);
+    if (langCode === "ja" && ttsText === "コンニチワ") {
+      const fallbackKey = `${langCode}::こんにちは`;
+      const fallbackPath = manifest[fallbackKey];
+      if (fallbackPath) {
+        return {
+          key: fallbackKey,
+          relativePath: fallbackPath,
+          url: _toAbsoluteAssetUrl(fallbackPath),
+        };
+      }
+    }
     eventBus.emit("tts:missing-audio", {
       text: ttsText,
       langCode,
