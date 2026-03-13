@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(wc -l data/*.json)",
+      "Bash(where npx)",
+      "Bash(where python)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8000/)",
+      "Bash(where http-server)",
+      "Bash(taskkill //F //IM \"node.exe\")",
+      "Bash(py --version)",
+      "Bash(npm install http-server --save-dev)"
+    ]
+  }
+}

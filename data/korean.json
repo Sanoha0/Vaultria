@@ -1,0 +1,4093 @@
+{
+  "meta": {
+    "language": "korean",
+    "languageNative": "한국어",
+    "scripts": [
+      "latin (romanization entry aid)",
+      "hangul"
+    ],
+    "scriptRules": {
+      "stage_0": "Romanization is temporary support only. Hangul is the target from the first stage.",
+      "stages_1_3": "Hangul only in the main lesson flow; Romanization remains a helper field for nervous beginners.",
+      "stages_4_6": "Natural Korean, register control, and practical real-life fluency — not obscure exam trap content."
+    },
+    "defaultRegister": "natural",
+    "registerModel": [
+      "textbook",
+      "natural",
+      "formal",
+      "informal"
+    ]
+  },
+  "stages": [
+    {
+      "id": 0,
+      "key": "starter",
+      "label": "Starter",
+      "labelNative": "입문",
+      "description": "Absolute zero to practical starter. Hangul first, then real-life Korean with romanization as temporary support only.",
+      "registerAvailable": [
+        "textbook",
+        "natural"
+      ],
+      "units": [
+        {
+          "id": "ko-s0-u1",
+          "title": "Social I: Greetings & Introductions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s0-u1-sess1",
+              "title": "Social I: Greetings & Introductions",
+              "type": "script_recognition",
+              "items": [
+                {
+                  "target": "안녕하세요",
+                  "romanji": "annyeonghaseyo",
+                  "meaning": "hello",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "안녕",
+                  "romanji": "annyeong",
+                  "meaning": "hi / bye (casual)",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "저는 민수예요",
+                  "romanji": "jeoneun Minsu-yeyo",
+                  "meaning": "I am Minsu",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "반갑습니다",
+                  "romanji": "bangapseumnida",
+                  "meaning": "nice to meet you",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u2",
+          "title": "Logic I: This/That & Existence",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s0-u2-sess1",
+              "title": "Logic I: This/That & Existence",
+              "type": "script_recognition",
+              "items": [
+                {
+                  "target": "이거",
+                  "romanji": "igeo",
+                  "meaning": "this thing",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "그거",
+                  "romanji": "geugeo",
+                  "meaning": "that thing",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "있어요",
+                  "romanji": "isseoyo",
+                  "meaning": "there is / have",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "없어요",
+                  "romanji": "eopseoyo",
+                  "meaning": "there is not / do not have",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u3",
+          "title": "Temporal I: Numbers & Time Basics",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s0-u3-sess1",
+              "title": "Temporal I: Numbers & Time Basics",
+              "type": "script_recognition",
+              "items": [
+                {
+                  "target": "하나",
+                  "romanji": "hana",
+                  "meaning": "one",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "둘",
+                  "romanji": "dul",
+                  "meaning": "two",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "셋",
+                  "romanji": "set",
+                  "meaning": "three",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "지금 몇 시예요?",
+                  "romanji": "jigeum myeot siyeyo?",
+                  "meaning": "what time is it now?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u4",
+          "title": "Physical I: Objects & Food Basics",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s0-u4-sess1",
+              "title": "Physical I: Objects & Food Basics",
+              "type": "script_recognition",
+              "items": [
+                {
+                  "target": "물",
+                  "romanji": "mul",
+                  "meaning": "water",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "밥",
+                  "romanji": "bap",
+                  "meaning": "rice / meal",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "커피",
+                  "romanji": "keopi",
+                  "meaning": "coffee",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "이거 주세요",
+                  "romanji": "igeo juseyo",
+                  "meaning": "this one, please",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u5",
+          "title": "Social II: Family & Descriptions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s0-u5-sess1",
+              "title": "Social II: Family & Descriptions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "가족",
+                  "romanji": "gajok",
+                  "meaning": "family",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "엄마",
+                  "romanji": "eomma",
+                  "meaning": "mom",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "작아요",
+                  "romanji": "jagayo",
+                  "meaning": "is small",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "커요",
+                  "romanji": "keoyo",
+                  "meaning": "is big",
+                  "audio": true,
+                  "register": "textbook"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u6",
+          "title": "Functional I: Directions & Transport",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s0-u6-sess1",
+              "title": "Functional I: Directions & Transport",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "어디예요?",
+                  "romanji": "eodiyeyo?",
+                  "meaning": "where is it?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "역",
+                  "romanji": "yeok",
+                  "meaning": "station",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "오른쪽",
+                  "romanji": "oreunjjok",
+                  "meaning": "right side",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "왼쪽",
+                  "romanji": "oenjjok",
+                  "meaning": "left side",
+                  "audio": true,
+                  "register": "textbook"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u7",
+          "title": "Checkpoint: Starter Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s0-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Starter mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u8",
+          "title": "Logic II: First Verbs",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s0-u8-sess1",
+              "title": "Logic II: First Verbs",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "가요",
+                  "romanji": "gayo",
+                  "meaning": "go",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "와요",
+                  "romanji": "wayo",
+                  "meaning": "come",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "먹어요",
+                  "romanji": "meogeoyo",
+                  "meaning": "eat",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "마셔요",
+                  "romanji": "masyeoyo",
+                  "meaning": "drink",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u9",
+          "title": "Physical II: Body, Health & Shopping",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s0-u9-sess1",
+              "title": "Physical II: Body, Health & Shopping",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "손",
+                  "romanji": "son",
+                  "meaning": "hand",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "머리",
+                  "romanji": "meori",
+                  "meaning": "head",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "아파요",
+                  "romanji": "apayo",
+                  "meaning": "it hurts / I am sick",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "얼마예요?",
+                  "romanji": "eolmayeyo?",
+                  "meaning": "how much is it?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u10",
+          "title": "Temporal II: Days & Past Intro",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s0-u10-sess1",
+              "title": "Temporal II: Days & Past Intro",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "오늘",
+                  "romanji": "oneul",
+                  "meaning": "today",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "어제",
+                  "romanji": "eoje",
+                  "meaning": "yesterday",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "내일",
+                  "romanji": "naeil",
+                  "meaning": "tomorrow",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "먹었어요",
+                  "romanji": "meogeosseoyo",
+                  "meaning": "ate",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u11",
+          "title": "Social III: Likes & Emotions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s0-u11-sess1",
+              "title": "Social III: Likes & Emotions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "좋아해요",
+                  "romanji": "joahaeyo",
+                  "meaning": "like",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "싫어요",
+                  "romanji": "sireoyo",
+                  "meaning": "do not like",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "행복해요",
+                  "romanji": "haengbokhaeyo",
+                  "meaning": "am happy",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "슬퍼요",
+                  "romanji": "seulpeoyo",
+                  "meaning": "am sad",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u12",
+          "title": "Functional II: School, Work & Digital",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s0-u12-sess1",
+              "title": "Functional II: School, Work & Digital",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "학교",
+                  "romanji": "hakgyo",
+                  "meaning": "school",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "회사",
+                  "romanji": "hoesa",
+                  "meaning": "company / office",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "이메일",
+                  "romanji": "imeil",
+                  "meaning": "email",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "와이파이",
+                  "romanji": "waipai",
+                  "meaning": "Wi-Fi",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u13",
+          "title": "Cultural: Politeness Basics",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s0-u13-sess1",
+              "title": "Cultural: Politeness Basics",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "죄송합니다",
+                  "romanji": "joesonghamnida",
+                  "meaning": "I am sorry",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "실례합니다",
+                  "romanji": "sillyehamnida",
+                  "meaning": "excuse me",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "잘 먹겠습니다",
+                  "romanji": "jal meokgetseumnida",
+                  "meaning": "I will eat well / thanks for the meal",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "부탁드려요",
+                  "romanji": "butakdeuryeoyo",
+                  "meaning": "please / I request it",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s0-u14",
+          "title": "Gateway: Starter Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s0-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Starter gateway assessment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "key": "beginner",
+      "label": "Beginner",
+      "labelNative": "초급",
+      "description": "A1–A2. Everyday Korean for greetings, food, directions, home, and basic survival in Korea.",
+      "registerAvailable": [
+        "textbook",
+        "natural"
+      ],
+      "units": [
+        {
+          "id": "ko-s1-u1",
+          "title": "Social I: Everyday Greetings",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s1-u1-sess1",
+              "title": "Social I: Everyday Greetings",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "좋은 아침이에요",
+                  "romanji": "joeun achimieyo",
+                  "meaning": "good morning",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "잘 지냈어요?",
+                  "romanji": "jal jinaesseoyo?",
+                  "meaning": "have you been well?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "처음 뵙겠습니다",
+                  "romanji": "cheoeum boepgetseumnida",
+                  "meaning": "it is my first time meeting you",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "만나서 반가워요",
+                  "romanji": "mannaseo bangawoyo",
+                  "meaning": "nice to meet you",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u2",
+          "title": "Logic I: Pronouns & Copula",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s1-u2-sess1",
+              "title": "Logic I: Pronouns & Copula",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "저는 학생이에요",
+                  "romanji": "jeoneun haksaeng-ieyo",
+                  "meaning": "I am a student",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "이것은 책이에요",
+                  "romanji": "igeoseun chaeg-ieyo",
+                  "meaning": "this is a book",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "그건 제 거예요",
+                  "romanji": "geugeon je geoyeyo",
+                  "meaning": "that is mine",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "누구예요?",
+                  "romanji": "nuguyeyo?",
+                  "meaning": "who is it?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u3",
+          "title": "Temporal I: Numbers, Days, Time",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s1-u3-sess1",
+              "title": "Temporal I: Numbers, Days, Time",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "십",
+                  "romanji": "sip",
+                  "meaning": "ten",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "월요일",
+                  "romanji": "woryoil",
+                  "meaning": "Monday",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "일곱 시 반",
+                  "romanji": "ilgop si ban",
+                  "meaning": "7:30",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "몇 시에 시작해요?",
+                  "romanji": "myeot sie sijakaeyo?",
+                  "meaning": "what time does it start?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u4",
+          "title": "Physical I: Food & Essentials",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s1-u4-sess1",
+              "title": "Physical I: Food & Essentials",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "물",
+                  "romanji": "mul",
+                  "meaning": "water",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "생선",
+                  "romanji": "saengseon",
+                  "meaning": "fish",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "고기",
+                  "romanji": "gogi",
+                  "meaning": "meat",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "차 한 잔 주세요",
+                  "romanji": "cha han jan juseyo",
+                  "meaning": "one cup of tea, please",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u5",
+          "title": "Social II: Family & Description",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s1-u5-sess1",
+              "title": "Social II: Family & Description",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "형",
+                  "romanji": "hyeong",
+                  "meaning": "older brother (male speaker)",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "동생",
+                  "romanji": "dongsaeng",
+                  "meaning": "younger sibling",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "친절해요",
+                  "romanji": "chinjeolhaeyo",
+                  "meaning": "kind",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "시끄러워요",
+                  "romanji": "sikkeureowoyo",
+                  "meaning": "noisy",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u6",
+          "title": "Functional I: Around Town",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s1-u6-sess1",
+              "title": "Functional I: Around Town",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "버스 정류장",
+                  "romanji": "beoseu jeongnyujang",
+                  "meaning": "bus stop",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "지하철",
+                  "romanji": "jihacheol",
+                  "meaning": "subway",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "곧장 가세요",
+                  "romanji": "gotjang gaseyo",
+                  "meaning": "go straight",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "역이 어디예요?",
+                  "romanji": "yeogi eodiyeyo?",
+                  "meaning": "where is the station?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u7",
+          "title": "Checkpoint: Beginner Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s1-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Beginner mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u8",
+          "title": "Logic II: Present Patterns",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s1-u8-sess1",
+              "title": "Logic II: Present Patterns",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "한국어를 공부해요",
+                  "romanji": "hangugeoreul gongbuhaeyo",
+                  "meaning": "study Korean",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "커피를 마셔요",
+                  "romanji": "keopireul masyeoyo",
+                  "meaning": "drink coffee",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "친구를 만나요",
+                  "romanji": "chingureul mannayo",
+                  "meaning": "meet a friend",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "매일 걸어요",
+                  "romanji": "maeil georeoyo",
+                  "meaning": "walk every day",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u9",
+          "title": "Physical II: Shopping & Health",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s1-u9-sess1",
+              "title": "Physical II: Shopping & Health",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "약",
+                  "romanji": "yak",
+                  "meaning": "medicine",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "셔츠",
+                  "romanji": "syeocheu",
+                  "meaning": "shirt",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "목이 아파요",
+                  "romanji": "mogi apayo",
+                  "meaning": "my throat hurts",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "더 큰 사이즈 있어요?",
+                  "romanji": "deo keun saijeu isseoyo?",
+                  "meaning": "do you have a bigger size?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u10",
+          "title": "Temporal II: Past Foundations",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s1-u10-sess1",
+              "title": "Temporal II: Past Foundations",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "지난주",
+                  "romanji": "jinanju",
+                  "meaning": "last week",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "작년",
+                  "romanji": "jangnyeon",
+                  "meaning": "last year",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "봤어요",
+                  "romanji": "bwasseoyo",
+                  "meaning": "saw",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "어제 영화를 봤어요",
+                  "romanji": "eoje yeonghwareul bwasseoyo",
+                  "meaning": "I watched a movie yesterday",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u11",
+          "title": "Social III: Hobbies & Feelings",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s1-u11-sess1",
+              "title": "Social III: Hobbies & Feelings",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "축구를 좋아해요",
+                  "romanji": "chukgureul joahaeyo",
+                  "meaning": "I like soccer",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "독서",
+                  "romanji": "dokseo",
+                  "meaning": "reading books",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "피곤해요",
+                  "romanji": "pigonhaeyo",
+                  "meaning": "I am tired",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "재미있어요",
+                  "romanji": "jaemiisseoyo",
+                  "meaning": "it is fun",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u12",
+          "title": "Functional II: School & Online Life",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s1-u12-sess1",
+              "title": "Functional II: School & Online Life",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "숙제",
+                  "romanji": "sukje",
+                  "meaning": "homework",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "회의",
+                  "romanji": "hoeui",
+                  "meaning": "meeting",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "로그인해요",
+                  "romanji": "rogeuinhaeyo",
+                  "meaning": "log in",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "비밀번호를 잊어버렸어요",
+                  "romanji": "bimilbeonhoreul ijeobeoryeosseoyo",
+                  "meaning": "I forgot my password",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u13",
+          "title": "Cultural: Natural vs Formal",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s1-u13-sess1",
+              "title": "Cultural: Natural vs Formal",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "감사합니다",
+                  "romanji": "gamsahamnida",
+                  "meaning": "thank you (formal)",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "고마워",
+                  "romanji": "gomawo",
+                  "meaning": "thanks",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "안녕히 가세요",
+                  "romanji": "annyeonghi gaseyo",
+                  "meaning": "goodbye (to someone leaving)",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "잘 가",
+                  "romanji": "jal ga",
+                  "meaning": "bye / go well",
+                  "audio": true,
+                  "register": "informal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s1-u14",
+          "title": "Gateway: Beginner Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s1-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Beginner gateway assessment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "key": "explorer",
+      "label": "Explorer",
+      "labelNative": "탐구",
+      "description": "A2–B1. Connected Korean, polite vs casual choices, and practical daily conversation.",
+      "registerAvailable": [
+        "textbook",
+        "natural",
+        "formal",
+        "informal"
+      ],
+      "units": [
+        {
+          "id": "ko-s2-u1",
+          "title": "Social I: Meeting Again",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s2-u1-sess1",
+              "title": "Social I: Meeting Again",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "오랜만이에요",
+                  "romanji": "oraenmanieyo",
+                  "meaning": "long time no see",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "요즘 어때요?",
+                  "romanji": "yojeum eottaeyo?",
+                  "meaning": "how have you been these days?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "다시 만나서 반가워요",
+                  "romanji": "dasi mannaseo bangawoyo",
+                  "meaning": "glad to see you again",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "좋아 보이세요",
+                  "romanji": "joa bo-iseyo",
+                  "meaning": "you look well",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u2",
+          "title": "Logic I: Comparison & Preference",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s2-u2-sess1",
+              "title": "Logic I: Comparison & Preference",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "커피보다 차가 더 좋아요",
+                  "romanji": "keopiboda chaga deo joayo",
+                  "meaning": "I like tea more than coffee",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "여기에 가게가 있어요",
+                  "romanji": "yeogie gagega isseoyo",
+                  "meaning": "there is a store here",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "저기에 친구가 있어요",
+                  "romanji": "jeogie chinguga isseoyo",
+                  "meaning": "my friend is over there",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "어느 게 더 좋아요?",
+                  "romanji": "eoneu ge deo joayo?",
+                  "meaning": "which one do you prefer?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u3",
+          "title": "Temporal I: Real Scheduling",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s2-u3-sess1",
+              "title": "Temporal I: Real Scheduling",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "아홉 시부터 다섯 시까지",
+                  "romanji": "ahop sibuteo daseot sikkaji",
+                  "meaning": "from 9 to 5",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "다음 주",
+                  "romanji": "daeum ju",
+                  "meaning": "next week",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "매주 토요일에",
+                  "romanji": "maeju toyoil-e",
+                  "meaning": "every Saturday",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "몇 분쯤 걸려요?",
+                  "romanji": "myeot bunjjeum geollyeoyo?",
+                  "meaning": "about how many minutes does it take?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u4",
+          "title": "Physical I: Meals & Daily Items",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s2-u4-sess1",
+              "title": "Physical I: Meals & Daily Items",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "채소",
+                  "romanji": "chaeso",
+                  "meaning": "vegetables",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "아침밥",
+                  "romanji": "achim bap",
+                  "meaning": "breakfast",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "배고파요",
+                  "romanji": "baegopayo",
+                  "meaning": "I am hungry",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "젓가락 있어요?",
+                  "romanji": "jeotgarak isseoyo?",
+                  "meaning": "do you have chopsticks?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u5",
+          "title": "Social II: Home Life",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s2-u5-sess1",
+              "title": "Social II: Home Life",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "혼자 살아요",
+                  "romanji": "honja sarayo",
+                  "meaning": "I live alone",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "조용한 사람이에요",
+                  "romanji": "joyonghan saram-ieyo",
+                  "meaning": "a quiet person",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "방이 좁아요",
+                  "romanji": "bangi jobayo",
+                  "meaning": "the room is small",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "집안일을 나눠 해요",
+                  "romanji": "jibanireul nanwo haeyo",
+                  "meaning": "we divide the chores",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u6",
+          "title": "Functional I: Transit & Wayfinding",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s2-u6-sess1",
+              "title": "Functional I: Transit & Wayfinding",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "환승",
+                  "romanji": "hwanseung",
+                  "meaning": "transfer",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "출구",
+                  "romanji": "chulgu",
+                  "meaning": "exit",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "강남까지 가고 싶어요",
+                  "romanji": "Gangnamkkaji gago sipeoyo",
+                  "meaning": "I want to go to Gangnam",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "이 지하철이 홍대에 서요?",
+                  "romanji": "i jihacheori Hongdae-e seoyo?",
+                  "meaning": "does this subway stop at Hongdae?",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u7",
+          "title": "Checkpoint: Explorer Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s2-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Explorer mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u8",
+          "title": "Logic II: Plain vs Polite",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s2-u8-sess1",
+              "title": "Logic II: Plain vs Polite",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "먹어요 / 먹어",
+                  "romanji": "meogeoyo / meogeo",
+                  "meaning": "eat (polite / plain)",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "가요 / 가",
+                  "romanji": "gayo / ga",
+                  "meaning": "go (polite / plain)",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "오늘 집에서 먹어",
+                  "romanji": "oneul jibeseo meogeo",
+                  "meaning": "I am eating at home today",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "오늘 집에서 먹어요",
+                  "romanji": "oneul jibeseo meogeoyo",
+                  "meaning": "I will eat at home today",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u9",
+          "title": "Physical II: Shopping & Needs",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s2-u9-sess1",
+              "title": "Physical II: Shopping & Needs",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "입어 봐도 돼요?",
+                  "romanji": "ibeo bwado dwaeyo?",
+                  "meaning": "may I try it on?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "조금 더 큰 사이즈",
+                  "romanji": "jogeum deo keun saijeu",
+                  "meaning": "a slightly larger size",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "머리가 아파요",
+                  "romanji": "meoriga apayo",
+                  "meaning": "I have a headache",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "추천해 주세요",
+                  "romanji": "chucheonhae juseyo",
+                  "meaning": "please recommend one",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u10",
+          "title": "Temporal II: Past Narration",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s2-u10-sess1",
+              "title": "Temporal II: Past Narration",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "지난달",
+                  "romanji": "jinandal",
+                  "meaning": "last month",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "작년에 한국에 갔어요",
+                  "romanji": "jangnyeone hanguge gasseoyo",
+                  "meaning": "I went to Korea last year",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "어렸을 때",
+                  "romanji": "eoryeosseul ttae",
+                  "meaning": "when I was little",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "어제는 바빴어요",
+                  "romanji": "eojeneun bappasseoyo",
+                  "meaning": "yesterday was busy",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u11",
+          "title": "Social III: Feelings & Preferences",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s2-u11-sess1",
+              "title": "Social III: Feelings & Preferences",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "~하는 걸 좋아해요",
+                  "romanji": "...haneun geol joahaeyo",
+                  "meaning": "I like doing ...",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "조금 긴장돼요",
+                  "romanji": "jogeum ginjangdwaeyo",
+                  "meaning": "I am a little nervous",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "정말 재미있었어",
+                  "romanji": "jeongmal jaemiisseosseo",
+                  "meaning": "it was really fun",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "별로 관심이 없어요",
+                  "romanji": "byeollo gwansimi eopseoyo",
+                  "meaning": "I am not very interested",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u12",
+          "title": "Functional II: Study, Work, Digital",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s2-u12-sess1",
+              "title": "Functional II: Study, Work, Digital",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "수업",
+                  "romanji": "sueop",
+                  "meaning": "class",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "마감",
+                  "romanji": "magam",
+                  "meaning": "deadline",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "파일을 첨부했어요",
+                  "romanji": "paileul cheombuhaesseoyo",
+                  "meaning": "I attached the file",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "온라인 회의가 있어요",
+                  "romanji": "onrain hoeuiga isseoyo",
+                  "meaning": "there is an online meeting",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u13",
+          "title": "Cultural: Tone & Softening",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s2-u13-sess1",
+              "title": "Cultural: Tone & Softening",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "수고하셨습니다",
+                  "romanji": "sugo hasyeosseumnida",
+                  "meaning": "thank you for your hard work",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "그러게요",
+                  "romanji": "geureoge-yo",
+                  "meaning": "true / right, huh",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "진짜?",
+                  "romanji": "jinjja?",
+                  "meaning": "really?",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "그건 좀...",
+                  "romanji": "geugeon jom...",
+                  "meaning": "that is a bit... / maybe not",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s2-u14",
+          "title": "Gateway: Explorer Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s2-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Explorer gateway assessment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "key": "speaker",
+      "label": "Speaker",
+      "labelNative": "화자",
+      "description": "B1. Real conversation, explanation, preference, emotional language, and service/work Korean.",
+      "registerAvailable": [
+        "textbook",
+        "natural",
+        "formal",
+        "informal"
+      ],
+      "units": [
+        {
+          "id": "ko-s3-u1",
+          "title": "Social I: Maintaining Relationships",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s3-u1-sess1",
+              "title": "Social I: Maintaining Relationships",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "오랜만에 연락드려요",
+                  "romanji": "oraenmane yeollak deuryeoyo",
+                  "meaning": "I am reaching out after a long time",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "요즘 뭐 하고 지냈어?",
+                  "romanji": "yojeum mwo hago jinaesseo?",
+                  "meaning": "what have you been up to lately?",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "다음에 천천히 이야기해요",
+                  "romanji": "daeume cheoncheonhi iyagihaeyo",
+                  "meaning": "let’s talk properly next time",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "뵙게 되어 영광입니다",
+                  "romanji": "boepge doeeo yeonggwang-imnida",
+                  "meaning": "it is an honor to meet you",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u2",
+          "title": "Logic I: Explanation & Comparison",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s3-u2-sess1",
+              "title": "Logic I: Explanation & Comparison",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "제 입장에서는",
+                  "romanji": "je ipjang-eseoneun",
+                  "meaning": "from my point of view",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "반면에",
+                  "romanji": "banmyeon-e",
+                  "meaning": "on the other hand",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "그 말은 무슨 뜻이에요?",
+                  "romanji": "geu mareun museun tteusieyo?",
+                  "meaning": "what does that mean?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "이유는 두 가지예요",
+                  "romanji": "iyuneun du gajiyeyo",
+                  "meaning": "there are two reasons",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u3",
+          "title": "Temporal I: Planning & Scheduling",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s3-u3-sess1",
+              "title": "Temporal I: Planning & Scheduling",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "일정",
+                  "romanji": "iljeong",
+                  "meaning": "schedule",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "이번 주 안에",
+                  "romanji": "ibeon ju ane",
+                  "meaning": "within this week",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "시간이 맞으면",
+                  "romanji": "sigani majeumyeon",
+                  "meaning": "if the timing works",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "삼십 분 정도 걸려요",
+                  "romanji": "samsip bun jeongdo geollyeoyo",
+                  "meaning": "it takes about 30 minutes",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u4",
+          "title": "Physical I: Service Encounters",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s3-u4-sess1",
+              "title": "Physical I: Service Encounters",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "매운 음식은 잘 못 먹어요",
+                  "romanji": "maeun eumsigeun jal mot meogeoyo",
+                  "meaning": "I am not good with spicy food",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "포장돼요?",
+                  "romanji": "pojang dwaeyo?",
+                  "meaning": "can I get it to go?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "따뜻한 차로 주세요",
+                  "romanji": "ttatteuthan charo juseyo",
+                  "meaning": "please make it a warm tea",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "알레르기가 있어요",
+                  "romanji": "allereugiga isseoyo",
+                  "meaning": "I have an allergy",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u5",
+          "title": "Social II: Household & Community",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s3-u5-sess1",
+              "title": "Social II: Household & Community",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "같이 살아요",
+                  "romanji": "gachi sarayo",
+                  "meaning": "we live together",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "이웃하고 인사해요",
+                  "romanji": "iut-hago insahaeyo",
+                  "meaning": "I greet my neighbors",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "무리하지 않는 선에서",
+                  "romanji": "murihaji anneun seon-eseo",
+                  "meaning": "within a reasonable range",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "사정이 있어요",
+                  "romanji": "sajeongi isseoyo",
+                  "meaning": "there are circumstances",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u6",
+          "title": "Functional I: Travel Trouble-Shooting",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s3-u6-sess1",
+              "title": "Functional I: Travel Trouble-Shooting",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "막차",
+                  "romanji": "makcha",
+                  "meaning": "last train",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "지연되고 있어요",
+                  "romanji": "jiyeondoe-go isseoyo",
+                  "meaning": "it is being delayed",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "이 카드로 들어갈 수 있어요?",
+                  "romanji": "i kadeuro deureogal su isseoyo?",
+                  "meaning": "can I enter with this card?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "몇 번 승강장이에요?",
+                  "romanji": "myeot beon seunggangjang-ieyo?",
+                  "meaning": "which platform number is it?",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u7",
+          "title": "Checkpoint: Speaker Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s3-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Speaker mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u8",
+          "title": "Logic II: Requests & Possibility",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s3-u8-sess1",
+              "title": "Logic II: Requests & Possibility",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "도와주실 수 있어요?",
+                  "romanji": "dowajusil su isseoyo?",
+                  "meaning": "could you help me?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "보여 줘도 돼?",
+                  "romanji": "boyeo jwodo dwae?",
+                  "meaning": "can I show you?",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "한국어로 설명할 수 있어요",
+                  "romanji": "hangugeoro seolmyeonghal su isseoyo",
+                  "meaning": "I can explain in Korean",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "갈 수 있을 것 같아요",
+                  "romanji": "gal su isseul geot gatayo",
+                  "meaning": "I think I can go",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u9",
+          "title": "Physical II: Shopping for Quality",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s3-u9-sess1",
+              "title": "Physical II: Shopping for Quality",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "환불돼요?",
+                  "romanji": "hwanbul dwaeyo?",
+                  "meaning": "can I get a refund?",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "핏이 딱 좋아요",
+                  "romanji": "pisi ttak joayo",
+                  "meaning": "the fit is just right",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "피부에 안 맞아요",
+                  "romanji": "pibue an majayo",
+                  "meaning": "it does not suit my skin",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "조금 비싸지만 질이 좋아요",
+                  "romanji": "jogeum bissajiman jiri joayo",
+                  "meaning": "it is a bit expensive, but the quality is good",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u10",
+          "title": "Temporal II: Storytelling",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s3-u10-sess1",
+              "title": "Temporal II: Storytelling",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "그때",
+                  "romanji": "geuttae",
+                  "meaning": "at that time",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "처음에는 긴장했어요",
+                  "romanji": "cheoeumeneun ginjanghaesseoyo",
+                  "meaning": "at first I was nervous",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "점점 익숙해졌어요",
+                  "romanji": "jeomjeom iksukhaejyeosseoyo",
+                  "meaning": "I gradually got used to it",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "결국 안 갔어요",
+                  "romanji": "gyeolguk an gasseoyo",
+                  "meaning": "in the end I did not go",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u11",
+          "title": "Social III: Emotions in Conversation",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s3-u11-sess1",
+              "title": "Social III: Emotions in Conversation",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "솔직히 말하면",
+                  "romanji": "soljikhi malhamyeon",
+                  "meaning": "to be honest",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "그 말 들으니 좋네요",
+                  "romanji": "geu mal deureuni johneyo",
+                  "meaning": "that is nice to hear",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "좀 어색했어요",
+                  "romanji": "jom eosaekhaesseoyo",
+                  "meaning": "it felt a little awkward",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "마음이 놓였어요",
+                  "romanji": "maeumi nohyeosseoyo",
+                  "meaning": "I felt relieved",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u12",
+          "title": "Functional II: Work, School, Digital",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s3-u12-sess1",
+              "title": "Functional II: Work, School, Digital",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "자료를 공유할게요",
+                  "romanji": "jaryoreul gongyuhalgeyo",
+                  "meaning": "I will share the materials",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "제출은 내일까지예요",
+                  "romanji": "jechureun naeilkkajiyeyo",
+                  "meaning": "submission is due by tomorrow",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "연결이 불안정해요",
+                  "romanji": "yeongyeori buranjeonghaeyo",
+                  "meaning": "the connection is unstable",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "일단 보내 둘게요",
+                  "romanji": "ildan bonae dulgeyo",
+                  "meaning": "I will send it for now",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u13",
+          "title": "Cultural: Indirectness & Context",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s3-u13-sess1",
+              "title": "Cultural: Indirectness & Context",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "검토해 볼게요",
+                  "romanji": "geomtohae bolgeyo",
+                  "meaning": "I will take a look / consider it",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "이번에는 어려울 것 같아요",
+                  "romanji": "ibeoneneun eoryeoul geot gatayo",
+                  "meaning": "I think it will be difficult this time",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "애매하네요",
+                  "romanji": "aemaehaneyo",
+                  "meaning": "it is kind of unclear / awkward",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "눈치 보다",
+                  "romanji": "nunchi boda",
+                  "meaning": "read the room / be mindful of the situation",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s3-u14",
+          "title": "Gateway: Speaker Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s3-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Speaker gateway assessment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "key": "scholar",
+      "label": "Scholar",
+      "labelNative": "학구",
+      "description": "B2. Nuanced Korean for work, study, social situations, and clearer natural sounding expression.",
+      "registerAvailable": [
+        "textbook",
+        "natural",
+        "formal",
+        "informal"
+      ],
+      "units": [
+        {
+          "id": "ko-s4-u1",
+          "title": "Social I: Formal Introductions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s4-u1-sess1",
+              "title": "Social I: Formal Introductions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "영업팀의 김민수라고 합니다",
+                  "romanji": "yeongeoptim-ui Gim Minsu-rago hamnida",
+                  "meaning": "I am Kim Minsu from the sales team",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "항상 도움 주셔서 감사합니다",
+                  "romanji": "hangsang doum jusyeoseo gamsahamnida",
+                  "meaning": "thank you always for your help",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "편하게 말씀해 주세요",
+                  "romanji": "pyeonhage malsseumhae juseyo",
+                  "meaning": "please speak comfortably",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "다시 잘 부탁드립니다",
+                  "romanji": "dasi jal butakdeurimnida",
+                  "meaning": "I ask for your support again",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u2",
+          "title": "Logic I: Framing Arguments",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s4-u2-sess1",
+              "title": "Logic I: Framing Arguments",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "전제로 보면",
+                  "romanji": "jeonjero bomyeon",
+                  "meaning": "if we look at it as a premise",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "반대로 생각하면",
+                  "romanji": "bandaero saenggakhamyeon",
+                  "meaning": "if we think about it the other way",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "제 관점에서는",
+                  "romanji": "je gwanjeom-eseoneun",
+                  "meaning": "from my perspective",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "현실적이지 않습니다",
+                  "romanji": "hyeonsiljeogiji anseumnida",
+                  "meaning": "it is not realistic",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u3",
+          "title": "Temporal I: Deadlines & Rescheduling",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s4-u3-sess1",
+              "title": "Temporal I: Deadlines & Rescheduling",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "마감 준수",
+                  "romanji": "magam junsu",
+                  "meaning": "deadline compliance",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "이번 달 말까지",
+                  "romanji": "ibeon dal malkkaji",
+                  "meaning": "by the end of this month",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "미루다",
+                  "romanji": "miruda",
+                  "meaning": "postpone",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "재조정이 필요해요",
+                  "romanji": "jaejojeongi piryohaeyo",
+                  "meaning": "it needs to be rescheduled",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u4",
+          "title": "Physical I: Specific Requests",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s4-u4-sess1",
+              "title": "Physical I: Specific Requests",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "자극이 너무 강해요",
+                  "romanji": "jageugi neomu ganghaeyo",
+                  "meaning": "it is too intense",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "다른 대안이 있을까요?",
+                  "romanji": "dareun daeani isseulkkayo?",
+                  "meaning": "is there another option?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "세부 조정이 필요합니다",
+                  "romanji": "sebu jojeongi piryohamnida",
+                  "meaning": "fine adjustments are needed",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "재질 느낌이 좋네요",
+                  "romanji": "jaejil neukkimi johneyo",
+                  "meaning": "the material feels nice",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u5",
+          "title": "Social II: Boundaries & Community",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s4-u5-sess1",
+              "title": "Social II: Boundaries & Community",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "거리감",
+                  "romanji": "georigam",
+                  "meaning": "social distance / sense of distance",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "부담을 주고 싶지 않아요",
+                  "romanji": "budameul jugo sipji anayo",
+                  "meaning": "I do not want to burden them",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "서로 돕는 분위기예요",
+                  "romanji": "seoro domneun bunwigiyeyo",
+                  "meaning": "it is a culture of helping each other",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "개인 사정이 있습니다",
+                  "romanji": "gaein sajeongi isseumnida",
+                  "meaning": "there are personal circumstances",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u6",
+          "title": "Functional I: Complex Navigation",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s4-u6-sess1",
+              "title": "Functional I: Complex Navigation",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "최단 경로",
+                  "romanji": "choedan gyeongro",
+                  "meaning": "shortest route",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "우회 경로",
+                  "romanji": "uhoe gyeongro",
+                  "meaning": "detour route",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "가장 가까운 역",
+                  "romanji": "gajang gakkaun yeok",
+                  "meaning": "nearest station",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "앞쪽 도로가 통제됐어요",
+                  "romanji": "apjjok doroga tongjedwaesseoyo",
+                  "meaning": "the road ahead is restricted",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u7",
+          "title": "Checkpoint: Scholar Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s4-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Scholar mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u8",
+          "title": "Logic II: Permission, Obligation, Nuance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s4-u8-sess1",
+              "title": "Logic II: Permission, Obligation, Nuance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "확인해 두는 게 좋겠어요",
+                  "romanji": "hwaginhae duneun ge joheosseoyo",
+                  "meaning": "it would be good to confirm in advance",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "대응해 주실 수 있을까요?",
+                  "romanji": "daeunghaee jushil su isseulkkayo?",
+                  "meaning": "would you be able to handle this?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "그럴 가능성도 있어요",
+                  "romanji": "geureol ganeungseongdo isseoyo",
+                  "meaning": "that possibility also exists",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "어쩔 수 없어요",
+                  "romanji": "eojjeol su eopseoyo",
+                  "meaning": "there is no choice",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u9",
+          "title": "Physical II: Complex Needs",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s4-u9-sess1",
+              "title": "Physical II: Complex Needs",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "품질 보증",
+                  "romanji": "pumjil bojeung",
+                  "meaning": "quality guarantee",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "교환 대상",
+                  "romanji": "gyohwan daesang",
+                  "meaning": "eligible for exchange",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "증상이 계속돼요",
+                  "romanji": "jeungsangi gyesokdwaeyo",
+                  "meaning": "the symptoms continue",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "보기보다 가벼워요",
+                  "romanji": "bogiboda gabyeowoyo",
+                  "meaning": "it is lighter than it looks",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u10",
+          "title": "Temporal II: Reflection & Past",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s4-u10-sess1",
+              "title": "Temporal II: Reflection & Past",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "당시",
+                  "romanji": "dangsi",
+                  "meaning": "at that time",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "예전부터 궁금했어요",
+                  "romanji": "yejeonbuteo gunggeumhaesseoyo",
+                  "meaning": "I had been curious for a while",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "결과적으로",
+                  "romanji": "gyeolgwajeogeuro",
+                  "meaning": "as a result",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "돌이켜 보면",
+                  "romanji": "dorikyeo bomyeon",
+                  "meaning": "looking back",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u11",
+          "title": "Social III: Emotion & Stance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s4-u11-sess1",
+              "title": "Social III: Emotion & Stance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "납득이 안 돼요",
+                  "romanji": "napdeugi an dwaeyo",
+                  "meaning": "I cannot accept it / it does not convince me",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "어색해지지 않게",
+                  "romanji": "eosaekhaejiji anke",
+                  "meaning": "so it does not get awkward",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "조금 마음에 걸려요",
+                  "romanji": "jogeum maeume geollyeoyo",
+                  "meaning": "something still bothers me a little",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "솔직히 말씀드리면",
+                  "romanji": "soljikhi malsseumdeurimyeon",
+                  "meaning": "to speak frankly",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u12",
+          "title": "Functional II: Professional Communication",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s4-u12-sess1",
+              "title": "Functional II: Professional Communication",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "회의록",
+                  "romanji": "hoeuirok",
+                  "meaning": "meeting minutes",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "알겠습니다",
+                  "romanji": "algetseumnida",
+                  "meaning": "understood",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "공유해 주셔서 감사합니다",
+                  "romanji": "gongyuhae jusyeoseo gamsahamnida",
+                  "meaning": "thank you for sharing",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "혹시 몰라서 다시 확인할게요",
+                  "romanji": "hoksi mollaseo dasi hwaginhalkkayo",
+                  "meaning": "I will check again just in case",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u13",
+          "title": "Cultural: Nuance & Set Expressions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s4-u13-sess1",
+              "title": "Cultural: Nuance & Set Expressions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "먼저 들어가 보겠습니다",
+                  "romanji": "meonjeo deureoga bogetseumnida",
+                  "meaning": "I will be heading out first",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "안부 전해 주세요",
+                  "romanji": "anbu jeonhae juseyo",
+                  "meaning": "please give them my regards",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "그거 완전 공감돼요",
+                  "romanji": "geugeo wanjeon gonggam dwaeyo",
+                  "meaning": "that is totally relatable",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "눈치껏 해야 해요",
+                  "romanji": "nunchikkeot haeya haeyo",
+                  "meaning": "you have to read the room",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s4-u14",
+          "title": "Gateway: Scholar Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s4-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Scholar gateway assessment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "key": "specialist",
+      "label": "Specialist",
+      "labelNative": "숙련",
+      "description": "C1 practical mastery. Rich, modern Korean for real life in Korea without disappearing into obscure edge-case content.",
+      "registerAvailable": [
+        "textbook",
+        "natural",
+        "formal",
+        "informal"
+      ],
+      "units": [
+        {
+          "id": "ko-s5-u1",
+          "title": "Social I: High-Fluency Introductions",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s5-u1-sess1",
+              "title": "Social I: High-Fluency Introductions",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "오늘 시간 내 주셔서 감사합니다",
+                  "romanji": "oneul sigan nae jusyeoseo gamsahamnida",
+                  "meaning": "thank you for making time today",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "부담 없이 말씀해 주세요",
+                  "romanji": "budam eopsi malsseumhae juseyo",
+                  "meaning": "please speak without pressure",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "예전부터 꼭 이야기하고 싶었어요",
+                  "romanji": "yejeonbuteo kkok iyagihago sipeosseoyo",
+                  "meaning": "I have wanted to talk about this for a long time",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "다시 한번 제 소개를 드릴게요",
+                  "romanji": "dasi hanbeon je sogaereul deurilgeyo",
+                  "meaning": "let me introduce myself once more",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u2",
+          "title": "Logic I: Position, Framing, Contrast",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s5-u2-sess1",
+              "title": "Logic I: Position, Framing, Contrast",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "전제부터 정리하면",
+                  "romanji": "jeonje-buteo jeongrihamyeon",
+                  "meaning": "if we organize the premise first",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "반드시 그렇다고 볼 수는 없어요",
+                  "romanji": "bandeusi geureotago bol suneun eopseoyo",
+                  "meaning": "we cannot say that is always the case",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "감각적으로는 그렇게 느껴져요",
+                  "romanji": "gamgakjeogeuro-neun geureoke neukkyeojyeoyo",
+                  "meaning": "intuitively, it feels that way",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "그 해석도 가능해요",
+                  "romanji": "geu haeseokdo ganeunghaeyo",
+                  "meaning": "that interpretation is also possible",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u3",
+          "title": "Temporal I: Long-Range Planning",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s5-u3-sess1",
+              "title": "Temporal I: Long-Range Planning",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "중장기적으로",
+                  "romanji": "jungjanggijeogeuro",
+                  "meaning": "in the mid to long term",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "대략적인 윤곽이 보여요",
+                  "romanji": "daeryakjeogin yungwagi boyeoyo",
+                  "meaning": "I can see the rough outline",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "일정을 앞당기다",
+                  "romanji": "iljeongeul apdang-gida",
+                  "meaning": "move the schedule forward",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "기한을 못 박다",
+                  "romanji": "gihaneul mot bakda",
+                  "meaning": "set a firm deadline",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u4",
+          "title": "Physical I: Precision Requests",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s5-u4-sess1",
+              "title": "Physical I: Precision Requests",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "자극이 너무 세요",
+                  "romanji": "jageugi neomu seyo",
+                  "meaning": "it is too strong",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "대체 가능한 게 있을까요?",
+                  "romanji": "daeche ganeunghan ge isseulkkayo?",
+                  "meaning": "is there something that could replace it?",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "세밀한 조정이 필요해요",
+                  "romanji": "semilhan jojeongi piryohaeyo",
+                  "meaning": "it needs careful adjustment",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "재질감이 꽤 좋네요",
+                  "romanji": "jaejil-gami kkwae johneyo",
+                  "meaning": "the material texture is quite nice",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u5",
+          "title": "Social II: Social Expectations",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s5-u5-sess1",
+              "title": "Social II: Social Expectations",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "처신",
+                  "romanji": "cheosin",
+                  "meaning": "how one conducts oneself",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "괜히 부담 주고 싶지 않아요",
+                  "romanji": "gwaenhi budam jugo sipji anayo",
+                  "meaning": "I do not want to burden them for no reason",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "서로 이해해 주는 분위기",
+                  "romanji": "seoro ihaehae juneun bunwigi",
+                  "meaning": "an atmosphere of mutual understanding",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "거리를 두려는 뜻은 아니에요",
+                  "romanji": "georireul duryeoneun tteuseun anieyo",
+                  "meaning": "it is not that I want distance",
+                  "audio": true,
+                  "register": "formal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u6",
+          "title": "Functional I: Negotiating Routes & Options",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s5-u6-sess1",
+              "title": "Functional I: Negotiating Routes & Options",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "최적 경로",
+                  "romanji": "choejeok gyeongro",
+                  "meaning": "optimal route",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "혼잡을 피하고 싶어요",
+                  "romanji": "honjabeul pihago sipeoyo",
+                  "meaning": "I want to avoid congestion",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "다른 경로를 제안드릴게요",
+                  "romanji": "dareun gyeongroreul jeandeurilgeyo",
+                  "meaning": "I will suggest another route",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "상황에 따라 달라요",
+                  "romanji": "sanghwang-e ttara dallayo",
+                  "meaning": "it depends on the situation",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u7",
+          "title": "Checkpoint: Specialist Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s5-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Specialist mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u8",
+          "title": "Logic II: Nuanced Action Patterns",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s5-u8-sess1",
+              "title": "Logic II: Nuanced Action Patterns",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "미루는 편이에요",
+                  "romanji": "miruneun pyeon-ieyo",
+                  "meaning": "I tend to put things off",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "대응을 서둘러야 해요",
+                  "romanji": "daeeungeul seodulleoya haeyo",
+                  "meaning": "we need to hurry the response",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "할 일은 다 했어요",
+                  "romanji": "hal ireun da haesseoyo",
+                  "meaning": "I did what needed to be done",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "어쩔 수 없이 진행했어요",
+                  "romanji": "eojjeol su eopsi jinhaenghaesseoyo",
+                  "meaning": "we proceeded because there was no choice",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u9",
+          "title": "Physical II: Complex Needs & Evaluation",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s5-u9-sess1",
+              "title": "Physical II: Complex Needs & Evaluation",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "사용감",
+                  "romanji": "sayonggam",
+                  "meaning": "how it feels in actual use",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "생각보다 쓰기 편해요",
+                  "romanji": "saenggakboda sseugi pyeonhaeyo",
+                  "meaning": "it is easier to use than I thought",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "경과를 지켜봐야 해요",
+                  "romanji": "gyeonggwaleul jikyeobwaya haeyo",
+                  "meaning": "we need to monitor how it goes",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "가격 대비 괜찮아요",
+                  "romanji": "gagyeok daebi gwaenchanayo",
+                  "meaning": "it is good for the price",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u10",
+          "title": "Temporal II: Retrospective Nuance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s5-u10-sess1",
+              "title": "Temporal II: Retrospective Nuance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "돌이켜 생각해 보면",
+                  "romanji": "dorikyeo saenggakhae bomyeon",
+                  "meaning": "looking back on it",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "결과론적으로 보면",
+                  "romanji": "gyeolgwaronjeogeuro bomyeon",
+                  "meaning": "with hindsight",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "조금 돌아가긴 했지만",
+                  "romanji": "jogeum doragagin haetjiman",
+                  "meaning": "it took a bit of a roundabout path, but",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "하나의 전환점이었어요",
+                  "romanji": "hanaui jeonhwanjeomieosseoyo",
+                  "meaning": "it was a turning point",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u11",
+          "title": "Social III: Emotional Endurance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s5-u11-sess1",
+              "title": "Social III: Emotional Endurance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "마음에 걸리다",
+                  "romanji": "maeume geollida",
+                  "meaning": "weigh on one’s mind",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "선의지만 부담스럽다",
+                  "romanji": "seon-uijiman budamseureopda",
+                  "meaning": "well-meant but burdensome",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "감정적으로 흐르고 싶지 않아요",
+                  "romanji": "gamjeongjeogeuro heureugo sipji anayo",
+                  "meaning": "I do not want it to become emotional",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "마음을 정리하다",
+                  "romanji": "maeumeul jeongrihada",
+                  "meaning": "sort out one’s feelings",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u12",
+          "title": "Functional II: Advanced Work & Digital",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s5-u12-sess1",
+              "title": "Functional II: Advanced Work & Digital",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "운영 플로우",
+                  "romanji": "unyeong peullou",
+                  "meaning": "operational flow",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "임시 대응",
+                  "romanji": "imsi daeeung",
+                  "meaning": "temporary workaround",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "권한이 부족해요",
+                  "romanji": "gwonhani bujokhaeyo",
+                  "meaning": "I lack permissions",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "이건 제가 맡을게요",
+                  "romanji": "igeon jega mateulgeyo",
+                  "meaning": "I will take this one",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u13",
+          "title": "Cultural: Natural Korean in Real Life",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s5-u13-sess1",
+              "title": "Cultural: Natural Korean in Real Life",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "무리하지 마",
+                  "romanji": "murihaji ma",
+                  "meaning": "do not overdo it",
+                  "audio": true,
+                  "register": "informal"
+                },
+                {
+                  "target": "인연이 있네요",
+                  "romanji": "inyeoni itneyo",
+                  "meaning": "we must have a connection / fate",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "그건 고맙네요",
+                  "romanji": "geugeon gomapneyo",
+                  "meaning": "that is appreciated",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "말 안 해도 알 줄 알았어요",
+                  "romanji": "mal an haedo al jul arasseoyo",
+                  "meaning": "I thought you would know without me saying it",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s5-u14",
+          "title": "Gateway: Specialist Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s5-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Specialist gateway assessment."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "key": "archivist",
+      "label": "Archivist",
+      "labelNative": "기록관",
+      "description": "Archivist loop. Maintenance, nuance, review, sandboxing, and Vault preparation rather than fake completion screens.",
+      "registerAvailable": [
+        "textbook",
+        "natural",
+        "formal",
+        "informal"
+      ],
+      "units": [
+        {
+          "id": "ko-s6-u1",
+          "title": "Archivist I: Weekly Decay Review",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s6-u1-sess1",
+              "title": "Archivist I: Weekly Decay Review",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "복습 루프",
+                  "romanji": "boksseup rupeu",
+                  "meaning": "review loop",
+                  "audio": true,
+                  "register": "textbook"
+                },
+                {
+                  "target": "잊어버릴 뻔한 표현",
+                  "romanji": "ijeobeoril ppeonhan pyohyeon",
+                  "meaning": "an expression I almost forgot",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "몸에 붙이다",
+                  "romanji": "mome butida",
+                  "meaning": "make it stick in the body / internalize it",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "이번 주 약점을 다시 보다",
+                  "romanji": "ibeon ju yakjeomeul dasi boda",
+                  "meaning": "review this week’s weak points",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u2",
+          "title": "Archivist II: Sandbox Conversation",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s6-u2-sess1",
+              "title": "Archivist II: Sandbox Conversation",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "대화를 넓히다",
+                  "romanji": "daehwareul neolhida",
+                  "meaning": "expand the conversation",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "자연스럽게 바꾸다",
+                  "romanji": "jayeonseureopge bakkuda",
+                  "meaning": "rephrase naturally",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "상황에 맞게 조정하다",
+                  "romanji": "sanghwang-e matge jojeonghada",
+                  "meaning": "adjust to the situation",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "어색하면 바로 고쳐 주세요",
+                  "romanji": "eosaekhamyeon baro gochyeo juseyo",
+                  "meaning": "if it sounds awkward, please correct me right away",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u3",
+          "title": "Archivist III: Vault Bridge",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s6-u3-sess1",
+              "title": "Archivist III: Vault Bridge",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "참고 자료",
+                  "romanji": "chamgo jaryo",
+                  "meaning": "reference material",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "영상으로 보강하다",
+                  "romanji": "yeongsang-euro boganghada",
+                  "meaning": "reinforce with videos",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "쓰기 연습지",
+                  "romanji": "sseugi yeonseupji",
+                  "meaning": "writing practice sheets",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "다음 심화 단계로 넘어가다",
+                  "romanji": "daeum simhwa dangyero neomeogada",
+                  "meaning": "move to the next deeper stage",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u4",
+          "title": "Archivist IV: Register Choice",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s6-u4-sess1",
+              "title": "Archivist IV: Register Choice",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "너무 가볍다",
+                  "romanji": "neomu gabyeopda",
+                  "meaning": "too casual / too light",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "너무 딱딱하다",
+                  "romanji": "neomu ttakttakhada",
+                  "meaning": "too stiff",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "상황에 맞다",
+                  "romanji": "sanghwang-e matda",
+                  "meaning": "fit the situation",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "자연스러움을 우선하다",
+                  "romanji": "jayeonseureoumeul useonhada",
+                  "meaning": "prioritize naturalness",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u5",
+          "title": "Archivist V: Listening Tolerance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s6-u5-sess1",
+              "title": "Archivist V: Listening Tolerance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "흘려듣지 않다",
+                  "romanji": "heullyeodeutji anta",
+                  "meaning": "not let it wash over you",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "들린 부분을 붙잡다",
+                  "romanji": "deullin bubuneul butjapda",
+                  "meaning": "hold onto what you heard",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "모호해도 대화를 이어 가다",
+                  "romanji": "mohohaedo daehwareul ieo gada",
+                  "meaning": "continue even if it is fuzzy",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "확인하면서 진행하다",
+                  "romanji": "hwaginhamyeonseo jinhaenghada",
+                  "meaning": "move forward while checking",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u6",
+          "title": "Archivist VI: Practical Autonomy",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s6-u6-sess1",
+              "title": "Archivist VI: Practical Autonomy",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "스스로 버텨 보기",
+                  "romanji": "seuseuro beotyeo bogi",
+                  "meaning": "try getting through it yourself",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "도움 요청 타이밍",
+                  "romanji": "doum yocheong taiming",
+                  "meaning": "timing for asking for help",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "설명을 끝까지 해내다",
+                  "romanji": "seolmyeongeul kkeutkkaji haenaeda",
+                  "meaning": "see an explanation through to the end",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "말 막힘을 줄이다",
+                  "romanji": "mal makhimeul julida",
+                  "meaning": "reduce verbal blocks",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u7",
+          "title": "Checkpoint: Archivist Mid",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s6-u7-check",
+              "title": "Checkpoint Challenge",
+              "type": "checkpoint",
+              "description": "Archivist mid-stage assessment."
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u8",
+          "title": "Archivist VIII: Self-Repair",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s6-u8-sess1",
+              "title": "Archivist VIII: Self-Repair",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "다시 말해 볼게요",
+                  "romanji": "dasi malhae bolgeyo",
+                  "meaning": "let me say that again",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "방금 건 조금 달랐어요",
+                  "romanji": "banggeum geon jogeum dallasseoyo",
+                  "meaning": "that was a little off just now",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "더 자연스러운 표현",
+                  "romanji": "deo jayeonseureoun pyohyeon",
+                  "meaning": "a more natural expression",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "뜻은 통하지만 어색해요",
+                  "romanji": "tteuseun tonghajiman eosaekhaeyo",
+                  "meaning": "the meaning gets across, but it is awkward",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u9",
+          "title": "Archivist IX: Resource Use",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s6-u9-sess1",
+              "title": "Archivist IX: Resource Use",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "교재를 나눠 쓰다",
+                  "romanji": "gyojaereul nawwo sseuda",
+                  "meaning": "use different materials for different jobs",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "사전에만 의존하지 않다",
+                  "romanji": "sajeon-eman uijonhaji anta",
+                  "meaning": "do not rely only on dictionaries",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "영상과 오디오로 보강하다",
+                  "romanji": "yeongsang-gwa odio-ro boganghada",
+                  "meaning": "reinforce with video and audio",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "손으로 써 보며 외우다",
+                  "romanji": "son-euro sseo bomyeo oeuda",
+                  "meaning": "learn by writing it out by hand",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u10",
+          "title": "Archivist X: Time & Maintenance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s6-u10-sess1",
+              "title": "Archivist X: Time & Maintenance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "주간 유지",
+                  "romanji": "jugan yuji",
+                  "meaning": "weekly maintenance",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "망각을 막다",
+                  "romanji": "manggageul makda",
+                  "meaning": "prevent forgetting",
+                  "audio": true,
+                  "register": "formal"
+                },
+                {
+                  "target": "학습 습관을 지키다",
+                  "romanji": "hakseup seupgwaneul jikida",
+                  "meaning": "protect the study habit",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "짧아도 이어 가다",
+                  "romanji": "jjalbado ieo gada",
+                  "meaning": "keep going even if it is short",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u11",
+          "title": "Archivist XI: Emotional Endurance",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s6-u11-sess1",
+              "title": "Archivist XI: Emotional Endurance",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "완벽주의를 내려놓다",
+                  "romanji": "wanbyeokjuuireul naeryeonota",
+                  "meaning": "let go of perfectionism",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "정체기",
+                  "romanji": "jeongchegi",
+                  "meaning": "plateau",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "통한 경험을 쌓다",
+                  "romanji": "tonghan gyeongheomeul ssahda",
+                  "meaning": "build experiences of being understood",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "다시 배우는 걸 두려워하지 않다",
+                  "romanji": "dasi baeuneun geol duryeowohaji anta",
+                  "meaning": "not fear relearning",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u12",
+          "title": "Archivist XII: Work/Study Continuity",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s6-u12-sess1",
+              "title": "Archivist XII: Work/Study Continuity",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "실무에서 쓰다",
+                  "romanji": "silmu-eseo sseuda",
+                  "meaning": "use it in real work",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "학술보다 실용",
+                  "romanji": "haksulboda silyong",
+                  "meaning": "practical rather than academic",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "현장 감각",
+                  "romanji": "hyeonjang gamgak",
+                  "meaning": "on-the-ground feel",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "계속 다듬다",
+                  "romanji": "gyesok dadeumda",
+                  "meaning": "keep refining",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u13",
+          "title": "Archivist XIII: Culture & Human Detail",
+          "isCheckpoint": false,
+          "sessions": [
+            {
+              "id": "ko-s6-u13-sess1",
+              "title": "Archivist XIII: Culture & Human Detail",
+              "type": "vocabulary",
+              "items": [
+                {
+                  "target": "말의 온도",
+                  "romanji": "marui ondo",
+                  "meaning": "the emotional temperature of words",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "말투 하나로 바뀌다",
+                  "romanji": "maltu hanaro bakkwida",
+                  "meaning": "change through a single tone choice",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "문화에 맞게 고르다",
+                  "romanji": "munhwae matge goreuda",
+                  "meaning": "choose in line with the culture",
+                  "audio": true,
+                  "register": "natural"
+                },
+                {
+                  "target": "상대에 맞춰 바꿔 말하다",
+                  "romanji": "sangdae-e matchwo bakkwo malhada",
+                  "meaning": "rephrase according to the listener",
+                  "audio": true,
+                  "register": "natural"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ko-s6-u14",
+          "title": "Gateway: Archivist Final",
+          "isCheckpoint": true,
+          "sessions": [
+            {
+              "id": "ko-s6-u14-check",
+              "title": "Gateway Challenge",
+              "type": "checkpoint",
+              "description": "Archivist gateway assessment."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "ko-scene-cafe",
+      "title": "Cafe Order",
+      "titleNative": "카페",
+      "context": "#Food #Natural",
+      "minStage": 1,
+      "exchanges": [
+        {
+          "role": "staff",
+          "text": "주문 도와드릴까요?",
+          "translation": "Can I help you with your order?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Order an iced Americano and ask for it to go.",
+          "acceptedAnswers": [
+            "아이스 아메리카노",
+            "포장"
+          ],
+          "modelAnswer": "아이스 아메리카노 하나 주세요. 포장해 주세요.",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "ko-scene-subway",
+      "title": "Subway Station",
+      "titleNative": "지하철역",
+      "context": "#Travel #Formal",
+      "minStage": 1,
+      "exchanges": [
+        {
+          "role": "staff",
+          "text": "어디까지 가세요?",
+          "translation": "How far are you going?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say you are going to Hongdae and ask if you need to transfer.",
+          "acceptedAnswers": [
+            "홍대",
+            "환승"
+          ],
+          "modelAnswer": "홍대까지 가요. 환승해야 해요?",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "ko-scene-office",
+      "title": "Office Small Talk",
+      "titleNative": "회사",
+      "context": "#Work #Natural",
+      "minStage": 3,
+      "exchanges": [
+        {
+          "role": "coworker",
+          "text": "어제 회의 어땠어요?",
+          "translation": "How was yesterday’s meeting?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say it was helpful but a little long.",
+          "acceptedAnswers": [
+            "도움이 됐어요",
+            "길었어요"
+          ],
+          "modelAnswer": "도움이 됐지만 조금 길었어요.",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "ko-scene-clinic",
+      "title": "Clinic Visit",
+      "titleNative": "병원",
+      "context": "#Health #Formal",
+      "minStage": 2,
+      "exchanges": [
+        {
+          "role": "staff",
+          "text": "어디가 불편하세요?",
+          "translation": "What is bothering you?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say your throat has hurt since yesterday.",
+          "acceptedAnswers": [
+            "목",
+            "어제부터"
+          ],
+          "modelAnswer": "어제부터 목이 아파요.",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "ko-scene-friends",
+      "title": "Casual Meet-Up",
+      "titleNative": "친구",
+      "context": "#Casual #Natural",
+      "minStage": 2,
+      "exchanges": [
+        {
+          "role": "friend",
+          "text": "오늘 뭐 할까?",
+          "translation": "What should we do today?",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Suggest getting coffee first and then going to the bookstore.",
+          "acceptedAnswers": [
+            "커피",
+            "서점"
+          ],
+          "modelAnswer": "먼저 커피 마시고 그다음에 서점에 가자.",
+          "audio": true
+        }
+      ]
+    },
+    {
+      "id": "ko-scene-vault",
+      "title": "Archivist Vault Bridge",
+      "titleNative": "자료실",
+      "context": "#Archivist #Vault",
+      "minStage": 6,
+      "exchanges": [
+        {
+          "role": "guide",
+          "text": "이제부터는 스스로 깊이를 선택하는 단계예요.",
+          "translation": "From now on, you choose your own depth.",
+          "audio": true
+        },
+        {
+          "role": "learner",
+          "prompt": "Say you want to strengthen listening and practical conversation first.",
+          "acceptedAnswers": [
+            "듣기",
+            "실전 회화"
+          ],
+          "modelAnswer": "먼저 듣기와 실전 회화를 더 강화하고 싶어요.",
+          "audio": true
+        }
+      ]
+    }
+  ],
+  "phraseLibrary": [
+    {
+      "id": "ko-ph-001",
+      "phrase": "화장실이 어디예요?",
+      "romanji": "hwajangsiri eodiyeyo",
+      "translation": "Where is the bathroom?",
+      "contextTags": [
+        "#Travel",
+        "#Polite"
+      ],
+      "grammarNote": "[noun]이/가 어디예요? asks where something is.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "ko-ph-002",
+      "phrase": "모르겠어요",
+      "romanji": "moreugesseoyo",
+      "translation": "I do not know / I am not sure",
+      "contextTags": [
+        "#Everyday",
+        "#Polite"
+      ],
+      "grammarNote": "Softened way to say you are not sure.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "ko-ph-003",
+      "phrase": "다시 한 번 말씀해 주세요",
+      "romanji": "dasi han beon malsseumhae juseyo",
+      "translation": "Please say that one more time",
+      "contextTags": [
+        "#Study",
+        "#Polite"
+      ],
+      "grammarNote": "Useful for listening recovery without sounding rude.",
+      "register": "formal",
+      "audio": true
+    },
+    {
+      "id": "ko-ph-004",
+      "phrase": "지금은 조금 바빠요",
+      "romanji": "jigeumeun jogeum bappayo",
+      "translation": "I am a little busy right now",
+      "contextTags": [
+        "#Work",
+        "#Natural"
+      ],
+      "grammarNote": "Natural, soft way to say you are busy.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "ko-ph-005",
+      "phrase": "그거 진짜 좋네요",
+      "romanji": "geugeo jinjja johneyo",
+      "translation": "That is really nice",
+      "contextTags": [
+        "#Social",
+        "#Natural"
+      ],
+      "grammarNote": "Natural everyday praise.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "ko-ph-006",
+      "phrase": "실례지만 성함을 다시 여쭤봐도 될까요?",
+      "romanji": "sillyejiman seonghameul dasi yeojjwobwado doelkkayo",
+      "translation": "Excuse me, may I ask your name again?",
+      "contextTags": [
+        "#Formal",
+        "#Polite"
+      ],
+      "grammarNote": "Formal recovery line.",
+      "register": "formal",
+      "audio": true
+    },
+    {
+      "id": "ko-ph-007",
+      "phrase": "이 표현이 자연스러워요?",
+      "romanji": "i pyohyeoni jayeonseureowoyo?",
+      "translation": "Is this expression natural?",
+      "contextTags": [
+        "#Study",
+        "#Archivist"
+      ],
+      "grammarNote": "Perfect sandbox correction phrase.",
+      "register": "natural",
+      "audio": true
+    },
+    {
+      "id": "ko-ph-008",
+      "phrase": "솔직히 조금 불안해요",
+      "romanji": "soljikhi jogeum buranhaeyo",
+      "translation": "Honestly, I am a little anxious",
+      "contextTags": [
+        "#Emotion",
+        "#Natural"
+      ],
+      "grammarNote": "Models natural emotional openness.",
+      "register": "natural",
+      "audio": true
+    }
+  ]
+}
