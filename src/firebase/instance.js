@@ -1,5 +1,5 @@
 /**
- * Vaultria — Firebase Instance Manager
+ * Vaultia — Firebase Instance Manager
  * Holds live references to fbApp, fbAuth, db, fbStorage
  */
 
@@ -12,6 +12,16 @@ export let db        = null;
 export let fbStorage = null;
 export let rtdb      = null; // Firebase Realtime Database for presence
 export let isFirebaseReady = false;
+
+// RTDB presence is optional. On some deployments (GitHub Pages, locked RTDB rules, etc.)
+// initializing RTDB spams console warnings. Enable explicitly via localStorage.
+function _enableRtdbPresence() {
+  try {
+    return localStorage.getItem("vaultia_rtdb_presence") === "1";
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Attempts to initialize Firebase.
@@ -29,16 +39,20 @@ export async function initFirebase() {
     fbAuth    = window.firebase.auth();
     db        = window.firebase.firestore();
     fbStorage = window.firebase.storage();
-    rtdb      = window.firebase.database(); // Realtime Database for presence
+    rtdb      = null;
+    if (_enableRtdbPresence() && FIREBASE_CONFIG?.databaseURL) {
+      // Realtime Database for presence (optional).
+      rtdb = window.firebase.database();
+    }
 
     await fbAuth.setPersistence(window.firebase.auth.Auth.Persistence.LOCAL);
 
     isFirebaseReady = true;
-    console.log("[Vaultria] Firebase connected ✓");
+    console.log("[Vaultia] Firebase connected ✓");
     return true;
 
   } catch (err) {
-    console.warn("[Vaultria] Firebase unavailable — running in local mode:", err.message);
+    console.warn("[Vaultia] Firebase unavailable — running in local mode:", err.message);
     isFirebaseReady = false;
     return false;
   }

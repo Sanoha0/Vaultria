@@ -38,7 +38,7 @@ import {
   getFriendStatus, searchUsers, subscribePlaza, subscribeFriendRequests,
   subscribeOnlineFriends, subscribeLeaderboard, subscribeReplies,
   deletePlazaPost, deletePlazaReply, subscribeGlobalActivity,
-  updateProfile, setTyping, subscribeTyping, loadMyArenaMatches,
+  updateProfile as updateSocialProfile, setTyping, subscribeTyping, loadMyArenaMatches,
 } from "./services/socialService.js";
 
 
@@ -2470,7 +2470,7 @@ class VaultiaApp {
       if (!name) { showToast("Enter a display name", "error"); return; }
       const btn = canvas.querySelector("#save-profile-btn");
       btn.disabled = true; btn.textContent = "Saving…";
-      const res = await updateProfile({ displayName: name });
+      const res = await updateSocialProfile({ displayName: name });
       const db = getDb(); const me = getUser();
       if (db && me) await db.collection("users").doc(me.uid).update({ bio }).catch(() => {});
       btn.disabled = false; btn.textContent = "Save Changes";
