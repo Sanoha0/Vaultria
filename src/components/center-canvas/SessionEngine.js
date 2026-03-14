@@ -215,7 +215,8 @@ export class SessionEngine {
     if (!card) return;
     card.className = "exercise-card";
 
-    const hasAudio    = item.audio !== false;
+    const hasAudio     = item.audio !== false;
+    const isCheckpoint = this.session.type === "checkpoint";
     // displayText: what is shown on the card (kanji, word, phrase as written)
     // ttsText: the spoken form — use item.audioText when display text differs (e.g. kanji reading)
     const displayText  = item.target || item.phrase || item.prompt || "";
@@ -233,11 +234,11 @@ export class SessionEngine {
       </div>
 
       ${item.romanji
-        ? `<div class="exercise-romanji sess-hint-hidden" id="sess-romanji">${item.romanji}</div>`
+        ? `<div class="exercise-romanji${isCheckpoint ? " sess-hint-hidden" : ""}" id="sess-romanji">${item.romanji}</div>`
         : ""}
 
       ${item.meaning
-        ? `<div class="exercise-meaning sess-hint-hidden" id="sess-meaning">${item.meaning}</div>`
+        ? `<div class="exercise-meaning${isCheckpoint ? " sess-hint-hidden" : ""}" id="sess-meaning">${item.meaning}</div>`
         : ""}
 
       ${item.context ? `
@@ -465,24 +466,12 @@ export class SessionEngine {
     const hintEl = this.container.querySelector("#hint-text");
     const isTypingDrill = !!(this.container.querySelector("#sess-input"));
 
-    // Level 0 → reveal romanji on the exercise card
-    if (this.hintLevel === 0 && (item.romanji || item.reading)) {
-      const romEl = this.container.querySelector("#sess-romanji");
-      if (romEl) {
-        romEl.classList.remove("sess-hint-hidden");
-        romEl.classList.add("sess-hint-reveal");
-      }
-      this.hintLevel = 1;
-      return;
-    }
-
-    // Level 1 → reveal meaning on the exercise card
-    if (this.hintLevel <= 1 && item.meaning) {
+    // Level 0 → reveal romanji + meaning together in one press
+    if (this.hintLevel === 0) {
+      const romEl  = this.container.querySelector("#sess-romanji");
       const meanEl = this.container.querySelector("#sess-meaning");
-      if (meanEl) {
-        meanEl.classList.remove("sess-hint-hidden");
-        meanEl.classList.add("sess-hint-reveal");
-      }
+      if (romEl)  { romEl.classList.remove("sess-hint-hidden");  romEl.classList.add("sess-hint-reveal"); }
+      if (meanEl) { meanEl.classList.remove("sess-hint-hidden"); meanEl.classList.add("sess-hint-reveal"); }
       this.hintLevel = 2;
       return;
     }
