@@ -23,7 +23,7 @@ import { SealSystem }     from "./systems/seals/SealSystem.js";
 import { PrestigeSystem } from "./systems/prestige/PrestigeSystem.js";
 import { ChronicleSystem } from "./systems/chronicle/ChronicleSystem.js";
 import { RewardSelector }  from "./systems/chronicle/RewardSelector.js";
-import { ProfileDesk }    from "./systems/desk/ProfileDesk.js";
+import { TrophyBoard }   from "./systems/trophies/TrophyBoard.js";
 import { Familiar }       from "./systems/familiar/Familiar.js";
 import { MomentumRing }   from "./systems/momentum/MomentumRing.js";
 import { FrameRenderer }  from "./systems/identity/FrameRenderer.js";
@@ -338,11 +338,21 @@ class VaultiaApp {
     const app = document.getElementById("app");
     if (!app) return;
     app.innerHTML = "";
-    app.style.background = "#080408";
+    app.style.background = "";
+
+    // ── Background: dark void with film grain + reactive tint layer ──
+    const bg = document.createElement("div");
+    bg.id = "auth-bg";
+    bg.innerHTML = `
+      <div class="auth-tint-layer"></div>
+      <div class="auth-vignette"></div>
+    `;
+    app.appendChild(bg);
+
     const wrap = document.createElement("div");
     wrap.style.cssText = "position:fixed;inset:0;z-index:200;";
     app.appendChild(wrap);
-    new AuthModal({ container: wrap, onAuthSuccess: (user) => { wrap.remove(); this._onAuthenticated(user); } });
+    new AuthModal({ container: wrap, onAuthSuccess: (user) => { wrap.remove(); bg.remove(); this._onAuthenticated(user); } });
   }
 
   async _onAuthenticated(user) {

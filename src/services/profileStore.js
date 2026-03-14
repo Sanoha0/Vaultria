@@ -25,6 +25,7 @@ const DEFAULT_PROFILE = {
   familiar: { enabled: true, species: "fox", materialTier: 0 },
   identity: { frameId: "default", titlePrefix: "" },
   rewards: {},
+  trophies: { pinned: [], earned: [] },
   claimedMilestones: [],
   pendingMilestone: null,
   uiTheme: "default",
@@ -66,7 +67,11 @@ function _merge(base, extra) {
   out.desk = { ...base.desk, ...(extra.desk || {}) };
   out.familiar = { ...base.familiar, ...(extra.familiar || {}) };
   out.identity = { ...base.identity, ...(extra.identity || {}) };
-  out.rewards = { ...base.rewards, ...(extra.rewards || {}) };
+  out.rewards  = { ...base.rewards,  ...(extra.rewards  || {}) };
+  out.trophies = {
+    pinned: extra?.trophies?.pinned ?? base.trophies?.pinned ?? [],
+    earned: extra?.trophies?.earned ?? base.trophies?.earned ?? [],
+  };
   // Guard scalar/array fields — remote undefined must not overwrite local defaults
   out.claimedMilestones = extra?.claimedMilestones ?? base.claimedMilestones ?? [];
   out.pendingMilestone  = (extra != null && 'pendingMilestone' in extra)
@@ -155,6 +160,7 @@ export async function updateProfile(mutator) {
       familiar: next.familiar ?? {},
       identity: next.identity ?? {},
       rewards: next.rewards ?? {},
+      trophies: { pinned: next.trophies?.pinned ?? [], earned: next.trophies?.earned ?? [] },
       claimedMilestones: next.claimedMilestones ?? [],
       pendingMilestone: next.pendingMilestone ?? null,
       uiTheme: next.uiTheme ?? "default",

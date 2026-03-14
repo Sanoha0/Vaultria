@@ -165,17 +165,18 @@ export class SessionEngine {
     this._itemTimer = startItemTimer(item, this.langKey);
 
     // ── Autoplay — fires ONCE per item ──
-    const audioText   = item.target || item.phrase || item.prompt || "";
-    const autoplayKey = `${this.currentIdx}::${audioText}`;
+    // ttsText: the spoken form (item.audioText when display text differs from audio, e.g. kanji → reading)
+    const ttsText     = item.audioText || item.target || item.phrase || item.prompt || "";
+    const autoplayKey = `${this.currentIdx}::${ttsText}`;
 
-    if (item.audio !== false && audioText && this._lastAutoplayKey !== autoplayKey) {
+    if (item.audio !== false && ttsText && this._lastAutoplayKey !== autoplayKey) {
       this._lastAutoplayKey = autoplayKey;
       // Static files are already buffered by preload — no perceptible delay.
       // The 60 ms pause lets the card paint before audio fires, which avoids
       // Chrome's autoplay policy edge cases on first interaction.
       setTimeout(() => {
         if (this._lastAutoplayKey === autoplayKey) {
-          this._speakWithGuard(audioText, this.langKey);
+          this._speakWithGuard(ttsText, this.langKey);
         }
       }, 60);
     }
@@ -214,16 +215,19 @@ export class SessionEngine {
     if (!card) return;
     card.className = "exercise-card";
 
-    const hasAudio  = item.audio !== false;
-    const audioText = item.target || item.phrase || item.prompt || "";
-    const isCJK     = this.langKey === "japanese" || this.langKey === "korean";
-    const targetDisplay = audioText ? this._wrapTappable(audioText, isCJK) : "";
+    const hasAudio    = item.audio !== false;
+    // displayText: what is shown on the card (kanji, word, phrase as written)
+    // ttsText: the spoken form — use item.audioText when display text differs (e.g. kanji reading)
+    const displayText  = item.target || item.phrase || item.prompt || "";
+    const ttsText      = item.audioText || displayText;
+    const isCJK        = this.langKey === "japanese" || this.langKey === "korean";
+    const targetDisplay = displayText ? this._wrapTappable(displayText, isCJK) : "";
 
     card.innerHTML = `
       <div class="exercise-target"
            style="cursor:${hasAudio ? "pointer" : "default"};"
            ${hasAudio
-             ? `data-tts="${_esc(audioText)}" data-lang="${this.langKey}" title="Tap to hear"`
+             ? `data-tts="${_esc(ttsText)}" data-lang="${this.langKey}" title="Tap to hear"`
              : ""}>
         ${targetDisplay}
       </div>
@@ -275,23 +279,23 @@ export class SessionEngine {
         </div>` : ""}
     `;
 
-    if (hasAudio && audioText) {
+    if (hasAudio && ttsText) {
       card.querySelector(".exercise-target")?.addEventListener("click", () => {
-        this._speakWithGuard(audioText, this.langKey, { shadowing: this._shadowMode });
+        this._speakWithGuard(ttsText, this.langKey, { shadowing: this._shadowMode });
       });
       card.querySelector(".sess-tts-play")?.addEventListener("click", e => {
         e.stopPropagation();
-        this._speakWithGuard(audioText, this.langKey, { interrupt: true });
+        this._speakWithGuard(ttsText, this.langKey, { interrupt: true });
       });
       card.querySelector(".sess-tts-slow")?.addEventListener("click", e => {
         e.stopPropagation();
-        this._speakWithGuard(audioText, this.langKey, { slow: true, interrupt: true });
+        this._speakWithGuard(ttsText, this.langKey, { slow: true, interrupt: true });
       });
       card.querySelector(".sess-tts-shadow")?.addEventListener("click", e => {
         e.stopPropagation();
         this._shadowMode = !this._shadowMode;
         e.currentTarget.classList.toggle("active", this._shadowMode);
-        if (this._shadowMode) this._speakWithGuard(audioText, this.langKey, { shadowing: true, interrupt: true });
+        if (this._shadowMode) this._speakWithGuard(ttsText, this.langKey, { shadowing: true, interrupt: true });
       });
     }
   }

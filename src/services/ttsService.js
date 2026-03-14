@@ -26,22 +26,14 @@ const JA_KONNICHIWA_ALT = "\u3053\u3093\u306b\u3061\u308f"; // こんにちわ
 const JA_KATA_KONNICHIWA = "\u30b3\u30f3\u30cb\u30c1\u30ef"; // コンニチワ
 
 const PRONUNCIATION_OVERRIDES = {
-  japanese: {
-    // Avoid TTS normalization that reads こんにちは as 今日は ("kyou wa").
-    // We keep the manifest key as こんにちは but resolve audio using this override.
-    "こんにちは": "コンニチワ",
-  },
+  japanese: {},
   korean: {},
   spanish: {},
 };
 
 // Static file overrides for known-problem phrases (local wavs shipped with the app).
 // These override the manifest mapping when present.
-const STATIC_PATH_OVERRIDES = {
-  // Use a dedicated file for "konnichiwa" to avoid misread audio packs.
-  "ja::こんにちは": "audio/ja/konnichiwa.wav",
-  "ja::コンニチワ": "audio/ja/konnichiwa.wav",
-};
+const STATIC_PATH_OVERRIDES = {};
 
 // Bump this if browsers cache old .wav files after you replace them on disk.
 const AUDIO_CACHE_BUST = "2026-03-13-2";
@@ -123,10 +115,10 @@ export async function speak(text, langKey, opts = {}) {
     `[TTS] speak() → "${text}" lang=${langKey} slow=${!!opts.slow} shadow=${!!opts.shadowing}`
   );
 
-  const resolved = await _resolveStaticAudio(ttsText, langCode);
+  const resolved = await _resolveStaticAudio(ttsText, langCode, !!opts.slow);
   if (!resolved || _isStalePlayback(playEpoch)) return null;
 
-  const { key, url, relativePath } = resolved;
+  const { key, url, relativePath, isSlowFile } = resolved;
 
   if (_currentAudio && _currentKey === key && !_currentAudio.paused) {
     console.log(`[TTS] already playing → "${text}"`);
@@ -137,7 +129,9 @@ export async function speak(text, langKey, opts = {}) {
 
   const audio = new Audio(url);
   audio.preload = "auto";
-  audio.playbackRate = opts.slow ? 0.82 : 1.0;
+  // isSlowFile: actual slow WAV already recorded at slow speed — play at 1.0.
+  // Non-Japanese slow (or missing slow file): software-rate fallback at 0.82.
+  audio.playbackRate = isSlowFile ? 1.0 : (opts.slow ? 0.82 : 1.0);
 
   const ready = await _readyAudio(audio, relativePath, key);
   if (!ready || _isStalePlayback(playEpoch)) {
@@ -217,7 +211,7 @@ export async function preload(items, langKey) {
 
   const texts = items
     .filter((it) => it.audio !== false)
-    .map((it) => (it.target || it.phrase || it.prompt || "").trim())
+    .map((it) => (it.audioText || it.target || it.phrase || it.prompt || "").trim())
     .filter(Boolean)
     .filter((t, i, arr) => arr.indexOf(t) === i);
 
@@ -266,31 +260,32 @@ export function startItemTimer(item, langKey) {
   };
 }
 
-async function _resolveStaticAudio(ttsText, langCode) {
+async function _resolveStaticAudio(ttsText, langCode, slow = false) {
   const manifest = await _getManifest();
   const key = `${langCode}::${ttsText}`;
 
   const overridden = STATIC_PATH_OVERRIDES[key];
   if (overridden) {
     console.log(`[TTS] static override → key="${key}" file="${overridden}"`);
-    return { key, relativePath: overridden, url: _toAbsoluteAssetUrl(overridden) };
+    return { key, relativePath: overridden, url: _toAbsoluteAssetUrl(overridden), isSlowFile: false };
+  }
+
+  // For Japanese, try the dedicated slow manifest key first when slow=true.
+  // Falls back gracefully to the normal file if no slow entry exists.
+  if (slow && langCode === "ja") {
+    const slowKey = `ja_slow::${ttsText}`;
+    const slowPath = manifest[slowKey];
+    if (slowPath) {
+      console.log(`[TTS] slow path chosen → key="${slowKey}" file="${slowPath}"`);
+      return { key: slowKey, relativePath: slowPath, url: _toAbsoluteAssetUrl(slowPath), isSlowFile: true };
+    }
+    console.log(`[TTS] slow miss for "${ttsText}", falling back to normal`);
   }
 
   const relativePath = manifest[key];
 
   if (!relativePath) {
     console.warn(`[TTS] static miss → key="${key}"`);
-    if (langCode === "ja" && ttsText === "コンニチワ") {
-      const fallbackKey = `${langCode}::こんにちは`;
-      const fallbackPath = manifest[fallbackKey];
-      if (fallbackPath) {
-        return {
-          key: fallbackKey,
-          relativePath: fallbackPath,
-          url: _toAbsoluteAssetUrl(fallbackPath),
-        };
-      }
-    }
     eventBus.emit("tts:missing-audio", {
       text: ttsText,
       langCode,
@@ -306,6 +301,7 @@ async function _resolveStaticAudio(ttsText, langCode) {
     key,
     relativePath,
     url: _toAbsoluteAssetUrl(relativePath),
+    isSlowFile: false,
   };
 }
 

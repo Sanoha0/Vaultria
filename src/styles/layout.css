@@ -307,6 +307,368 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ════════════════════════════════════════════════════════════════════
+   Auth: "Floating Terminal" layout
+   Shards fill the whole void; panel is an absolute floating slab
+   centered at ~70% of screen width — not edge-anchored.
+   ════════════════════════════════════════════════════════════════════ */
+
+.auth-screen {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  animation: fadeIn 0.55s ease;
+}
+
+/* Showcase is the full-screen void shards float in */
+.auth-showcase {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* ── Floating glassmorphic slab ─────────────────────────────────── */
+.auth-panel {
+  position: absolute;
+  right: 20%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 20;
+
+  background: rgba(7, 4, 14, 0.86);
+  backdrop-filter: blur(44px);
+  -webkit-backdrop-filter: blur(44px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+
+  padding: 2.8rem 2.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+
+  transition:
+    box-shadow 0.5s ease,
+    border-color 0.5s ease;
+
+  --auth-accent: #e8a0b8;
+}
+
+/* Rim light — left edge catches glow from the nearest shard */
+.auth-panel.rim-jp {
+  border-left-color: rgba(232, 160, 184, 0.45);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.65),
+    -22px 0 55px rgba(232, 160, 184, 0.14),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+.auth-panel.rim-kr {
+  border-left-color: rgba(77, 184, 255, 0.45);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.65),
+    -22px 0 55px rgba(77, 184, 255, 0.14),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+.auth-panel.rim-es {
+  border-left-color: rgba(232, 164, 74, 0.45);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.65),
+    -22px 0 55px rgba(232, 164, 74, 0.14),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+/* Panel header */
+.auth-panel-header { margin-bottom: 2rem; }
+
+.auth-panel-title {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 1.55rem;
+  font-weight: 300;
+  letter-spacing: 0.42em;
+  color: var(--text-primary);
+}
+
+.auth-panel-subtitle {
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.26);
+  margin-top: 7px;
+  text-transform: uppercase;
+}
+
+/* Mode tabs */
+.auth-tab {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.28);
+  font-size: 0.7rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 0 0 var(--sp-sm) 0;
+  cursor: pointer;
+  transition: color var(--t-fast);
+  position: relative;
+  font-family: inherit;
+}
+.auth-tab.active { color: var(--text-primary); }
+.auth-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px; left: 0; right: 0; height: 1px;
+  background: var(--auth-accent);
+  transition: background 0.4s ease;
+}
+
+/* Line inputs */
+.auth-field { margin-bottom: 1.5rem; }
+
+.auth-line-input {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 0;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  padding: 7px 0;
+  transition: border-color 0.35s ease;
+  outline: none;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.auth-line-input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+.auth-line-input:focus { border-bottom-color: var(--auth-accent); }
+
+/* ── Language shards ─────────────────────────────────────────────── */
+.auth-shard {
+  position: absolute;
+  width: 155px;
+  height: 225px;
+  border-radius: 14px 22px 12px 20px;
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.075) 0%,
+    rgba(255, 255, 255, 0.018) 55%,
+    rgba(255, 255, 255, 0.042) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top:  1px solid rgba(255, 255, 255, 0.15);
+  border-left: 1px solid rgba(255, 255, 255, 0.11);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  z-index: 5; /* above back-particles (2), below front-particles (8) */
+  transition: box-shadow 0.45s ease, background 0.45s ease;
+}
+
+.auth-shard-face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.auth-shard-glyph {
+  font-size: 4.2rem;
+  font-weight: 100;
+  line-height: 1;
+  font-family: Georgia, serif;
+}
+
+.auth-shard-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.32);
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+/* Japanese — upper left */
+.auth-shard--jp {
+  left: 8%; top: 8%;
+  box-shadow: 0 8px 32px rgba(0,0,0,.55), 0 0 60px rgba(232,160,184,.13), inset 0 1px 0 rgba(255,255,255,.08);
+  animation: shardFloat1 6.2s ease-in-out infinite;
+}
+.auth-shard--jp .auth-shard-glyph {
+  color: rgba(232,160,184,.92);
+  text-shadow: 0 0 18px rgba(232,160,184,.55), 0 0 55px rgba(232,160,184,.18);
+}
+.auth-shard--jp:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,.55), 0 0 95px rgba(232,160,184,.3), inset 0 1px 0 rgba(255,255,255,.1);
+  background: linear-gradient(140deg, rgba(232,160,184,.1) 0%, rgba(255,255,255,.018) 55%, rgba(232,160,184,.045) 100%);
+}
+
+/* Korean — center, closest to the panel (magnetic connection) */
+.auth-shard--kr {
+  left: 36%; top: 36%;
+  box-shadow: 0 8px 32px rgba(0,0,0,.55), 0 0 60px rgba(77,184,255,.13), inset 0 1px 0 rgba(255,255,255,.08);
+  animation: shardFloat2 7.4s ease-in-out 0.9s infinite;
+}
+.auth-shard--kr .auth-shard-glyph {
+  color: rgba(77,184,255,.92);
+  text-shadow: 0 0 18px rgba(77,184,255,.55), 0 0 55px rgba(77,184,255,.18);
+}
+.auth-shard--kr:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,.55), 0 0 95px rgba(77,184,255,.3), inset 0 1px 0 rgba(255,255,255,.1);
+  background: linear-gradient(140deg, rgba(77,184,255,.1) 0%, rgba(255,255,255,.018) 55%, rgba(77,184,255,.045) 100%);
+}
+
+/* Spanish — lower left */
+.auth-shard--es {
+  left: 18%; top: 63%;
+  box-shadow: 0 8px 32px rgba(0,0,0,.55), 0 0 60px rgba(232,164,74,.13), inset 0 1px 0 rgba(255,255,255,.08);
+  animation: shardFloat3 5.7s ease-in-out 1.8s infinite;
+}
+.auth-shard--es .auth-shard-glyph {
+  color: rgba(232,164,74,.92);
+  text-shadow: 0 0 18px rgba(232,164,74,.55), 0 0 55px rgba(232,164,74,.18);
+}
+.auth-shard--es:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,.55), 0 0 95px rgba(232,164,74,.3), inset 0 1px 0 rgba(255,255,255,.1);
+  background: linear-gradient(140deg, rgba(232,164,74,.1) 0%, rgba(255,255,255,.018) 55%, rgba(232,164,74,.045) 100%);
+}
+
+/* Shard floats */
+@keyframes shardFloat1 {
+  0%, 100% { transform: rotate(-10deg) translateY(0px);   }
+  50%       { transform: rotate(-10deg) translateY(-13px); }
+}
+@keyframes shardFloat2 {
+  0%, 100% { transform: rotate(7deg)  translateY(0px);   }
+  50%       { transform: rotate(7deg)  translateY(-11px); }
+}
+@keyframes shardFloat3 {
+  0%, 100% { transform: rotate(-4deg) translateY(0px);   }
+  50%       { transform: rotate(-4deg) translateY(-10px); }
+}
+
+/* ── Depth particles — two z-index layers create 3-D parallax ────── */
+.auth-particles { position: absolute; inset: 0; pointer-events: none; }
+
+.auth-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 1);
+  animation: particleDrift linear infinite;
+}
+.auth-particle--back  { z-index: 2; opacity: 0.25; } /* behind shards  */
+.auth-particle--front { z-index: 8; opacity: 0.45; } /* in front of shards, behind panel */
+
+@keyframes particleDrift {
+  0%   { transform: translateY(0px)    translateX(0px);  opacity: 0;    }
+  12%  { opacity: var(--po, 0.4); }
+  88%  { opacity: var(--po, 0.4); }
+  100% { transform: translateY(-110px) translateX(var(--px, 15px)); opacity: 0; }
+}
+
+/* ── Entry transition: "Enter Vault" dissolve ───────────────────── */
+.auth-panel--departing {
+  animation: panelDissolve 0.65s cubic-bezier(0.4, 0, 1, 1) forwards;
+  pointer-events: none;
+}
+@keyframes panelDissolve {
+  0%   { opacity: 1; transform: translateY(-50%) scale(1);    filter: blur(0px);  }
+  25%  { opacity: 1; transform: translateY(-50%) scale(1.01); filter: blur(0px);  }
+  100% { opacity: 0; transform: translateY(-50%) scale(0.96); filter: blur(12px); }
+}
+
+.auth-shard--jp.auth-shard--departing {
+  animation: shardDepartJP 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+}
+.auth-shard--kr.auth-shard--departing {
+  animation: shardDepartKR 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards !important;
+}
+.auth-shard--es.auth-shard--departing {
+  animation: shardDepartES 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.16s forwards !important;
+}
+
+@keyframes shardDepartJP {
+  0%   { transform: rotate(-10deg) translateY(0px)   scale(1);    opacity: 1; }
+  100% { transform: rotate(-10deg) translateY(-70px) scale(1.2);  opacity: 0; }
+}
+@keyframes shardDepartKR {
+  0%   { transform: rotate(7deg)  translateY(0px)   scale(1);    opacity: 1; }
+  100% { transform: rotate(7deg)  translateY(-70px) scale(1.2);  opacity: 0; }
+}
+@keyframes shardDepartES {
+  0%   { transform: rotate(-4deg) translateY(0px)   scale(1);    opacity: 1; }
+  100% { transform: rotate(-4deg) translateY(-70px) scale(1.2);  opacity: 0; }
+}
+
+/* ── Background: dark void + film grain + reactive tint ─────────── */
+#auth-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: #05030c;
+  overflow: hidden;
+}
+
+#auth-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.042;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 250px 250px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.auth-tint-layer {
+  position: absolute; inset: 0;
+  background: transparent;
+  transition: background 0.9s ease;
+  pointer-events: none; z-index: 2;
+}
+
+.auth-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 85% 80% at 35% 50%, transparent 15%, rgba(3, 2, 8, 0.72) 100%);
+  pointer-events: none; z-index: 3;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .auth-showcase { display: none; }
+  .auth-panel {
+    position: fixed;
+    inset: 0; right: 0;
+    transform: none;
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    padding: var(--sp-xl) var(--sp-lg);
+    justify-content: center;
+  }
+  .auth-panel--departing {
+    animation: panelDissolveMobile 0.65s cubic-bezier(0.4,0,1,1) forwards;
+  }
+  @keyframes panelDissolveMobile {
+    0%   { opacity: 1; transform: scale(1);    filter: blur(0px);  }
+    100% { opacity: 0; transform: scale(0.96); filter: blur(12px); }
+  }
+}
+
 /* ── Mobile: hide panels, show canvas only ───────────────────────── */
 @media (max-width: 768px) {
   .left-panel, .right-panel {
