@@ -9,7 +9,8 @@
       "Bash(where http-server)",
       "Bash(taskkill //F //IM \"node.exe\")",
       "Bash(py --version)",
-      "Bash(npm install http-server --save-dev)"
+      "Bash(npm install http-server --save-dev)",
+      "Bash(dir \"C:\\\\Users\\\\Sanoha.I-Needa-Dookie\\\\OneDrive\\\\Desktop\\\\Vaultria 2\\\\Fixed\\\\audio\\\\ja\\\\slow\")"
     ]
   }
 }
