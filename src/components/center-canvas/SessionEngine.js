@@ -223,6 +223,8 @@ export class SessionEngine {
     const ttsText      = item.audioText || displayText;
     const isCJK        = this.langKey === "japanese" || this.langKey === "korean";
     const targetDisplay = displayText ? this._wrapTappable(displayText, isCJK) : "";
+    // Pre-compute class strings to avoid triple-nested template literals
+    const hintHide     = isCheckpoint ? " sess-hint-hidden" : "";
 
     card.innerHTML = `
       <div class="exercise-target"
@@ -234,11 +236,11 @@ export class SessionEngine {
       </div>
 
       ${item.romanji
-        ? `<div class="exercise-romanji${isCheckpoint ? " sess-hint-hidden" : ""}" id="sess-romanji">${item.romanji}</div>`
+        ? `<div class="exercise-romanji${hintHide}" id="sess-romanji">${item.romanji}</div>`
         : ""}
 
       ${item.meaning
-        ? `<div class="exercise-meaning${isCheckpoint ? " sess-hint-hidden" : ""}" id="sess-meaning">${item.meaning}</div>`
+        ? `<div class="exercise-meaning${hintHide}" id="sess-meaning">${item.meaning}</div>`
         : ""}
 
       ${item.context ? `
