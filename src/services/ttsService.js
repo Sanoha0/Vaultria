@@ -129,9 +129,11 @@ export async function speak(text, langKey, opts = {}) {
 
   const audio = new Audio(url);
   audio.preload = "auto";
-  // isSlowFile: actual slow WAV already recorded at slow speed — play at 1.0.
-  // Non-Japanese slow (or missing slow file): software-rate fallback at 0.82.
-  audio.playbackRate = isSlowFile ? 1.0 : (opts.slow ? 0.82 : 1.0);
+  // isSlowFile: dedicated slow WAV (recorded ~20-25% slower by VOICEVOX).
+  // Layer a 0.85 software rate on top so the combined slowdown is clearly audible.
+  // Non-Japanese slow (or missing slow file): software-rate only at 0.78.
+  // Normal playback: 1.0.
+  audio.playbackRate = isSlowFile ? 0.85 : (opts.slow ? 0.78 : 1.0);
 
   const ready = await _readyAudio(audio, relativePath, key);
   if (!ready || _isStalePlayback(playEpoch)) {
