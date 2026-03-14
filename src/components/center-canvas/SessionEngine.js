@@ -351,12 +351,15 @@ export class SessionEngine {
     if (!area) return;
 
     if (!isAnswered) {
-      const hasInput = !!(this.container.querySelector("#sess-input"));
+      const hasInput     = !!(this.container.querySelector("#sess-input"));
+      const isCheckpoint = this.session.type === "checkpoint";
       area.innerHTML = `
         ${hasInput
           ? `<button class="btn btn-primary" id="btn-check">Check</button>`
           : `<button class="btn btn-primary" id="btn-got">Got It</button>`}
-        <button class="btn btn-ghost btn-sm" id="btn-hint">Hint</button>
+        ${isCheckpoint
+          ? `<button class="btn btn-ghost btn-sm" id="btn-hint">Hint</button>`
+          : ""}
       `;
       area.querySelector("#btn-check")?.addEventListener("click", () => this._checkAnswer());
       area.querySelector("#btn-got")?.addEventListener("click",   () => this._markCorrect());
