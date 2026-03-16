@@ -23,11 +23,15 @@ export function defaultProgress(langKey) {
     unitStars:       {},    // { `${stageId}_${unitIndex}`: 1-5 }
     weakWords:       [],    // WeakWordDB entries
     reviewQueue:     [],    // items due for review
-    placement:       null,  // placement test result
-    register:        "natural",
-    immersionMode:   "partial",
-    stageUnlocked:   0,     // highest unlocked stage index
-    last_activity_at: null,
+    placement:         null,  // placement test result
+    register:          "natural",
+    immersionMode:     "partial",
+    stageUnlocked:     0,     // highest unlocked stage index
+    checkpointsPassed: [],    // ["${stageId}_${unitIndex}", ...] — passed checkpoint sessions (≥80%)
+    tutorialState:     { step: 0, unlockedTabs: ["lessons"] },
+    branchUnlocked:    [],    // unit IDs of unlocked optional branch units
+    phraseLibrary:     [],    // [{ target, romanji, meaning, learnedAt, langKey }, ...]
+    last_activity_at:  null,
   };
 }
 

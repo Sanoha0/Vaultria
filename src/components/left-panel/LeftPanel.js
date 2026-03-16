@@ -41,19 +41,22 @@ const NAV_ITEMS = [
 ];
 
 export class LeftPanel {
-  constructor({ container, onNavigate }) {
-    this.container  = container;
-    this.onNavigate = onNavigate;
-    this.collapsed  = false;
-    this.activeId   = "review";
+  constructor({ container, onNavigate, unlockedTabs }) {
+    this.container    = container;
+    this.onNavigate   = onNavigate;
+    this.collapsed    = false;
+    this.activeId     = "review";
     this.stageUnlocked = 0;
+    // null = no tutorial gating (everything accessible); array = explicit allowlist
+    this.unlockedTabs  = unlockedTabs !== undefined ? unlockedTabs : null;
 
     this.render();
     this._bindEvents();
 
-    eventBus.on("progress:update", ({ stageUnlocked }) => {
-      this.stageUnlocked = stageUnlocked || 0;
-      this._refreshVaultItem();
+    eventBus.on("progress:update", (prog) => {
+      this.stageUnlocked = prog.stageUnlocked || 0;
+      const tabs = prog.tutorialState?.unlockedTabs ?? null;
+      this._refreshAllLocks(tabs);
     });
   }
 
@@ -89,18 +92,23 @@ export class LeftPanel {
   }
 
   _renderNavItem(item) {
-    const isActive = this.activeId === item.id;
-    const isLocked = item.requiresStage !== undefined && this.stageUnlocked < item.requiresStage;
+    const isActive   = this.activeId === item.id;
+    const stageGated = item.requiresStage !== undefined && this.stageUnlocked < item.requiresStage;
+    const tutorGated = this.unlockedTabs !== null && !this.unlockedTabs.includes(item.id);
+    const isLocked   = stageGated || tutorGated;
+    const lockTitle  = stageGated ? " (Unlock at Archivist)"
+                     : tutorGated ? " (Complete more lessons to unlock)"
+                     : "";
     return `
       <button
         class="nav-item${isActive ? " active" : ""}${isLocked ? " locked-item" : ""}"
         data-id="${item.id}"
-        title="${item.label}${isLocked ? " (Unlock at Archivist)" : ""}"
+        title="${item.label}${lockTitle}"
         ${isLocked ? 'aria-disabled="true"' : ""}
       >
         <span class="nav-item-icon">${item.icon}</span>
         <span class="nav-item-label">${item.label}</span>
-        ${isLocked ? `<span class="nav-item-icon" style="margin-left:auto;opacity:0.4"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>` : ""}
+        ${isLocked ? `<span class="nav-item-icon nav-item-lock" style="margin-left:auto;opacity:0.4"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>` : ""}
       </button>
     `;
   }
@@ -151,15 +159,46 @@ export class LeftPanel {
     eventBus.emit("layout:leftPanelCollapsed", this.collapsed);
   }
 
-  _refreshVaultItem() {
-    // Re-render vault item locked/unlocked state
-    const vaultBtn = this.container.querySelector('[data-id="vault"]');
-    if (vaultBtn) {
-      const isLocked = this.stageUnlocked < 6;
-      vaultBtn.classList.toggle("locked-item", isLocked);
-      if (isLocked) vaultBtn.setAttribute("aria-disabled", "true");
-      else vaultBtn.removeAttribute("aria-disabled");
-    }
+  _refreshAllLocks(unlockedTabs) {
+    // Snapshot what's currently unlocked before we apply the update — used to
+    // detect newly-unlocked items and play the reveal animation on them.
+    const prevUnlocked = this.unlockedTabs === null
+      ? new Set(NAV_ITEMS.map(i => i.id))
+      : new Set(this.unlockedTabs || []);
+
+    if (unlockedTabs !== undefined) this.unlockedTabs = unlockedTabs;
+
+    const nav = this.container.querySelector("#left-nav");
+    if (!nav) return;
+
+    NAV_ITEMS.forEach(item => {
+      const btn = nav.querySelector(`[data-id="${item.id}"]`);
+      if (!btn) return;
+
+      const stageGated = item.requiresStage !== undefined && this.stageUnlocked < item.requiresStage;
+      const tutorGated = this.unlockedTabs !== null && !this.unlockedTabs.includes(item.id);
+      const isLocked   = stageGated || tutorGated;
+
+      btn.classList.toggle("locked-item", isLocked);
+
+      const lockIcon = btn.querySelector(".nav-item-lock");
+      if (isLocked) {
+        btn.setAttribute("aria-disabled", "true");
+        if (!lockIcon) {
+          btn.insertAdjacentHTML("beforeend",
+            `<span class="nav-item-icon nav-item-lock" style="margin-left:auto;opacity:0.4"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>`
+          );
+        }
+      } else {
+        btn.removeAttribute("aria-disabled");
+        lockIcon?.remove();
+        // Play a subtle reveal animation for items that just became accessible
+        if (!prevUnlocked.has(item.id)) {
+          btn.classList.add("nav-item-reveal");
+          btn.addEventListener("animationend", () => btn.classList.remove("nav-item-reveal"), { once: true });
+        }
+      }
+    });
   }
 
   setLang(lang) {

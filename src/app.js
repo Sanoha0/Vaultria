@@ -482,7 +482,11 @@ class VaultiaApp {
     if (lp) lp.style.display = "";
     if (rp) rp.style.display = "";
     if (!this.leftPanel) {
-      this.leftPanel = new LeftPanel({ container: lp, onNavigate: id => this._onLeftNav(id) });
+      this.leftPanel = new LeftPanel({
+        container:    lp,
+        onNavigate:   id => this._onLeftNav(id),
+        unlockedTabs: this._computeTutorialUnlocks(this.currentProgress),
+      });
     }
     if (!this.rightPanel) {
       this.rightPanel = new RightPanel({ container: rp, onNavigate: id => this._onRightNav(id), progress: this.currentProgress });
@@ -877,6 +881,63 @@ class VaultiaApp {
         btn.textContent = "Expand full map →";
       }
     });
+
+    // ── First-run welcome modal ──────────────────────────────────────
+    // Show once when the learner hasn't completed any sessions and hasn't
+    // seen the modal yet.  tutorialState.step 0 = never shown.
+    if ((prog?.tutorialState?.step ?? 0) === 0 && !(prog?.completed?.length)) {
+      this._showWelcomeModal(lang, accent);
+    }
+  }
+
+  // ── First-run welcome modal ──────────────────────────────────────
+  _showWelcomeModal(lang, accent) {
+    // Mark the modal as seen immediately so it won't re-appear on navigation
+    const prog = this.currentProgress;
+    if (!prog) return;
+    if (!prog.tutorialState) prog.tutorialState = { step: 0, unlockedTabs: ["lessons"] };
+    prog.tutorialState.step = 1;
+    this.currentProgress = prog;
+    saveProgress(lang, prog).catch(() => {});
+
+    const overlay = document.createElement("div");
+    overlay.className = "welcome-overlay";
+    overlay.innerHTML = `
+      <div class="welcome-modal">
+        <div class="welcome-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="${accent}" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            <circle cx="12" cy="16" r="1" fill="${accent}" stroke="none"/>
+          </svg>
+        </div>
+        <h2 class="welcome-title">Welcome to Vaultria</h2>
+        <p class="welcome-body">
+          Your vault awaits. Start with your first lesson —
+          more of the workspace will reveal itself as you progress.
+        </p>
+        <button class="btn btn-primary welcome-start-btn">Begin First Lesson →</button>
+        <button class="btn btn-ghost welcome-dismiss-btn" style="margin-top:var(--sp-sm)">Explore first</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    overlay.querySelector(".welcome-start-btn")?.addEventListener("click", () => {
+      overlay.classList.add("welcome-overlay--out");
+      overlay.addEventListener("animationend", () => overlay.remove(), { once: true });
+      this._startNextLesson?.();
+    });
+    overlay.querySelector(".welcome-dismiss-btn")?.addEventListener("click", () => {
+      overlay.classList.add("welcome-overlay--out");
+      overlay.addEventListener("animationend", () => overlay.remove(), { once: true });
+    });
+    // Also close on backdrop click
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) {
+        overlay.classList.add("welcome-overlay--out");
+        overlay.addEventListener("animationend", () => overlay.remove(), { once: true });
+      }
+    });
   }
 
   // ── Mini tree (compact row) ────────────────────────────────────────
@@ -1074,6 +1135,7 @@ class VaultiaApp {
       const stage = langData.stages?.[si];
       if (!stage) continue;
       for (const unit of (stage.units || [])) {
+        if (unit.path === "branch") continue; // branch units are optional; skip in auto-progression
         for (const sess of (unit.sessions || [])) {
           if (!completed.has(sess.id)) return sess;
         }
@@ -1084,16 +1146,105 @@ class VaultiaApp {
 
   _computeStageUnlock(langData, prog) {
     const stages = langData?.stages || [];
-    const completed = new Set(prog?.completed || []);
     if (!stages.length) return 0;
+
+    const checkpointsPassed = new Set(prog?.checkpointsPassed || []);
+    const completed         = new Set(prog?.completed || []);
 
     let unlocked = 0;
     for (let i = 0; i < stages.length - 1; i++) {
-      const sessions = (stages[i].units || []).flatMap(u => u.sessions || []);
-      if (sessions.length && sessions.every(s => completed.has(s.id))) unlocked = i + 1;
-      else break;
+      const stage = stages[i];
+      // Branch units are optional — they must not contribute to stage-unlock gating
+      const units = (stage.units || []).filter(u => u.path !== "branch");
+
+      // Find the key of the last checkpoint session in this stage (last unit wins)
+      let finalCheckpointKey = null;
+      for (let ui = 0; ui < units.length; ui++) {
+        for (const sess of (units[ui].sessions || [])) {
+          if (sess.type === "checkpoint") {
+            finalCheckpointKey = `${stage.id}_${ui + 1}`;
+          }
+        }
+      }
+
+      if (finalCheckpointKey) {
+        // Checkpoint-gated: stage N+1 requires the final checkpoint of stage N to be passed
+        if (checkpointsPassed.has(finalCheckpointKey)) {
+          unlocked = i + 1;
+        } else {
+          break;
+        }
+      } else {
+        // Legacy fallback: stage has no checkpoint sessions — require all sessions complete
+        const sessions = units.flatMap(u => u.sessions || []);
+        if (sessions.length && sessions.every(s => completed.has(s.id))) {
+          unlocked = i + 1;
+        } else {
+          break;
+        }
+      }
     }
     return Math.min(unlocked, stages.length - 1);
+  }
+
+  // ── Tutorial progressive unlock ────────────────────────────────────
+  // Returns the ordered list of nav tab IDs the learner has earned access to
+  // based on sessions completed.  Existing users auto-unlock everything up to
+  // their completion level; brand-new users start with only "lessons".
+  // Vault is always included here (tutorial-unlocked) since its access is
+  // independently controlled by requiresStage: 6 in LeftPanel.
+  _computeTutorialUnlocks(prog) {
+    const count = (prog?.completed || []).length;
+    const tabs  = ["lessons"];
+    if (count >= 1)  tabs.push("review");
+    if (count >= 3)  tabs.push("phrases");
+    if (count >= 5)  tabs.push("challenges");
+    if (count >= 10) tabs.push("arena");
+    // Vault is separately gated by requiresStage (Archivist level) in LeftPanel,
+    // so always include it here — the stage gate alone handles when it unlocks.
+    // Without this, the tutorial gate would permanently block vault even at stage 6.
+    tabs.push("vault");
+    return tabs;
+  }
+
+  // ── Branch unit unlock computation ────────────────────────────────
+  // A branch unit unlocks when the unit whose id matches `unit.unlocksAfter`
+  // has all its sessions completed.  Units with no `unlocksAfter` field are
+  // always unlocked (available from the start of the stage).
+  // Returns the full array of unlocked branch unit IDs (superset of existing
+  // branchUnlocked — once unlocked, always unlocked).
+  _computeBranchUnlocks(langData, prog) {
+    const completed = new Set(prog?.completed || []);
+    const unlocked  = new Set(prog?.branchUnlocked || []);
+
+    // Build a flat lookup of unit id → sessions for the whole curriculum
+    const unitSessionsById = new Map();
+    for (const stage of (langData?.stages || [])) {
+      for (const unit of (stage.units || [])) {
+        if (unit.id) unitSessionsById.set(unit.id, unit.sessions || []);
+      }
+    }
+
+    for (const stage of (langData?.stages || [])) {
+      for (const unit of (stage.units || [])) {
+        if (unit.path !== "branch") continue;
+        if (unlocked.has(unit.id)) continue; // already unlocked; keep it
+
+        if (!unit.unlocksAfter) {
+          // No prerequisite declared → available from the start
+          unlocked.add(unit.id);
+          continue;
+        }
+
+        // Check that every session in the prerequisite unit is complete
+        const parentSessions = unitSessionsById.get(unit.unlocksAfter) || [];
+        if (parentSessions.length && parentSessions.every(s => completed.has(s.id))) {
+          unlocked.add(unit.id);
+        }
+      }
+    }
+
+    return [...unlocked];
   }
 
   _summarizeCurriculum(langData, prog) {
@@ -1107,9 +1258,9 @@ class VaultiaApp {
     let completedUnits = 0;
 
     stages.forEach(stage => {
-      const units = stage.units || [];
-      totalUnits += units.length;
-      units.forEach(unit => {
+      (stage.units || []).forEach(unit => {
+        if (unit.path === "branch") return; // branch units are optional — excluded from primary totals
+        totalUnits += 1;
         const sessions = unit.sessions || [];
         totalSessions += sessions.length;
         const done = sessions.filter(s => completed.has(s.id)).length;
@@ -1119,7 +1270,8 @@ class VaultiaApp {
     });
 
     const currentStage = stages[unlockedStage] || null;
-    const currentUnits = currentStage?.units || [];
+    // Exclude branch units from current-stage progress bars so they don't inflate the totals
+    const currentUnits = (currentStage?.units || []).filter(u => u.path !== "branch");
     const currentStageSessions = currentUnits.flatMap(u => u.sessions || []);
     const currentStageUnitsDone = currentUnits.filter(u => {
       const sessions = u.sessions || [];
@@ -1144,6 +1296,7 @@ class VaultiaApp {
   _getNextSessionForStage(stage, prog) {
     const completed = new Set(prog?.completed || []);
     for (const unit of (stage?.units || [])) {
+      if (unit.path === "branch") continue; // branch units are optional; skip in stage resume
       for (const sess of (unit.sessions || [])) {
         if (!completed.has(sess.id)) return sess;
       }
@@ -1167,7 +1320,19 @@ class VaultiaApp {
   }
 
   async _onSessionDone({ stars, weakWords, xpEarned, accuracy, speedMs, hintsUsed }, session) {
-    const prog     = this.currentProgress;
+    const prog = this.currentProgress;
+
+    // ── Checkpoint fail guard ───────────────────────────────────────────
+    // If the session is a checkpoint and the learner did not reach the pass
+    // threshold, bail out without mutating progress and show the retry screen.
+    if (session.type === "checkpoint") {
+      const passThreshold = session.passThreshold || 0.80;
+      if (accuracy < passThreshold) {
+        this._showCheckpointRetry(session, accuracy, passThreshold);
+        return;
+      }
+    }
+
     const oldXp    = prog.xp || 0;
     const oldLevel = xpToLevel(oldXp);
 
@@ -1205,7 +1370,49 @@ class VaultiaApp {
         unitId: idx.unitId,
         unitStars: prog.unitStars,
       });
+      // Record a passed checkpoint so _computeStageUnlock can gate stage advancement
+      if (session.type === "checkpoint") {
+        prog.checkpointsPassed = [...new Set([
+          ...(prog.checkpointsPassed || []),
+          `${idx.stageId}_${idx.unitIndex}`,
+        ])];
+      }
     }
+
+    // ── Phrase library ────────────────────────────────────────────────
+    // Add vocabulary-type items from this session to the learner's personal
+    // phrase library.  Criteria: item must have both target and meaning, and
+    // must not already be stored (dedup by target string).  Skip session
+    // types that don't produce vocabulary (script_recognition = kana drills;
+    // checkpoint = mixed review; sentence_build / grammar_drill items don't
+    // carry a standalone meaning on the item itself).
+    if (session.type !== "script_recognition" &&
+        session.type !== "checkpoint" &&
+        session.type !== "sentence_build" &&
+        session.type !== "grammar_drill") {
+      const existingTargets = new Set((prog.phraseLibrary || []).map(e => e.target));
+      const newPhrases = (session.items || [])
+        .filter(item => item.target && item.meaning && !existingTargets.has(item.target))
+        .map(item => ({
+          target:    item.target,
+          romanji:   item.romanji  || null,
+          meaning:   item.meaning,
+          learnedAt: Date.now(),
+          langKey:   this.currentLang,
+        }));
+      if (newPhrases.length) {
+        prog.phraseLibrary = [...(prog.phraseLibrary || []), ...newPhrases];
+      }
+    }
+
+    // ── Tutorial unlock ────────────────────────────────────────────────
+    // Recompute which tabs are accessible and store in tutorialState so that
+    // LeftPanel can refresh lock state when it receives the progress:update
+    // event.  step 0 = never seen welcome modal; step >= 1 = modal seen.
+    prog.tutorialState = prog.tutorialState || { step: 0, unlockedTabs: ["lessons"] };
+    prog.tutorialState.unlockedTabs = this._computeTutorialUnlocks(prog);
+    if (prog.tutorialState.step < 1) prog.tutorialState.step = 1;
+
     await saveProgress(this.currentLang, prog);
     this.allProgress[this.currentLang] = prog;
     this.currentProgress = prog;
@@ -1249,6 +1456,33 @@ class VaultiaApp {
     }
 
     setTimeout(() => this._showWorkspace(), 350);
+  }
+
+  _showCheckpointRetry(session, accuracy, passThreshold) {
+    const canvas = document.getElementById("center-canvas");
+    if (!canvas) return;
+    const pct    = Math.round((accuracy || 0) * 100);
+    const needed = Math.round((passThreshold || 0.80) * 100);
+    const icon   = _uiIconSvg("ban", 40, "rgba(255,255,255,0.55)");
+    canvas.innerHTML = `
+<div class="canvas-content page-enter" style="max-width:520px;display:flex;flex-direction:column;align-items:center;gap:28px;padding-top:72px;text-align:center;">
+  <div style="display:flex;justify-content:center;opacity:0.7;">${icon}</div>
+  <div>
+    <h2 style="margin:0 0 10px;font-size:1.3rem;font-weight:600;color:var(--text-primary);">Checkpoint Not Passed</h2>
+    <p style="color:var(--text-muted);margin:0;line-height:1.6;">
+      You scored <strong style="color:var(--text-primary);">${pct}%</strong> —
+      a score of <strong style="color:var(--text-primary);">${needed}%</strong> or higher is needed to advance.
+    </p>
+  </div>
+  <div style="display:flex;gap:12px;">
+    <button class="btn btn-primary" id="checkpoint-retry-btn">Try Again</button>
+    <button class="btn btn-ghost" id="checkpoint-back-btn">Back to Lessons</button>
+  </div>
+</div>`;
+    document.getElementById("checkpoint-retry-btn")
+      ?.addEventListener("click", () => this._runSession(session));
+    document.getElementById("checkpoint-back-btn")
+      ?.addEventListener("click", () => this._showWorkspace());
   }
 
   // ══════════════════════════════════════════════════════════════════
@@ -1521,20 +1755,47 @@ class VaultiaApp {
   async _pagePhraseLib(canvas) {
     const accent = ACCENT[this.currentLang];
     const data   = await this._fetchLangData(this.currentLang);
+    const prog   = this.currentProgress || {};
+
+    // ── User-learned phrases (populated by _onSessionDone) ───────────
+    // Filter to current language; map stored shape → display shape.
+    const userPhrases = (prog.phraseLibrary || [])
+      .filter(p => !p.langKey || p.langKey === this.currentLang)
+      .map((p, i) => ({
+        id:          `learned-${i}`,
+        phrase:      p.target,
+        romanji:     p.romanji  || null,
+        translation: p.meaning,
+        contextTags: ["Learned"],
+        register:    "learned",
+        learnedAt:   p.learnedAt,
+      }));
+
+    // ── Static curated phrases from the language data JSON ───────────
     const dbPhrases = data?.phraseLibrary || [];
+
+    // Drop user-learned entries that duplicate a static curated phrase
+    // (same display text) — avoids showing the same word/phrase twice.
+    const staticPhraseTexts = new Set(dbPhrases.map(p => p.phrase));
+    const dedupedUserPhrases = userPhrases.filter(p => !staticPhraseTexts.has(p.phrase));
+
+    // ── Hardcoded supplementary phrases (PHRASES constant) ───────────
     const extraPhrases = (PHRASES[this.currentLang] || []).map((p,i) => ({
       id: `extra-${i}`, phrase: p.phrase, romanji: p.romanji,
       translation: p.meaning, contextTags: [p.register, p.context], register: p.register.toLowerCase()
     }));
-    const allPhrases = [...dbPhrases, ...extraPhrases];
-    const tags = ["All","Polite","Casual","Travel","Business","Social","Learning"];
+
+    // Learned phrases first, then curated static library, then extras.
+    const allPhrases  = [...dedupedUserPhrases, ...dbPhrases, ...extraPhrases];
+    const learnedCount = dedupedUserPhrases.length;
+    const tags = ["All", "Learned", "Polite","Casual","Travel","Business","Social","Learning"];
 
     canvas.innerHTML = `
 <div class="canvas-content page-enter">
   <div class="section-header">
     <div>
       <h2 class="section-title">Phrase Library</h2>
-      <p class="section-subtitle">${allPhrases.length} expressions with grammar notes and audio</p>
+      <p class="section-subtitle">${allPhrases.length} expression${allPhrases.length !== 1 ? "s" : ""}${learnedCount ? ` &middot; <span style="color:var(--accent-primary);font-weight:500;">${learnedCount} learned</span>` : " with grammar notes and audio"}</p>
     </div>
   </div>
   <div class="phrase-filter-row" style="margin-bottom:20px;display:flex;gap:6px;flex-wrap:wrap;">
@@ -3491,7 +3752,12 @@ class VaultiaApp {
           const sessions = unit?.sessions || [];
           for (const sess of sessions) {
             if (!sess?.id) continue;
-            map.set(sess.id, { stageKey, stageId, unitIndex, unitId });
+            map.set(sess.id, {
+              stageKey, stageId, unitIndex, unitId,
+              unitPath:      unit.path        || "primary",
+              unlocksAfter:  unit.unlocksAfter || null,
+              branchType:    unit.branchType   || null,
+            });
           }
         }
       }

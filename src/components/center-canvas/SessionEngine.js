@@ -49,6 +49,14 @@ export class SessionEngine {
     this.onComplete = onComplete;
 
     this.items      = [...(session.items || [])];
+    // conversation: flatten dialogue lines then questions into the item list so
+    // the existing currentIdx / _complete() cycle works without modification.
+    if (session.type === "conversation") {
+      this.items = [
+        ...(session.dialogue  || []).map(d => ({ ...d, _convType: "line" })),
+        ...(session.questions || []).map(q => ({ ...q, _convType: "question" })),
+      ];
+    }
     this.currentIdx = 0;
     this.hintLevel  = 0;
     this.hintsUsed  = 0;
@@ -76,6 +84,14 @@ export class SessionEngine {
      */
     this._speaking = false;
 
+    this._assembledTileIndices = []; // sentence_build: indices from item.tiles[] currently in assembly
+    this._tileBankOrder        = []; // sentence_build: stable shuffled bank order for current item
+
+    this._selectedChoice = null; // listening_comprehension: currently selected choice string
+    this._lcAudio        = null; // listening_comprehension: current Audio instance
+
+    this._convAudio      = null; // conversation: current dialogue line Audio instance
+
     this._preloadAndRender();
   }
 
@@ -102,6 +118,7 @@ export class SessionEngine {
   }
 
   _isScriptDrill() {
+    if (this.session.type === "conversation") return false;
     return (
       this.session.type === "script_recognition" ||
       this.items.every(it => {
@@ -156,6 +173,25 @@ export class SessionEngine {
     this.hintLevel = 0;
     this._speaking = false;
 
+    // sentence_build: reset assembly state and compute stable bank order for this item
+    if (this.session.type === "sentence_build") {
+      this._assembledTileIndices = [];
+      const indices = (item.tiles || []).map((_, i) => i);
+      if (item.shuffled !== false) _shuffle(indices);
+      this._tileBankOrder = indices;
+    }
+
+    // listening_comprehension: reset per-item choice + pause any in-flight audio
+    if (this.session.type === "listening_comprehension") {
+      this._selectedChoice = null;
+      if (this._lcAudio) { this._lcAudio.pause(); this._lcAudio = null; }
+    }
+
+    // conversation: pause any in-flight dialogue audio on item advance
+    if (this.session.type === "conversation") {
+      if (this._convAudio) { this._convAudio.pause(); this._convAudio = null; }
+    }
+
     this._updateProgress();
     this._renderExercise(item);
     this._renderInputArea(item);
@@ -169,7 +205,9 @@ export class SessionEngine {
     const ttsText     = item.audioText || item.target || item.phrase || item.prompt || "";
     const autoplayKey = `${this.currentIdx}::${ttsText}`;
 
-    if (item.audio !== false && ttsText && this._lastAutoplayKey !== autoplayKey) {
+    if (item.audio !== false && ttsText && this._lastAutoplayKey !== autoplayKey &&
+        this.session.type !== "listening_comprehension" &&
+        this.session.type !== "conversation") {
       this._lastAutoplayKey = autoplayKey;
       // Static files are already buffered by preload — no perceptible delay.
       // The 60 ms pause lets the card paint before audio fires, which avoids
@@ -214,6 +252,26 @@ export class SessionEngine {
     const card = this.container.querySelector("#exercise-card");
     if (!card) return;
     card.className = "exercise-card";
+
+    if (this.session.type === "conversation") {
+      this._renderConversationExercise(item, card);
+      return;
+    }
+
+    if (this.session.type === "listening_comprehension") {
+      this._renderListeningExercise(item, card);
+      return;
+    }
+
+    if (this.session.type === "grammar_drill") {
+      this._renderGrammarDrillExercise(item, card);
+      return;
+    }
+
+    if (this.session.type === "sentence_build") {
+      this._renderSentenceBuildExercise(item, card);
+      return;
+    }
 
     const hasAudio     = item.audio !== false;
     const isCheckpoint = this.session.type === "checkpoint";
@@ -303,6 +361,167 @@ export class SessionEngine {
     }
   }
 
+  _renderGrammarDrillExercise(item, card) {
+    // Replace ___ with a styled blank span. _esc first so the surrounding
+    // sentence text is safe, then do the replacement on the escaped string.
+    const contextHtml = item.context
+      ? _esc(item.context).replace(/___/g, '<span class="grammar-blank">___</span>')
+      : "";
+    card.innerHTML = `
+      <div class="grammar-context">${contextHtml}</div>
+      ${item.patternNote
+        ? `<div class="grammar-pattern-note">${_esc(item.patternNote)}</div>`
+        : ""}
+    `;
+  }
+
+  _renderSentenceBuildExercise(item, card) {
+    const tiles    = item.tiles || [];
+    const placed   = this._assembledTileIndices || [];
+    // Tiles still available in the bank: follow the stable shuffled order,
+    // skip any index already in the assembly zone.
+    const bankIdxs = (this._tileBankOrder.length ? this._tileBankOrder : tiles.map((_, i) => i))
+      .filter(i => !placed.includes(i));
+
+    card.innerHTML = `
+      <div class="sb-assembly-zone" id="sb-assembly">
+        ${placed.length
+          ? placed.map((tileIdx, pos) =>
+              `<button class="btn sb-tile sb-tile--placed" data-pos="${pos}">${_esc(tiles[tileIdx])}</button>`
+            ).join("")
+          : `<span class="sb-assembly-placeholder">Tap tiles to build the sentence</span>`}
+      </div>
+      ${item.meaning
+        ? `<div class="sb-meaning">${_esc(item.meaning)}</div>`
+        : ""}
+      <div class="sb-tile-bank" id="sb-bank">
+        ${bankIdxs.map(i =>
+            `<button class="btn sb-tile sb-tile--bank" data-idx="${i}">${_esc(tiles[i])}</button>`
+          ).join("")}
+      </div>
+    `;
+
+    // Bank tile clicked → move into assembly zone
+    card.querySelectorAll(".sb-tile--bank").forEach(btn => {
+      btn.addEventListener("click", () => {
+        this._assembledTileIndices.push(parseInt(btn.dataset.idx, 10));
+        this._renderSentenceBuildExercise(item, card);
+      });
+    });
+
+    // Assembly tile clicked → remove from assembly zone, return to bank
+    card.querySelectorAll(".sb-tile--placed").forEach(btn => {
+      btn.addEventListener("click", () => {
+        this._assembledTileIndices.splice(parseInt(btn.dataset.pos, 10), 1);
+        this._renderSentenceBuildExercise(item, card);
+      });
+    });
+  }
+
+  _renderListeningExercise(item, card) {
+    const prompt = item.prompt || "What did you hear?";
+    card.innerHTML = `
+      <div class="lc-play-area">
+        <div class="lc-prompt">${_esc(prompt)}</div>
+        <button class="btn lc-play-btn" id="lc-play" title="Play audio">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </button>
+      </div>
+    `;
+    card.querySelector("#lc-play")?.addEventListener("click", () => this._playListeningAudio(item));
+  }
+
+  _playListeningAudio(item) {
+    if (this._lcAudio) {
+      this._lcAudio.pause();
+      this._lcAudio.currentTime = 0;
+    }
+    this._lcAudio = new Audio(item.audio);
+    this._lcAudio.play().catch(() => {});
+  }
+
+  _renderChoiceArea(item) {
+    const area = this.container.querySelector("#input-area");
+    if (!area) return;
+    const sel = this._selectedChoice;
+    area.innerHTML = `
+      <div class="lc-choices">
+        ${(item.choices || []).map(c => `
+          <button class="btn lc-choice${sel === c ? " selected" : ""}" data-choice="${_esc(c)}">
+            ${_esc(c)}
+          </button>
+        `).join("")}
+      </div>
+    `;
+    area.querySelectorAll(".lc-choice").forEach(btn => {
+      btn.addEventListener("click", () => {
+        this._selectedChoice = btn.dataset.choice;
+        this._renderChoiceArea(item);
+        const checkBtn = this.container.querySelector("#btn-check");
+        if (checkBtn) checkBtn.disabled = false;
+      });
+    });
+  }
+
+  _revealListeningTarget(item) {
+    const card = this.container.querySelector("#exercise-card");
+    if (!card || card.querySelector(".lc-reveal")) return;
+    const div = document.createElement("div");
+    div.className = "lc-reveal";
+    div.innerHTML = `
+      ${item.target  ? `<div class="lc-target">${_esc(item.target)}</div>`  : ""}
+      ${item.meaning ? `<div class="lc-meaning">${_esc(item.meaning)}</div>` : ""}
+    `;
+    card.appendChild(div);
+  }
+
+  _renderConversationExercise(item, card) {
+    if (item._convType === "line") {
+      // Accumulate all dialogue lines revealed so far (0 → currentIdx inclusive).
+      // This creates the "unfolding chat" effect as the learner advances.
+      const lines = this.items
+        .slice(0, this.currentIdx + 1)
+        .filter(i => i._convType === "line");
+
+      card.innerHTML = `
+        <div class="conv-dialogue">
+          ${lines.map(l => `
+            <div class="conv-bubble conv-bubble--${l.speaker === "A" ? "a" : "b"}">
+              <div class="conv-speaker">${_esc(l.speaker)}</div>
+              <div class="conv-text">${_esc(l.text)}</div>
+              ${l.translation ? `<div class="conv-translation">${_esc(l.translation)}</div>` : ""}
+            </div>
+          `).join("")}
+        </div>
+      `;
+
+      // Auto-play this line's audio (direct WAV path, not TTS manifest)
+      if (item.audio) {
+        if (this._convAudio) { this._convAudio.pause(); this._convAudio = null; }
+        this._convAudio = new Audio(item.audio);
+        this._convAudio.play().catch(() => {});
+      }
+    } else {
+      // Question phase: show the full dialogue above (dimmed context) + question prompt
+      const lines = this.items.filter(i => i._convType === "line");
+      card.innerHTML = `
+        ${lines.length ? `
+          <div class="conv-dialogue conv-dialogue--compact">
+            ${lines.map(l => `
+              <div class="conv-bubble conv-bubble--${l.speaker === "A" ? "a" : "b"}">
+                <div class="conv-speaker">${_esc(l.speaker)}</div>
+                <div class="conv-text">${_esc(l.text)}</div>
+              </div>
+            `).join("")}
+          </div>
+        ` : ""}
+        <div class="conv-question-prompt">${_esc(item.prompt || "")}</div>
+      `;
+    }
+  }
+
   _wrapTappable(text, isCJK) {
     if (isCJK) return _esc(text);
     return text.split(/\s+/).filter(Boolean).map(word =>
@@ -323,6 +542,12 @@ export class SessionEngine {
   _renderInputArea(item) {
     const area = this.container.querySelector("#input-area");
     if (!area) return;
+
+    if (this.session.type === "listening_comprehension") { this._renderChoiceArea(item); return; }
+
+    if (this.session.type === "conversation" && item._convType === "line") { area.innerHTML = ""; return; }
+
+    if (this.session.type === "sentence_build") { area.innerHTML = ""; return; }
 
     if (this.session.type === "typing_drill" || item.answer) {
       area.innerHTML = `
@@ -353,12 +578,27 @@ export class SessionEngine {
     const area = this.container.querySelector("#action-buttons");
     if (!area) return;
 
+    // conversation dialogue lines: bypass answer-checking — just advance
+    if (this.session.type === "conversation" && item._convType === "line") {
+      const dialogueCount = this.items.filter(i => i._convType === "line").length;
+      const isLastLine    = this.currentIdx === dialogueCount - 1;
+      area.innerHTML = isLastLine
+        ? `<button class="btn btn-primary" id="btn-conv-q">Start Questions →</button>`
+        : `<button class="btn btn-ghost"   id="btn-conv-n">Next →</button>`;
+      (area.querySelector("#btn-conv-q") || area.querySelector("#btn-conv-n"))
+        ?.addEventListener("click", () => { this.currentIdx++; this._renderCurrentItem(); });
+      return;
+    }
+
     if (!isAnswered) {
-      const hasInput     = !!(this.container.querySelector("#sess-input"));
+      const hasInput     = !!(this.container.querySelector("#sess-input")) ||
+                           this.session.type === "sentence_build" ||
+                           this.session.type === "listening_comprehension";
       const isCheckpoint = this.session.type === "checkpoint";
+      const lcDisabled   = this.session.type === "listening_comprehension" && !this._selectedChoice;
       area.innerHTML = `
         ${hasInput
-          ? `<button class="btn btn-primary" id="btn-check">Check</button>`
+          ? `<button class="btn btn-primary" id="btn-check"${lcDisabled ? " disabled" : ""}>Check</button>`
           : `<button class="btn btn-primary" id="btn-got">Got It</button>`}
         ${isCheckpoint
           ? `<button class="btn btn-ghost btn-sm" id="btn-hint">Hint</button>`
@@ -381,9 +621,13 @@ export class SessionEngine {
   _checkAnswer() {
     if (this.answered) return;
 
-    const input         = this.container.querySelector("#sess-input");
-    const userAnswer    = input?.value?.trim() || "";
-    const item          = this.items[this.currentIdx];
+    const input      = this.container.querySelector("#sess-input");
+    const item       = this.items[this.currentIdx];
+    const userAnswer = this.session.type === "sentence_build"
+      ? (this._assembledTileIndices || []).map(i => item.tiles[i]).join("")
+      : this.session.type === "listening_comprehension"
+        ? (this._selectedChoice || "")
+        : (input?.value?.trim() || "");
     const correctAnswer = item.answer || item.target || "";
 
     let correct = fuzzyMatch(userAnswer, correctAnswer);
@@ -419,13 +663,18 @@ export class SessionEngine {
 
     eventBus.emit("session:correct");
 
-    const isTypingDrill = !!(this.container.querySelector("#sess-input"));
+    const isTypingDrill = !!(this.container.querySelector("#sess-input")) ||
+                          this.session.type === "sentence_build" ||
+                          this.session.type === "listening_comprehension";
     if (!isTypingDrill) {
       setTimeout(() => { this.currentIdx++; this._renderCurrentItem(); }, 700);
     } else {
       const text = item.target || item.phrase || "";
-      if (text && item.audio !== false) {
+      if (text && item.audio !== false && this.session.type !== "listening_comprehension") {
         this._speakWithGuard(text, this.langKey, { force: true });
+      }
+      if (this.session.type === "listening_comprehension") {
+        this._revealListeningTarget(item);
       }
       this._renderActionButtons(item, true);
     }
@@ -446,8 +695,11 @@ export class SessionEngine {
     eventBus.emit("session:incorrect");
 
     const text = item.target || item.phrase || "";
-    if (text && item.audio !== false) {
+    if (text && item.audio !== false && this.session.type !== "listening_comprehension") {
       setTimeout(() => this._speakWithGuard(text, this.langKey, { force: true }), 400);
+    }
+    if (this.session.type === "listening_comprehension") {
+      this._revealListeningTarget(item);
     }
 
     const why = generateWhyCard(userAnswer, correctAnswer, {
@@ -580,4 +832,12 @@ function _esc(str) {
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+}
+
+// Fisher-Yates in-place shuffle (used for sentence_build tile bank)
+function _shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
 }
